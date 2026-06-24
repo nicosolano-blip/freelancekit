@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Estimador de Indemnización Laboral — FreelanceKit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;color:#0F172A;background:#F8FAFC;min-height:100vh}
+a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid #E2E8F0;padding:0 20px}
+.nav-in{max-width:860px;margin:0 auto;display:flex;align-items:center;height:54px;gap:16px}
+.back{font-size:.85rem;font-weight:600}
+.logo{font-size:1.1rem;font-weight:900;color:#1B3A6B}
+.logo b{color:#2563EB}
+.free-tag{margin-left:auto;background:#DCFCE7;color:#16A34A;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:100px}
+.page{max-width:860px;margin:0 auto;padding:32px 20px 60px}
+.header{margin-bottom:28px}
+.cat-badge{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:12px}
+.header h1{font-size:1.6rem;font-weight:900;margin-bottom:8px}
+.header p{font-size:.95rem;color:#475569}
+.card{background:#fff;border-radius:12px;border:1.5px solid #E2E8F0;padding:28px;margin-bottom:20px}
+.card h2{font-size:1rem;font-weight:700;margin-bottom:20px;color:#1E3A5F}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}}
+.field label{display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:5px}
+.field input,.field select{width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.9rem;color:#0F172A;outline:none;font-family:Arial,sans-serif}
+.field .hint{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.btn{color:#fff;border:none;padding:13px 28px;border-radius:9px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px}
+.btn-sm{color:#fff;border:none;padding:9px 18px;border-radius:8px;font-size:.875rem;font-weight:700;cursor:pointer}
+.btn-outline{background:transparent;border:1.5px solid;padding:9px 18px;border-radius:8px;font-size:.875rem;font-weight:700;cursor:pointer}
+.results{display:none}
+.results.show{display:block}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:16px}
+.res-box{background:#F1F5F9;border-radius:10px;padding:18px 14px;text-align:center}
+.rl{font-size:.72rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.rv{font-size:1.4rem;font-weight:900;color:#0F172A;line-height:1}
+.rs{font-size:.72rem;color:#94A3B8;margin-top:4px}
+.sep{border:none;border-top:1px solid #E2E8F0;margin:20px 0}
+.insight{border-left:4px solid;border-radius:0 8px 8px 0;padding:14px 16px;font-size:.875rem;color:#475569;margin-top:16px}
+.insight b{color:#0F172A}
+
+.back{color:#1D4ED8}
+.logo b{color:#1D4ED8}
+.cat-badge{background:#EFF6FF;color:#1D4ED8}
+.field input:focus,.field select:focus{border-color:#1D4ED8}
+.btn{background:#1D4ED8}
+.res-box.hi{background:#EFF6FF;border:2px solid #1D4ED8}
+.res-box.green{background:#F0FDF4;border:2px solid #16A34A}
+.res-box.red{background:#FEF2F2;border:2px solid #DC2626}
+.res-box.orange{background:#FFF7ED;border:2px solid #EA580C}
+.res-box.blue{background:#EFF6FF;border:2px solid #2563EB}
+.insight{background:#EFF6FF;border-color:#1D4ED8}
+</style>
+</head>
+<body>
+<nav><div class="nav-in">
+  <a href="index.html" class="back">← Volver</a>
+  <div class="logo">Freelance<b>Kit</b></div>
+  
+</div></nav>
+<div class="page">
+  <div class="header">
+    <div class="cat-badge">💼 Recursos Humanos</div>
+    <h1>⚖️ Estimador de Indemnización Laboral</h1>
+    <p>Calculá cuánto te corresponde por indemnización según tu antigüedad, sueldo y tipo de despido.</p>
+  </div>
+  
+<div class="card">
+  <h2>⚙️ Tus datos laborales</h2>
+  <div class="grid2">
+    <div class="field"><label>Mejor remuneración mensual bruta ($)</label>
+      <input type="number" id="sueldo" placeholder="Ej: 500000" min="0" oninput="calcIndem()">
+      <span class="hint">El mes de mayor sueldo en el último año</span></div>
+    <div class="field"><label>Antigüedad (años completos)</label>
+      <input type="number" id="antig" placeholder="Ej: 3" min="0" oninput="calcIndem()"></div>
+    <div class="field"><label>Meses adicionales (fracción del año)</label>
+      <input type="number" id="meses" placeholder="Ej: 6" min="0" max="11" value="0" oninput="calcIndem()"></div>
+    <div class="field"><label>País</label>
+      <select id="pais" onchange="calcIndem()">
+        <option value="AR">Argentina (LCT)</option>
+        <option value="MX">México (LFT)</option>
+        <option value="CO">Colombia</option>
+        <option value="CL">Chile</option>
+      </select></div>
+    <div class="field"><label>Tipo de desvinculación</label>
+      <select id="tipo" onchange="calcIndem()">
+        <option value="sin_causa">Despido sin causa</option>
+        <option value="con_causa">Despido con causa justificada</option>
+        <option value="renuncia">Renuncia voluntaria</option>
+        <option value="mutuo">Acuerdo mutuo de desvinculación</option>
+      </select></div>
+    <div class="field"><label>Moneda</label>
+      <select id="mon" onchange="calcIndem()"><option>ARS</option><option>USD</option><option>MXN</option></select></div>
+  </div>
+</div>
+<div class="results card" id="res3">
+  <h2>📊 Estimación de indemnización</h2>
+  <div class="res-grid">
+    <div class="res-box"><div class="rl">Indemnización por antigüedad</div><div class="rv" id="r3-indem">—</div></div>
+    <div class="res-box orange"><div class="rl">Preaviso</div><div class="rv" id="r3-prev">—</div><div class="rs" id="r3-prev-s">—</div></div>
+    <div class="res-box green"><div class="rl">SAC proporcional</div><div class="rv" id="r3-sac">—</div></div>
+    <div class="res-box hi"><div class="rl">TOTAL ESTIMADO</div><div class="rv" id="r3-total">—</div><div class="rs">Antes de retenciones</div></div>
+  </div>
+  <div class="insight" id="ins3"></div>
+</div>
+<script>
+function fmt(n){var m=document.getElementById('mon').value;return m+' '+Math.round(n).toLocaleString('es-AR')}
+function calcIndem(){
+  var s=+document.getElementById('sueldo').value||0;
+  var a=+document.getElementById('antig').value||0;
+  var me=+document.getElementById('meses').value||0;
+  var tipo=document.getElementById('tipo').value;
+  var pais=document.getElementById('pais').value;
+  if(!s)return;
+  var antig_total=a+(me/12);
+  if(antig_total<0.25){document.getElementById('ins3').innerHTML='<b>Menos de 3 meses de antigüedad:</b> generalmente no corresponde indemnización por antigüedad en la mayoría de los países.';document.getElementById('res3').className='results card show';return;}
+  var indem=0,prev=0,sac=s/12;
+  var prev_label='';
+  if(pais==='AR'){
+    // Art 245 LCT: 1 sueldo por año trabajado (min 2 meses)
+    indem=s*Math.max(Math.ceil(antig_total),1);
+    // Preaviso: hasta 1 año = 15 días; 1-5 años = 1 mes; +5 años = 2 meses
+    if(antig_total<1){prev=s*15/30;prev_label='15 días';}
+    else if(antig_total<=5){prev=s;prev_label='1 mes';}
+    else{prev=s*2;prev_label='2 meses';}
+  } else if(pais==='MX'){
+    // 90 días de salario + 20 días por año + 12 días por año (prima)
+    indem=s*3+s/30*20*antig_total+s/30*12*antig_total;
+    prev=s; prev_label='1 mes (aviso)';
+  } else if(pais==='CO'){
+    // 30 días por año o fracción superior a 6 meses
+    indem=s*Math.ceil(antig_total);
+    prev=s*0.5; prev_label='15 días';
+  } else if(pais==='CL'){
+    // 1 mes por año, máx 11 años
+    indem=s*Math.min(Math.ceil(antig_total),11);
+    prev=s; prev_label='1 mes';
+  }
+  if(tipo==='con_causa'){indem=0;prev=0;}
+  if(tipo==='renuncia'){indem=0;prev=prev*0.5;}
+  if(tipo==='mutuo'){indem=indem*0.67;} // negociación típica
+  var total=indem+prev+sac;
+  document.getElementById('r3-indem').textContent=fmt(indem);
+  document.getElementById('r3-prev').textContent=fmt(prev);
+  document.getElementById('r3-prev-s').textContent=prev_label;
+  document.getElementById('r3-sac').textContent=fmt(sac);
+  document.getElementById('r3-total').textContent=fmt(total);
+  var tips={sin_causa:'Despido sin causa — corresponde la indemnización completa más preaviso.',con_causa:'Con causa justificada — no corresponde indemnización ni preaviso.',renuncia:'Renuncia voluntaria — no corresponde indemnización. Solo SAC y proporcionales.',mutuo:'Acuerdo mutuo — generalmente se negocia entre el 50-80% de la indemnización completa.'};
+  document.getElementById('ins3').innerHTML='<b>Estimación para '+pais+':</b> '+tips[tipo]+' El total aproximado es <b>'+fmt(total)+'</b>. <b>Importante:</b> consultá con un abogado laboral — las condiciones específicas, categoría y convenio pueden modificar estos valores.';
+  document.getElementById('res3').className='results card show';
+}
+</script>
+
+</div>
+</body>
+</html>

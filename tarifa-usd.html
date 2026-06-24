@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calculadora de Tarifa en USD — FreelanceKit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;color:#0F172A;background:#F8FAFC;min-height:100vh}
+a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid #E2E8F0;padding:0 20px}
+.nav-in{max-width:860px;margin:0 auto;display:flex;align-items:center;height:54px;gap:16px}
+.back{font-size:.85rem;color:#2563EB;font-weight:600}
+.back:hover{color:#1B3A6B}
+.logo{font-size:1.1rem;font-weight:900;color:#1B3A6B}
+.logo b{color:#2563EB}
+.free-tag{margin-left:auto;background:#DCFCE7;color:#16A34A;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:100px}
+.page{max-width:860px;margin:0 auto;padding:32px 20px 60px}
+.header{margin-bottom:28px}
+.cat-badge{display:inline-block;background:#EFF6FF;color:#2563EB;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:12px}
+.header h1{font-size:1.6rem;font-weight:900;margin-bottom:8px}
+.header p{font-size:.95rem;color:#475569}
+.card{background:#fff;border-radius:12px;border:1.5px solid #E2E8F0;padding:28px;margin-bottom:20px}
+.card h2{font-size:1rem;font-weight:700;margin-bottom:20px;color:#1B3A6B}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}}
+.field{margin-bottom:0}
+.field label{display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.9rem;color:#0F172A;outline:none;font-family:Arial,sans-serif}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#2563EB}
+.field .hint{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.btn{background:#2563EB;color:#fff;border:none;padding:13px 28px;border-radius:9px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px}
+.btn:hover{background:#1B3A6B}
+.btn-sm{background:#2563EB;color:#fff;border:none;padding:9px 18px;border-radius:8px;font-size:.875rem;font-weight:700;cursor:pointer}
+.btn-sm:hover{background:#1B3A6B}
+.btn-outline{background:transparent;color:#2563EB;border:1.5px solid #2563EB;padding:9px 18px;border-radius:8px;font-size:.875rem;font-weight:700;cursor:pointer}
+.btn-outline:hover{background:#2563EB;color:#fff}
+.results{display:none}
+.results.show{display:block}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:16px}
+.res-box{background:#F1F5F9;border-radius:10px;padding:18px 14px;text-align:center}
+.res-box.hi{background:#EFF6FF;border:2px solid #2563EB}
+.res-box.green{background:#F0FDF4;border:2px solid #16A34A}
+.res-box.orange{background:#FFF7ED;border:2px solid #EA580C}
+.res-box.red{background:#FEF2F2;border:2px solid #DC2626}
+.rl{font-size:.72rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.rv{font-size:1.5rem;font-weight:900;color:#0F172A;line-height:1}
+.rs{font-size:.72rem;color:#94A3B8;margin-top:4px}
+.insight{background:#F8FAFC;border-left:4px solid #2563EB;border-radius:0 8px 8px 0;padding:14px 16px;font-size:.875rem;color:#475569;margin-top:16px}
+.insight b{color:#0F172A}
+.sep{border:none;border-top:1px solid #E2E8F0;margin:20px 0}
+@media print{nav,#print-btn,.btn,.btn-sm,.btn-outline,.no-print{display:none!important}body{background:#fff}#print-area{box-shadow:none!important;border:none!important}}
+</style>
+</head>
+<body>
+<nav><div class="nav-in">
+  <a href="index.html" class="back">← Volver</a>
+  <div class="logo">Freelance<b>Kit</b></div>
+  
+</div></nav>
+<div class="page">
+  <div class="header">
+    <div class="cat-badge">💼 Freelancers y Autónomos</div>
+    <h1>💵 Calculadora de Tarifa en USD</h1>
+    <p>¿Cuánto cobrar a clientes de EEUU, Europa o empresas internacionales siendo freelancer de LATAM?</p>
+  </div>
+  
+<div class="card">
+  <h2>⚙️ Tu contexto</h2>
+  <div class="grid2">
+    <div class="field"><label>Tu tarifa hora en moneda local ($)</label>
+      <input type="number" id="tarifaLocal" placeholder="Ej: 2500" min="0" oninput="calcUSD()"></div>
+    <div class="field"><label>Moneda local</label>
+      <select id="monLocal" onchange="setTipo()">
+        <option value="ARS" data-tc="1300">Peso Argentino (ARS)</option>
+        <option value="MXN" data-tc="17">Peso Mexicano (MXN)</option>
+        <option value="COP" data-tc="4000">Peso Colombiano (COP)</option>
+        <option value="CLP" data-tc="950">Peso Chileno (CLP)</option>
+        <option value="PEN" data-tc="3.7">Sol Peruano (PEN)</option>
+      </select></div>
+    <div class="field"><label>Tipo de cambio actual (1 USD = ? local)</label>
+      <input type="number" id="tc" placeholder="Ej: 1300" min="0" oninput="calcUSD()">
+      <span class="hint">Actualizá con el tipo de cambio del día</span></div>
+    <div class="field"><label>Tipo de cliente internacional</label>
+      <select id="tipoCliente" onchange="calcUSD()">
+        <option value="1.0">Startup / Emprendedor</option>
+        <option value="1.3" selected>PyME / Empresa mediana</option>
+        <option value="1.6">Empresa grande / Corporación</option>
+        <option value="2.0">Agencia que revende tus servicios</option>
+      </select></div>
+    <div class="field"><label>Tu experiencia</label>
+      <select id="exp" onchange="calcUSD()">
+        <option value="0.8">Junior (0-2 años)</option>
+        <option value="1.0" selected>Semi-senior (2-5 años)</option>
+        <option value="1.3">Senior (5+ años)</option>
+        <option value="1.6">Experto / Especialista reconocido</option>
+      </select></div>
+    <div class="field"><label>Tu especialidad</label>
+      <select id="esp" onchange="calcUSD()">
+        <option value="0.9">Diseño gráfico general</option>
+        <option value="1.0">Desarrollo web / apps</option>
+        <option value="1.1">UX/UI Design</option>
+        <option value="1.2">Redacción en inglés</option>
+        <option value="1.3">Marketing / Performance</option>
+        <option value="1.5">Data / IA / Machine Learning</option>
+      </select></div>
+  </div>
+</div>
+<div class="results card show" id="res3">
+  <h2>📊 Tu tarifa en USD</h2>
+  <div class="res-grid">
+    <div class="res-box"><div class="rl">Equivalente directo</div><div class="rv" id="r-direct">—</div><div class="rs">Sin ajuste de mercado</div></div>
+    <div class="res-box hi"><div class="rl">Tarifa sugerida/hora</div><div class="rv" id="r-sug">—</div><div class="rs">Ajustada a mercado int'l</div></div>
+    <div class="res-box green"><div class="rl">Ingreso mensual est.</div><div class="rv" id="r-mes">—</div><div class="rs">120 hs/mes facturables</div></div>
+    <div class="res-box orange"><div class="rl">Proyecto de 40 hs</div><div class="rv" id="r-proj">—</div><div class="rs">Precio de proyecto típico</div></div>
+  </div>
+  <hr class="sep">
+  <div style="margin-bottom:14px">
+    <div style="font-size:.8rem;font-weight:700;color:#475569;margin-bottom:10px">RANGOS DE MERCADO PARA TU PERFIL (USD/hora)</div>
+    <div id="rangos" style="font-size:.875rem;color:#475569;line-height:2"></div>
+  </div>
+  <div class="insight" id="ins3"></div>
+</div>
+<script>
+function setTipo(){
+  var sel=document.getElementById('monLocal');
+  var opt=sel.options[sel.selectedIndex];
+  document.getElementById('tc').value=opt.getAttribute('data-tc');
+  calcUSD();
+}
+function calcUSD(){
+  var tl=+document.getElementById('tarifaLocal').value||0;
+  var tc=+document.getElementById('tc').value||1;
+  var cli=+document.getElementById('tipoCliente').value||1;
+  var exp=+document.getElementById('exp').value||1;
+  var esp=+document.getElementById('esp').value||1;
+  if(!tl||!tc)return;
+  var direct=tl/tc;
+  var sug=direct*cli*exp*esp;
+  sug=Math.ceil(sug/5)*5;
+  document.getElementById('r-direct').textContent='USD '+direct.toFixed(1)+'/hr';
+  document.getElementById('r-sug').textContent='USD '+sug+'/hr';
+  document.getElementById('r-mes').textContent='USD '+Math.round(sug*120).toLocaleString();
+  document.getElementById('r-proj').textContent='USD '+Math.round(sug*40).toLocaleString();
+  var mult=sug/direct;
+  document.getElementById('ins3').innerHTML='Tu tarifa en USD equivale a <b>'+mult.toFixed(1)+'x</b> tu equivalente directo. Esto refleja el valor de mercado internacional para tu perfil. Un freelancer LATAM con tu experiencia y especialidad compite con perfiles de Europa del Este que cobran tarifas similares — no compitas por precio, competí por calidad.';
+  var rangos='';
+  var perfiles=[['Diseño gráfico general','15-30','25-50','45-80'],['Desarrollo web','20-40','35-65','60-120'],['UX/UI Design','25-50','45-80','70-130'],['Marketing / Performance','20-40','35-70','65-100'],['Data / IA','35-65','60-100','90-150']];
+  perfiles.forEach(function(p){
+    rangos+='<div style="display:flex;justify-content:space-between;border-bottom:1px solid #F1F5F9;padding:4px 0"><span>'+p[0]+'</span><span style="color:#94A3B8">Junior: <b>$'+p[1]+'</b> · Mid: <b>$'+p[2]+'</b> · Senior: <b>$'+p[3]+'</b></span></div>';
+  });
+  document.getElementById('rangos').innerHTML=rangos;
+}
+setTipo();
+</script>
+
+</div>
+</body>
+</html>

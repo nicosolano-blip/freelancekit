@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Generador de Política de Privacidad y T&C — FreelanceKit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;color:#0F172A;background:#F8FAFC;min-height:100vh}
+a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid #E2E8F0;padding:0 20px;position:sticky;top:0;z-index:99}
+.nav-in{max-width:860px;margin:0 auto;display:flex;align-items:center;height:54px;gap:16px}
+.back{font-size:.85rem;color:#2563EB;font-weight:600;display:flex;align-items:center;gap:5px}
+.back:hover{color:#1B3A6B}
+.logo{font-size:1.1rem;font-weight:900;color:#1B3A6B}
+.logo b{color:#2563EB}
+.page{max-width:860px;margin:0 auto;padding:32px 20px 60px}
+.header{margin-bottom:28px}
+.cat-badge{display:inline-block;background:#EFF6FF;color:#2563EB;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:12px}
+.header h1{font-size:1.6rem;font-weight:900;margin-bottom:8px}
+.header p{font-size:.95rem;color:#475569}
+.card{background:#fff;border-radius:12px;border:1.5px solid #E2E8F0;padding:28px;margin-bottom:20px}
+.card h2{font-size:1rem;font-weight:700;margin-bottom:20px;color:#1B3A6B;display:flex;align-items:center;gap:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}}
+.field label{display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:5px}
+.field input,.field select{width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.95rem;color:#0F172A;outline:none;font-family:Arial,sans-serif}
+.field input:focus,.field select:focus{border-color:#2563EB}
+.field .hint{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.btn{background:#2563EB;color:#fff;border:none;padding:13px 28px;border-radius:9px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px}
+.btn:hover{background:#1B3A6B}
+.results{display:none}
+.results.show{display:block}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:20px}
+.res-box{background:#F1F5F9;border-radius:10px;padding:18px 16px;text-align:center}
+.res-box.highlight{background:#EFF6FF;border:2px solid #2563EB}
+.res-box.green{background:#F0FDF4;border:2px solid #16A34A}
+.res-box.red{background:#FEF2F2;border:2px solid #DC2626}
+.res-box.orange{background:#FFF7ED;border:2px solid #EA580C}
+.res-label{font-size:.75rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.res-val{font-size:1.6rem;font-weight:900;color:#0F172A;line-height:1}
+.res-sub{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.insight{background:#F8FAFC;border-left:4px solid #2563EB;border-radius:0 8px 8px 0;padding:14px 16px;font-size:.875rem;color:#475569;margin-top:16px}
+.insight b{color:#0F172A}
+.sep{border:none;border-top:1px solid #E2E8F0;margin:20px 0}
+</style>
+</head>
+<body>
+<nav><div class="nav-in">
+  <a href="index.html" class="back">← Volver</a>
+  <div class="logo">Freelance<b>Kit</b></div>
+</div></nav>
+<div class="page">
+  <div class="header">
+    <div class="cat-badge">📦 Pequeños Negocios</div>
+    <h1>🔒 Generador de Política de Privacidad y T&C</h1>
+    <p>Generá una política de privacidad y términos de servicio en español adaptados a tiendas online de LATAM.</p>
+  </div>
+  
+<div class="card">
+  <h2>⚙️ Datos de tu empresa</h2>
+  <div class="grid2">
+    <div class="field"><label>Nombre de la empresa / marca *</label>
+      <input type="text" id="empresa" placeholder="Ej: Mi Tienda Online"></div>
+    <div class="field"><label>Sitio web *</label>
+      <input type="text" id="sitio" placeholder="Ej: www.mitienda.com"></div>
+    <div class="field"><label>Email de contacto *</label>
+      <input type="email" id="email" placeholder="Ej: contacto@mitienda.com"></div>
+    <div class="field"><label>País *</label>
+      <select id="pais">
+        <option value="Argentina">Argentina</option>
+        <option value="México">México</option>
+        <option value="Colombia">Colombia</option>
+        <option value="Chile">Chile</option>
+        <option value="Perú">Perú</option>
+        <option value="Uruguay">Uruguay</option>
+        <option value="España">España</option>
+      </select></div>
+    <div class="field"><label>Tipo de datos que recolectás</label>
+      <select id="datos">
+        <option value="nombre, email y datos de envío">Nombre, email y dirección de envío</option>
+        <option value="nombre, email, teléfono y datos de envío">Nombre, email, teléfono y envío</option>
+        <option value="nombre, email, datos de facturación y envío">Nombre, email, facturación y envío</option>
+      </select></div>
+    <div class="field"><label>¿Usás cookies de terceros?</label>
+      <select id="cookies">
+        <option value="si">Sí (Google Analytics, Meta Pixel, etc.)</option>
+        <option value="no">No</option>
+      </select></div>
+    <div class="field"><label>¿Compartís datos con terceros?</label>
+      <select id="terceros">
+        <option value="proveedores de logística y pasarelas de pago">Sí — logística y pagos</option>
+        <option value="no">No</option>
+      </select></div>
+    <div class="field"><label>Medio de pago utilizado</label>
+      <select id="pago">
+        <option>MercadoPago</option>
+        <option>Stripe</option>
+        <option>PayPal</option>
+        <option>Transferencia bancaria</option>
+        <option>Múltiples medios</option>
+      </select></div>
+  </div>
+  <button class="btn" onclick="generar()">Generar documentos legales</button>
+</div>
+<div class="results card" id="res8">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+    <h2 style="margin:0">📄 Documentos generados</h2>
+    <button onclick="copiar()" style="background:#F1F5F9;border:1.5px solid #E2E8F0;border-radius:8px;padding:8px 16px;font-size:.85rem;font-weight:700;cursor:pointer;color:#0F172A">📋 Copiar todo</button>
+  </div>
+  <div id="doc-output" style="background:#F8FAFC;border:1.5px solid #E2E8F0;border-radius:8px;padding:20px;font-size:.875rem;line-height:1.8;color:#0F172A;max-height:600px;overflow-y:auto;white-space:pre-wrap;font-family:Arial,sans-serif"></div>
+  <div class="insight" style="margin-top:16px">⚠️ Este documento es una plantilla orientativa. Para operaciones de mayor escala o ante dudas específicas, consultá con un abogado local.</div>
+</div>
+<script>
+function generar(){
+  var emp=document.getElementById('empresa').value.trim();
+  var sit=document.getElementById('sitio').value.trim();
+  var eml=document.getElementById('email').value.trim();
+  var pai=document.getElementById('pais').value;
+  var dat=document.getElementById('datos').value;
+  var coo=document.getElementById('cookies').value;
+  var ter=document.getElementById('terceros').value;
+  var pag=document.getElementById('pago').value;
+  if(!emp||!sit||!eml){alert('Completá nombre, sitio web y email');return}
+  var fecha=new Date().toLocaleDateString('es-AR',{day:'numeric',month:'long',year:'numeric'});
+  var txt='═══════════════════════════════════════════════════════
+';
+  txt+='POLÍTICA DE PRIVACIDAD
+';
+  txt+=emp.toUpperCase()+'
+';
+  txt+='Última actualización: '+fecha+'
+';
+  txt+='═══════════════════════════════════════════════════════
+
+';
+  txt+='1. RESPONSABLE DEL TRATAMIENTO DE DATOS
+
+';
+  txt+=emp+' (en adelante, "la Empresa"), con domicilio en '+pai+', es responsable del tratamiento de los datos personales recopilados a través del sitio web '+sit+'.
+Contacto: '+eml+'
+
+';
+  txt+='2. DATOS QUE RECOPILAMOS
+
+';
+  txt+='Recopilamos los siguientes datos personales: '+dat+'. Estos datos son recolectados únicamente cuando el usuario realiza una compra, se registra o se comunica con nosotros.
+
+';
+  txt+='3. FINALIDAD DEL TRATAMIENTO
+
+';
+  txt+='Los datos recopilados son utilizados exclusivamente para:
+- Procesar y gestionar los pedidos realizados en '+sit+'
+- Enviar confirmaciones de compra y actualizaciones sobre el estado del pedido
+- Brindar soporte al cliente
+- Cumplir con obligaciones legales y fiscales en '+pai+'
+
+';
+  if(coo==='si'){
+    txt+='4. COOKIES Y TECNOLOGÍAS DE SEGUIMIENTO
+
+';
+    txt+='Este sitio utiliza cookies propias y de terceros (incluyendo herramientas de análisis como Google Analytics y/o plataformas de publicidad como Meta). Estas cookies nos permiten analizar el tráfico del sitio y mejorar la experiencia del usuario. El usuario puede desactivar las cookies desde la configuración de su navegador.
+
+';
+  }
+  if(ter!=='no'){
+    txt+=(coo==='si'?'5':'4')+'. COMPARTICIÓN DE DATOS CON TERCEROS
+
+';
+    txt+='Los datos personales pueden ser compartidos con '+ter+' exclusivamente para la ejecución del servicio contratado. Estos terceros están obligados a tratar los datos conforme a la legislación vigente de '+pai+' y únicamente para la finalidad indicada.
+
+';
+  }
+  txt+='SEGURIDAD DE LOS DATOS
+
+';
+  txt+='Implementamos medidas técnicas y organizativas razonables para proteger los datos personales contra accesos no autorizados, pérdida o alteración. Los pagos son procesados de forma segura a través de '+pag+', que cumple con los estándares PCI DSS.
+
+';
+  txt+='DERECHOS DEL USUARIO
+
+';
+  txt+='El usuario tiene derecho a acceder, rectificar, cancelar u oponerse al tratamiento de sus datos personales. Para ejercer estos derechos, puede contactarnos en '+eml+'.
+
+';
+  txt+='
+═══════════════════════════════════════════════════════
+';
+  txt+='TÉRMINOS Y CONDICIONES DE VENTA
+';
+  txt+=emp.toUpperCase()+'
+';
+  txt+='Última actualización: '+fecha+'
+';
+  txt+='═══════════════════════════════════════════════════════
+
+';
+  txt+='1. ACEPTACIÓN
+
+Al realizar una compra en '+sit+', el usuario acepta íntegramente los presentes Términos y Condiciones.
+
+';
+  txt+='2. PRODUCTOS Y PRECIOS
+
+Los precios publicados en '+sit+' incluyen los impuestos aplicables en '+pai+'. Nos reservamos el derecho de modificar precios sin previo aviso. El precio vigente es el publicado al momento de confirmar el pedido.
+
+';
+  txt+='3. PROCESO DE COMPRA
+
+Para concretar una compra el usuario deberá: (a) seleccionar los productos, (b) ingresar los datos de envío, (c) seleccionar el medio de pago y (d) confirmar el pedido. Una vez confirmado, recibirá un email de confirmación.
+
+';
+  txt+='4. MEDIOS DE PAGO
+
+Aceptamos pagos a través de '+pag+'. Todos los pagos son procesados de forma segura. '+emp+' no almacena datos de tarjetas de crédito.
+
+';
+  txt+='5. ENTREGAS Y ENVÍOS
+
+Los plazos de entrega son estimativos y pueden variar según la zona geográfica y disponibilidad del producto. '+emp+' no se hace responsable por demoras atribuibles a la empresa de logística o causas de fuerza mayor.
+
+';
+  txt+='6. CAMBIOS Y DEVOLUCIONES
+
+El usuario tiene derecho a solicitar cambio o devolución dentro de los 30 días posteriores a la recepción del producto, siempre que el producto se encuentre en su estado original. Para iniciar el proceso, contactar a '+eml+'.
+
+';
+  txt+='7. JURISDICCIÓN
+
+Los presentes términos se rigen por la legislación de '+pai+'. Ante cualquier controversia, las partes se someten a la jurisdicción de los tribunales ordinarios de '+pai+'.
+
+';
+  txt+='Contacto: '+eml+' | '+sit+'
+';
+  document.getElementById('doc-output').textContent=txt;
+  document.getElementById('res8').className='results card show';
+}
+function copiar(){
+  var t=document.getElementById('doc-output').textContent;
+  navigator.clipboard.writeText(t).then(function(){alert('Copiado al portapapeles ✓')});
+}
+</script>
+
+</div>
+</body>
+</html>

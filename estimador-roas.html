@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Estimador de ROAS Mínimo — FreelanceKit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;color:#0F172A;background:#F8FAFC;min-height:100vh}
+a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid #E2E8F0;padding:0 20px;position:sticky;top:0;z-index:99}
+.nav-in{max-width:860px;margin:0 auto;display:flex;align-items:center;height:54px;gap:16px}
+.back{font-size:.85rem;color:#2563EB;font-weight:600;display:flex;align-items:center;gap:5px}
+.back:hover{color:#1B3A6B}
+.logo{font-size:1.1rem;font-weight:900;color:#1B3A6B}
+.logo b{color:#2563EB}
+.page{max-width:860px;margin:0 auto;padding:32px 20px 60px}
+.header{margin-bottom:28px}
+.cat-badge{display:inline-block;background:#EFF6FF;color:#2563EB;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:12px}
+.header h1{font-size:1.6rem;font-weight:900;margin-bottom:8px}
+.header p{font-size:.95rem;color:#475569}
+.card{background:#fff;border-radius:12px;border:1.5px solid #E2E8F0;padding:28px;margin-bottom:20px}
+.card h2{font-size:1rem;font-weight:700;margin-bottom:20px;color:#1B3A6B;display:flex;align-items:center;gap:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}}
+.field label{display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:5px}
+.field input,.field select{width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.95rem;color:#0F172A;outline:none;font-family:Arial,sans-serif}
+.field input:focus,.field select:focus{border-color:#2563EB}
+.field .hint{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.btn{background:#2563EB;color:#fff;border:none;padding:13px 28px;border-radius:9px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px}
+.btn:hover{background:#1B3A6B}
+.results{display:none}
+.results.show{display:block}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:20px}
+.res-box{background:#F1F5F9;border-radius:10px;padding:18px 16px;text-align:center}
+.res-box.highlight{background:#EFF6FF;border:2px solid #2563EB}
+.res-box.green{background:#F0FDF4;border:2px solid #16A34A}
+.res-box.red{background:#FEF2F2;border:2px solid #DC2626}
+.res-box.orange{background:#FFF7ED;border:2px solid #EA580C}
+.res-label{font-size:.75rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.res-val{font-size:1.6rem;font-weight:900;color:#0F172A;line-height:1}
+.res-sub{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.insight{background:#F8FAFC;border-left:4px solid #2563EB;border-radius:0 8px 8px 0;padding:14px 16px;font-size:.875rem;color:#475569;margin-top:16px}
+.insight b{color:#0F172A}
+.sep{border:none;border-top:1px solid #E2E8F0;margin:20px 0}
+</style>
+</head>
+<body>
+<nav><div class="nav-in">
+  <a href="index.html" class="back">← Volver</a>
+  <div class="logo">Freelance<b>Kit</b></div>
+</div></nav>
+<div class="page">
+  <div class="header">
+    <div class="cat-badge">📦 Pequeños Negocios</div>
+    <h1>📣 Estimador de ROAS Mínimo</h1>
+    <p>Calculá el ROAS mínimo que necesitás para que tu publicidad en Meta o Google sea rentable.</p>
+  </div>
+  
+<div class="card">
+  <h2>⚙️ Datos de tu campaña y producto</h2>
+  <div class="grid2">
+    <div class="field"><label>Inversión en publicidad ($)</label>
+      <input type="number" id="inversion" placeholder="Ej: 50000" min="0">
+      <span class="hint">Lo que gastás en Meta, Google, TikTok, etc.</span></div>
+    <div class="field"><label>Ticket promedio por venta ($)</label>
+      <input type="number" id="ticket" placeholder="Ej: 8000" min="0"></div>
+    <div class="field"><label>Margen bruto del producto (%)</label>
+      <input type="number" id="margen" placeholder="Ej: 40" min="1" max="100">
+      <span class="hint">% que queda después de descontar el costo del producto</span></div>
+    <div class="field"><label>ROAS actual (si lo tenés)</label>
+      <input type="number" id="roasActual" placeholder="Ej: 3.5" min="0" step="0.1">
+      <span class="hint">Opcional — para comparar con el mínimo</span></div>
+  </div>
+  <button class="btn" onclick="calcROAS()">Calcular ROAS mínimo</button>
+</div>
+<div class="results card" id="res3">
+  <h2>📊 Resultados</h2>
+  <div class="res-grid">
+    <div class="res-box highlight"><div class="res-label">ROAS mínimo necesario</div><div class="res-val" id="r-rmin">—</div><div class="res-sub">Para no perder plata</div></div>
+    <div class="res-box green"><div class="res-label">Ventas mínimas necesarias</div><div class="res-val" id="r-vmin">—</div><div class="res-sub">Para recuperar la inversión</div></div>
+    <div class="res-box"><div class="res-label">Revenue mínimo</div><div class="res-val" id="r-revmin">—</div><div class="res-sub">Facturación de breakeven</div></div>
+    <div class="res-box orange"><div class="res-label">CPA máximo</div><div class="res-val" id="r-cpa">—</div><div class="res-sub">Costo por adquisición tolerable</div></div>
+  </div>
+  <hr class="sep">
+  <div id="comparacion" style="display:none">
+    <h2 style="font-size:.95rem;font-weight:700;margin-bottom:14px">📈 Tu ROAS actual vs mínimo</h2>
+    <div class="res-grid">
+      <div class="res-box" id="r-actual-box"><div class="res-label">Tu ROAS actual</div><div class="res-val" id="r-actual">—</div></div>
+      <div class="res-box" id="r-status-box"><div class="res-label">Estado</div><div class="res-val" id="r-status">—</div></div>
+      <div class="res-box" id="r-gan-box"><div class="res-label">Ganancia estimada</div><div class="res-val" id="r-ganancia">—</div></div>
+    </div>
+  </div>
+  <div class="insight" id="insight3"></div>
+</div>
+<script>
+function fmt3(n){return n.toLocaleString('es-AR',{maximumFractionDigits:0})}
+function calcROAS(){
+  var inv=+document.getElementById('inversion').value;
+  var ticket=+document.getElementById('ticket').value;
+  var marg=+document.getElementById('margen').value/100;
+  var actual=+document.getElementById('roasActual').value;
+  if(!inv||!ticket||!marg){alert('Completá inversión, ticket y margen');return}
+  var roasMin=1/marg;
+  var revMin=inv/marg;
+  var ventasMin=Math.ceil(revMin/ticket);
+  var cpaMax=ticket*marg;
+  document.getElementById('r-rmin').textContent=roasMin.toFixed(2)+'x';
+  document.getElementById('r-vmin').textContent=ventasMin;
+  document.getElementById('r-revmin').textContent='$'+fmt3(revMin);
+  document.getElementById('r-cpa').textContent='$'+fmt3(cpaMax);
+  if(actual>0){
+    document.getElementById('comparacion').style.display='block';
+    document.getElementById('r-actual').textContent=actual.toFixed(2)+'x';
+    var ganancia=(inv*actual*marg)-inv;
+    var ok=actual>=roasMin;
+    document.getElementById('r-status').textContent=ok?'✅ Rentable':'🚨 En pérdida';
+    document.getElementById('r-status-box').className='res-box '+(ok?'green':'red');
+    document.getElementById('r-ganancia').textContent=(ganancia>=0?'+':'')+' $'+fmt3(ganancia);
+    document.getElementById('r-gan-box').className='res-box '+(ganancia>=0?'green':'red');
+  } else {document.getElementById('comparacion').style.display='none'}
+  document.getElementById('insight3').innerHTML='Con un margen del '+Math.round(marg*100)+'%, cada peso que invertís en publicidad necesita generar <b>'+roasMin.toFixed(2)+'x en ventas</b> para cubrir el costo del producto. Por debajo de ese número estás subvencionando cada venta.';
+  document.getElementById('res3').className='results card show';
+}
+</script>
+
+</div>
+</body>
+</html>

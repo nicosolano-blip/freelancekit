@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calculadora de Préstamo Personal — FreelanceKit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;color:#0F172A;background:#F8FAFC;min-height:100vh}
+a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid #E2E8F0;padding:0 20px}
+.nav-in{max-width:860px;margin:0 auto;display:flex;align-items:center;height:54px;gap:16px}
+.back{font-size:.85rem;font-weight:600;color:#059669}
+.logo{font-size:1.1rem;font-weight:900;color:#1B3A6B}
+.logo b{color:#059669}
+.free-tag{margin-left:auto;background:#DCFCE7;color:#16A34A;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:100px}
+.page{max-width:860px;margin:0 auto;padding:32px 20px 60px}
+.header{margin-bottom:28px}
+.cat-badge{display:inline-block;background:#ECFDF5;color:#059669;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:12px}
+.header h1{font-size:1.6rem;font-weight:900;margin-bottom:8px}
+.header p{font-size:.95rem;color:#475569}
+.card{background:#fff;border-radius:12px;border:1.5px solid #E2E8F0;padding:28px;margin-bottom:20px}
+.card h2{font-size:1rem;font-weight:700;margin-bottom:20px;color:#065F46}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}}
+.field label{display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:5px}
+.field input,.field select{width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.9rem;color:#0F172A;outline:none;font-family:Arial,sans-serif}
+.field input:focus,.field select:focus{border-color:#059669}
+.field .hint{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.btn{background:#059669;color:#fff;border:none;padding:13px 28px;border-radius:9px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px}
+.btn:hover{background:#065F46}
+.results{display:none}
+.results.show{display:block}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:16px}
+.res-box{background:#F1F5F9;border-radius:10px;padding:18px 14px;text-align:center}
+.res-box.hi{background:#ECFDF5;border:2px solid #059669}
+.res-box.green{background:#F0FDF4;border:2px solid #16A34A}
+.res-box.red{background:#FEF2F2;border:2px solid #DC2626}
+.res-box.orange{background:#FFF7ED;border:2px solid #EA580C}
+.res-box.blue{background:#EFF6FF;border:2px solid #2563EB}
+.rl{font-size:.72rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.rv{font-size:1.4rem;font-weight:900;color:#0F172A;line-height:1}
+.rs{font-size:.72rem;color:#94A3B8;margin-top:4px}
+.sep{border:none;border-top:1px solid #E2E8F0;margin:20px 0}
+.insight{background:#ECFDF5;border-left:4px solid #059669;border-radius:0 8px 8px 0;padding:14px 16px;font-size:.875rem;color:#475569;margin-top:16px}
+.insight b{color:#0F172A}
+.bar-wrap{background:#F1F5F9;border-radius:100px;height:14px;overflow:hidden;margin:4px 0}
+.bar-fill{height:100%;border-radius:100px}
+</style>
+</head>
+<body>
+<nav><div class="nav-in">
+  <a href="index.html" class="back">← Volver</a>
+  <div class="logo">Freelance<b>Kit</b></div>
+  
+</div></nav>
+<div class="page">
+  <div class="header">
+    <div class="cat-badge">💰 Finanzas Personales</div>
+    <h1>🏦 Calculadora de Préstamo Personal</h1>
+    <p>¿Cuánto pagás en cuotas y cuánto es el costo total real de un préstamo? Compará entre distintas opciones.</p>
+  </div>
+  
+<div class="card">
+  <h2>⚙️ Datos del préstamo</h2>
+  <div class="grid2">
+    <div class="field"><label>Monto del préstamo ($)</label>
+      <input type="number" id="monto" placeholder="Ej: 1000000" min="0" oninput="calcPrestamo()"></div>
+    <div class="field"><label>Tasa de interés mensual (%)</label>
+      <input type="number" id="tasa" placeholder="Ej: 5" min="0" step="0.1" oninput="calcPrestamo()"></div>
+    <div class="field"><label>Cantidad de cuotas</label>
+      <select id="cuotas" onchange="calcPrestamo()">
+        <option value="6">6 cuotas</option>
+        <option value="12" selected>12 cuotas</option>
+        <option value="18">18 cuotas</option>
+        <option value="24">24 cuotas</option>
+        <option value="36">36 cuotas</option>
+        <option value="48">48 cuotas</option>
+      </select></div>
+    <div class="field"><label>Moneda</label>
+      <select id="mon" onchange="calcPrestamo()"><option>ARS</option><option>USD</option><option>MXN</option></select></div>
+  </div>
+</div>
+<div class="card" style="border-color:#E2E8F0">
+  <h2>🔄 Comparar con otra opción</h2>
+  <div class="grid3">
+    <div class="field"><label>Tasa alternativa (%/mes)</label>
+      <input type="number" id="tasa2" placeholder="Ej: 3.5" min="0" step="0.1" oninput="calcPrestamo()"></div>
+    <div class="field"><label>Cuotas alternativa</label>
+      <select id="cuotas2" onchange="calcPrestamo()">
+        <option value="6">6 cuotas</option>
+        <option value="12" selected>12 cuotas</option>
+        <option value="18">18 cuotas</option>
+        <option value="24">24 cuotas</option>
+        <option value="36">36 cuotas</option>
+      </select></div>
+    <div class="field"><label>Nombre (ej: Banco A)</label>
+      <input type="text" id="nombre2" placeholder="Opción B" oninput="calcPrestamo()"></div>
+  </div>
+</div>
+<div class="results card" id="res4">
+  <h2>📊 Costo real del préstamo</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+    <div class="res-box hi" style="padding:20px">
+      <div class="rl">Opción A</div>
+      <div style="font-size:1rem;font-weight:900;margin:8px 0" id="r-cuota-a">—</div>
+      <div class="rs">cuota mensual</div>
+      <div style="font-size:.85rem;color:#0F172A;font-weight:700;margin-top:8px" id="r-total-a">—</div>
+      <div class="rs">total pagado</div>
+    </div>
+    <div class="res-box blue" style="padding:20px" id="box-b">
+      <div class="rl" id="label-b">Opción B</div>
+      <div style="font-size:1rem;font-weight:900;margin:8px 0" id="r-cuota-b">—</div>
+      <div class="rs">cuota mensual</div>
+      <div style="font-size:.85rem;color:#0F172A;font-weight:700;margin-top:8px" id="r-total-b">—</div>
+      <div class="rs">total pagado</div>
+    </div>
+  </div>
+  <div class="res-grid">
+    <div class="res-box red"><div class="rl">Intereses totales (A)</div><div class="rv" id="r-int-a">—</div><div class="rs" id="r-int-a-pct">—</div></div>
+    <div class="res-box orange"><div class="rl">CFT anual estimado (A)</div><div class="rv" id="r-cft">—</div><div class="rs">Costo financiero total</div></div>
+  </div>
+  <div class="insight" id="ins4"></div>
+</div>
+<script>
+function fmt(n){var m=document.getElementById('mon').value;return m+' '+Math.round(n).toLocaleString('es-AR')}
+function cuota(P,t,n){return P*(t*Math.pow(1+t,n))/(Math.pow(1+t,n)-1);}
+function calcPrestamo(){
+  var P=+document.getElementById('monto').value||0;
+  var t=+document.getElementById('tasa').value||0;
+  var n=+document.getElementById('cuotas').value||12;
+  var t2=+document.getElementById('tasa2').value||0;
+  var n2=+document.getElementById('cuotas2').value||12;
+  var nom2=document.getElementById('nombre2').value||'Opción B';
+  if(!P||!t)return;
+  var c_a=cuota(P,t/100,n);
+  var tot_a=c_a*n;
+  var int_a=tot_a-P;
+  var cft=((Math.pow(c_a*n/P,12/n)-1)*100);
+  document.getElementById('r-cuota-a').textContent=fmt(c_a)+'/mes';
+  document.getElementById('r-total-a').textContent='Total: '+fmt(tot_a);
+  document.getElementById('r-int-a').textContent=fmt(int_a);
+  document.getElementById('r-int-a-pct').textContent=((int_a/P)*100).toFixed(0)+'% del capital';
+  document.getElementById('r-cft').textContent=cft.toFixed(0)+'% anual';
+  if(t2){
+    var c_b=cuota(P,t2/100,n2);
+    var tot_b=c_b*n2;
+    document.getElementById('label-b').textContent=nom2;
+    document.getElementById('r-cuota-b').textContent=fmt(c_b)+'/mes';
+    document.getElementById('r-total-b').textContent='Total: '+fmt(tot_b);
+    document.getElementById('box-b').className='res-box '+(tot_b<tot_a?'green':'red')+' ';
+    document.getElementById('box-b').style.padding='20px';
+    document.getElementById('ins4').innerHTML='La <b>'+nom2+'</b> '+(tot_b<tot_a?'es mejor: ahorrás <b>'+fmt(tot_a-tot_b)+'</b> en intereses':'es más cara en <b>'+fmt(tot_b-tot_a)+'</b> de intereses')+'. El CFT real de la Opción A es <b>'+cft.toFixed(0)+'% anual</b> — siempre pedí el CFT antes de firmar un préstamo.';
+  } else {
+    document.getElementById('r-cuota-b').textContent='—';
+    document.getElementById('r-total-b').textContent='Ingresá los datos de la opción B';
+    document.getElementById('ins4').innerHTML='Este préstamo de <b>'+fmt(P)+'</b> en '+n+' cuotas tiene un costo financiero total del <b>'+cft.toFixed(0)+'% anual</b>. Pagás <b>'+fmt(int_a)+'</b> en intereses — el <b>'+((int_a/P)*100).toFixed(0)+'%</b> adicional sobre el capital. Ingresá los datos de la Opción B para comparar.';
+  }
+  document.getElementById('res4').className='results card show';
+}
+</script>
+
+</div>
+</body>
+</html>

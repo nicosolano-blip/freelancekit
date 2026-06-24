@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calculadora de Jubilación / Retiro — FreelanceKit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;color:#0F172A;background:#F8FAFC;min-height:100vh}
+a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid #E2E8F0;padding:0 20px}
+.nav-in{max-width:860px;margin:0 auto;display:flex;align-items:center;height:54px;gap:16px}
+.back{font-size:.85rem;font-weight:600;color:#059669}
+.logo{font-size:1.1rem;font-weight:900;color:#1B3A6B}
+.logo b{color:#059669}
+.free-tag{margin-left:auto;background:#DCFCE7;color:#16A34A;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:100px}
+.page{max-width:860px;margin:0 auto;padding:32px 20px 60px}
+.header{margin-bottom:28px}
+.cat-badge{display:inline-block;background:#ECFDF5;color:#059669;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:12px}
+.header h1{font-size:1.6rem;font-weight:900;margin-bottom:8px}
+.header p{font-size:.95rem;color:#475569}
+.card{background:#fff;border-radius:12px;border:1.5px solid #E2E8F0;padding:28px;margin-bottom:20px}
+.card h2{font-size:1rem;font-weight:700;margin-bottom:20px;color:#065F46}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}}
+.field label{display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:5px}
+.field input,.field select{width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.9rem;color:#0F172A;outline:none;font-family:Arial,sans-serif}
+.field input:focus,.field select:focus{border-color:#059669}
+.field .hint{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.btn{background:#059669;color:#fff;border:none;padding:13px 28px;border-radius:9px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px}
+.btn:hover{background:#065F46}
+.results{display:none}
+.results.show{display:block}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:16px}
+.res-box{background:#F1F5F9;border-radius:10px;padding:18px 14px;text-align:center}
+.res-box.hi{background:#ECFDF5;border:2px solid #059669}
+.res-box.green{background:#F0FDF4;border:2px solid #16A34A}
+.res-box.red{background:#FEF2F2;border:2px solid #DC2626}
+.res-box.orange{background:#FFF7ED;border:2px solid #EA580C}
+.res-box.blue{background:#EFF6FF;border:2px solid #2563EB}
+.rl{font-size:.72rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.rv{font-size:1.4rem;font-weight:900;color:#0F172A;line-height:1}
+.rs{font-size:.72rem;color:#94A3B8;margin-top:4px}
+.sep{border:none;border-top:1px solid #E2E8F0;margin:20px 0}
+.insight{background:#ECFDF5;border-left:4px solid #059669;border-radius:0 8px 8px 0;padding:14px 16px;font-size:.875rem;color:#475569;margin-top:16px}
+.insight b{color:#0F172A}
+.bar-wrap{background:#F1F5F9;border-radius:100px;height:14px;overflow:hidden;margin:4px 0}
+.bar-fill{height:100%;border-radius:100px}
+</style>
+</head>
+<body>
+<nav><div class="nav-in">
+  <a href="index.html" class="back">← Volver</a>
+  <div class="logo">Freelance<b>Kit</b></div>
+  
+</div></nav>
+<div class="page">
+  <div class="header">
+    <div class="cat-badge">💰 Finanzas Personales</div>
+    <h1>🌅 Calculadora de Jubilación / Retiro</h1>
+    <p>¿A qué edad podés retirarte? Calculá cuánto necesitás ahorrar para vivir de tus ahorros sin trabajar.</p>
+  </div>
+  
+<div class="card">
+  <h2>⚙️ Tu situación</h2>
+  <div class="grid2">
+    <div class="field"><label>Edad actual</label>
+      <input type="number" id="edad-act" placeholder="Ej: 35" min="18" max="70" oninput="calcJub()"></div>
+    <div class="field"><label>Edad deseada de retiro</label>
+      <input type="number" id="edad-ret" placeholder="Ej: 60" min="30" max="80" oninput="calcJub()"></div>
+    <div class="field"><label>Ahorros actuales ($)</label>
+      <input type="number" id="ahorros" placeholder="Ej: 500000" min="0" value="0" oninput="calcJub()"></div>
+    <div class="field"><label>Ahorro mensual actual ($)</label>
+      <input type="number" id="ahorro-mes" placeholder="Ej: 50000" min="0" oninput="calcJub()"></div>
+    <div class="field"><label>Gasto mensual deseado en retiro ($)</label>
+      <input type="number" id="gasto-ret" placeholder="Ej: 200000" min="0" oninput="calcJub()">
+      <span class="hint">En pesos de hoy — cuánto necesitás para vivir bien</span></div>
+    <div class="field"><label>Rendimiento anual esperado (%)</label>
+      <input type="number" id="rend" placeholder="Ej: 6" min="0" step="0.5" value="6" oninput="calcJub()">
+      <span class="hint">Rendimiento real (ya descontada inflación)</span></div>
+    <div class="field"><label>Años esperados en retiro</label>
+      <input type="number" id="anios-ret" placeholder="Ej: 25" min="5" value="25" oninput="calcJub()"></div>
+    <div class="field"><label>Moneda</label>
+      <select id="mon" onchange="calcJub()"><option>ARS</option><option>USD</option><option>MXN</option></select></div>
+  </div>
+</div>
+<div class="results card" id="res6">
+  <h2>🌅 Tu plan de retiro</h2>
+  <div class="res-grid">
+    <div class="res-box"><div class="rl">Años para ahorrar</div><div class="rv" id="r6-anios">—</div></div>
+    <div class="res-box hi"><div class="rl">Capital necesario al retiro</div><div class="rv" id="r6-meta">—</div><div class="rs">Para vivir de rentas</div></div>
+    <div class="res-box green"><div class="rl">Capital proyectado</div><div class="rv" id="r6-proy">—</div><div class="rs">Con tu ahorro actual</div></div>
+    <div class="res-box" id="r6-gap-box"><div class="rl">Diferencia</div><div class="rv" id="r6-gap">—</div><div class="rs" id="r6-gap-s">—</div></div>
+  </div>
+  <div class="insight" id="ins6"></div>
+</div>
+<script>
+function fmt(n){var m=document.getElementById('mon').value;return m+' '+Math.round(n).toLocaleString('es-AR')}
+function calcJub(){
+  var ea=+document.getElementById('edad-act').value||0;
+  var er=+document.getElementById('edad-ret').value||0;
+  var ah=+document.getElementById('ahorros').value||0;
+  var am=+document.getElementById('ahorro-mes').value||0;
+  var gr=+document.getElementById('gasto-ret').value||0;
+  var rend=+document.getElementById('rend').value||6;
+  var ar=+document.getElementById('anios-ret').value||25;
+  if(!ea||!er||!gr||er<=ea)return;
+  var anios=er-ea;
+  var r_m=rend/100/12;
+  // Capital necesario para vivir 'ar' años gastando 'gr'/mes (annuity)
+  var meta=gr*(1-Math.pow(1+r_m,-ar*12))/r_m;
+  // Capital proyectado: ahorros actuales + aportes mensuales compuestos
+  var proy=ah*Math.pow(1+r_m,anios*12)+am*(Math.pow(1+r_m,anios*12)-1)/r_m;
+  var gap=proy-meta;
+  var ahorro_necesario=meta>ah*Math.pow(1+r_m,anios*12)?(meta-ah*Math.pow(1+r_m,anios*12))/(( Math.pow(1+r_m,anios*12)-1)/r_m):0;
+  document.getElementById('r6-anios').textContent=anios+' años';
+  document.getElementById('r6-meta').textContent=fmt(meta);
+  document.getElementById('r6-proy').textContent=fmt(proy);
+  document.getElementById('r6-gap').textContent=(gap>=0?'+':'')+fmt(gap);
+  document.getElementById('r6-gap-s').textContent=gap>=0?'¡Alcanza y sobra!':'Necesitás ahorrar más';
+  document.getElementById('r6-gap-box').className='res-box '+(gap>=0?'green':'red');
+  document.getElementById('ins6').innerHTML='Para retirarte a los <b>'+er+' años</b> con <b>'+fmt(gr)+'/mes</b> durante '+ar+' años, necesitás acumular <b>'+fmt(meta)+'</b>. Con tu ahorro actual y tus aportes de <b>'+fmt(am)+'/mes</b>, proyectás <b>'+fmt(proy)+'</b> al momento del retiro. '+(gap>=0?'🎉 Tu plan actual es suficiente — tendrías un excedente de <b>'+fmt(gap)+'</b>.':'Para cerrar la brecha necesitás ahorrar <b>'+fmt(ahorro_necesario)+'/mes</b> en total (actualmente ahorrás '+fmt(am)+').');
+  document.getElementById('res6').className='results card show';
+}
+</script>
+
+</div>
+</body>
+</html>

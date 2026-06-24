@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calculadora de Mudanza — FreelanceKit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;color:#0F172A;background:#F8FAFC;min-height:100vh}
+a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid #E2E8F0;padding:0 20px}
+.nav-in{max-width:860px;margin:0 auto;display:flex;align-items:center;height:54px;gap:16px}
+.back{font-size:.85rem;font-weight:600}
+.logo{font-size:1.1rem;font-weight:900;color:#1B3A6B}
+.logo b{color:#2563EB}
+.free-tag{margin-left:auto;background:#DCFCE7;color:#16A34A;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:100px}
+.page{max-width:860px;margin:0 auto;padding:32px 20px 60px}
+.header{margin-bottom:28px}
+.cat-badge{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:12px}
+.header h1{font-size:1.6rem;font-weight:900;margin-bottom:8px}
+.header p{font-size:.95rem;color:#475569}
+.card{background:#fff;border-radius:12px;border:1.5px solid #E2E8F0;padding:28px;margin-bottom:20px}
+.card h2{font-size:1rem;font-weight:700;margin-bottom:20px;color:#1E3A5F}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}}
+.field label{display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:5px}
+.field input,.field select{width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.9rem;color:#0F172A;outline:none;font-family:Arial,sans-serif}
+.field .hint{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.btn{color:#fff;border:none;padding:13px 28px;border-radius:9px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px}
+.btn-sm{color:#fff;border:none;padding:9px 18px;border-radius:8px;font-size:.875rem;font-weight:700;cursor:pointer}
+.btn-outline{background:transparent;border:1.5px solid;padding:9px 18px;border-radius:8px;font-size:.875rem;font-weight:700;cursor:pointer}
+.results{display:none}
+.results.show{display:block}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:16px}
+.res-box{background:#F1F5F9;border-radius:10px;padding:18px 14px;text-align:center}
+.rl{font-size:.72rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.rv{font-size:1.4rem;font-weight:900;color:#0F172A;line-height:1}
+.rs{font-size:.72rem;color:#94A3B8;margin-top:4px}
+.sep{border:none;border-top:1px solid #E2E8F0;margin:20px 0}
+.insight{border-left:4px solid;border-radius:0 8px 8px 0;padding:14px 16px;font-size:.875rem;color:#475569;margin-top:16px}
+.insight b{color:#0F172A}
+
+.back{color:#9333EA}
+.logo b{color:#9333EA}
+.cat-badge{background:#FDF4FF;color:#9333EA}
+.field input:focus,.field select:focus{border-color:#9333EA}
+.btn{background:#9333EA}
+.res-box.hi{background:#FDF4FF;border:2px solid #9333EA}
+.res-box.green{background:#F0FDF4;border:2px solid #16A34A}
+.res-box.red{background:#FEF2F2;border:2px solid #DC2626}
+.res-box.orange{background:#FFF7ED;border:2px solid #EA580C}
+.res-box.blue{background:#EFF6FF;border:2px solid #2563EB}
+.insight{background:#FDF4FF;border-color:#9333EA}
+</style>
+</head>
+<body>
+<nav><div class="nav-in">
+  <a href="index.html" class="back">← Volver</a>
+  <div class="logo">Freelance<b>Kit</b></div>
+  
+</div></nav>
+<div class="page">
+  <div class="header">
+    <div class="cat-badge">🎉 Eventos y Vida Cotidiana</div>
+    <h1>📦 Calculadora de Mudanza</h1>
+    <p>¿Te conviene contratar un flete o alquilar una camioneta y hacerlo vos? Compará el costo real de cada opción.</p>
+  </div>
+  
+<div class="card">
+  <h2>⚙️ Tu mudanza</h2>
+  <div class="grid2">
+    <div class="field"><label>Distancia aproximada (km)</label>
+      <input type="number" id="km" placeholder="Ej: 20" min="1" oninput="calcMudanza()"></div>
+    <div class="field"><label>Tamaño del hogar</label>
+      <select id="tamaño" onchange="calcMudanza()">
+        <option value="monoambiente">Monoambiente / 1 ambiente</option>
+        <option value="2amb">2 ambientes</option>
+        <option value="3amb" selected>3 ambientes</option>
+        <option value="4amb">4+ ambientes / casa</option>
+      </select></div>
+    <div class="field"><label>Cantidad de personas que te ayudan (opción propia)</label>
+      <input type="number" id="helpers" placeholder="Ej: 3" min="1" value="3" oninput="calcMudanza()"></div>
+    <div class="field"><label>Moneda</label>
+      <select id="mon" onchange="calcMudanza()"><option>ARS</option><option>USD</option><option>MXN</option></select></div>
+  </div>
+</div>
+<div class="results card" id="res-mud">
+  <h2>📊 Comparación de opciones</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+    <div class="res-box" id="box-flete" style="padding:22px">
+      <div class="rl">🚛 Contratar flete</div>
+      <div class="rv" id="r-flete" style="font-size:1.3rem;margin:10px 0">—</div>
+      <div class="rs">Profesional, rápido, sin esfuerzo</div>
+    </div>
+    <div class="res-box" id="box-propio" style="padding:22px">
+      <div class="rl">🚐 Alquilar camioneta</div>
+      <div class="rv" id="r-propio" style="font-size:1.3rem;margin:10px 0">—</div>
+      <div class="rs">Más barato, requiere ayuda</div>
+    </div>
+  </div>
+  <div id="ganadora-mud" style="text-align:center;font-size:1rem;font-weight:700;padding:14px;border-radius:10px;margin-bottom:14px"></div>
+  <hr class="sep">
+  <div id="desglose-mud" style="font-size:.875rem;color:#475569;line-height:2;margin-bottom:12px"></div>
+  <div class="insight" id="ins-mud"></div>
+</div>
+<script>
+var precios={
+  monoambiente:{flete_base:25000,camion_hs:2,camion_base:8000},
+  '2amb':{flete_base:40000,camion_hs:3,camion_base:10000},
+  '3amb':{flete_base:65000,camion_hs:5,camion_base:12000},
+  '4amb':{flete_base:95000,camion_hs:7,camion_base:15000}
+};
+function fmt(n){var m=document.getElementById('mon').value;return m+' '+Math.round(n).toLocaleString('es-AR')}
+function calcMudanza(){
+  var km=+document.getElementById('km').value||0;
+  var tam=document.getElementById('tamaño').value;
+  var helpers=+document.getElementById('helpers').value||3;
+  if(!km)return;
+  var p=precios[tam];
+  var costo_km_flete=km*250; // ~$250/km para flete
+  var flete_total=p.flete_base+costo_km_flete;
+  // Opción propia
+  var alquiler_camion=p.camion_base;
+  var costo_km_camion=km*2*80; // ida y vuelta
+  var combustible=km*2*500/10; // aprox 10km/L, $500/L
+  var comida_cerveza=helpers*2000; // asado o algo para los amigos
+  var seguro_camion=alquiler_camion*0.1;
+  var propio_total=alquiler_camion+costo_km_camion+combustible+comida_cerveza+seguro_camion;
+  var ahorro=flete_total-propio_total;
+  document.getElementById('r-flete').textContent=fmt(flete_total);
+  document.getElementById('r-propio').textContent=fmt(propio_total);
+  var mejor=flete_total<propio_total?'flete':'propio';
+  var box_f=document.getElementById('box-flete');
+  var box_p=document.getElementById('box-propio');
+  box_f.style.border=mejor==='flete'?'2px solid #16A34A':'2px solid #E2E8F0';
+  box_p.style.border=mejor==='propio'?'2px solid #16A34A':'2px solid #E2E8F0';
+  var g=document.getElementById('ganadora-mud');
+  g.style.background=mejor==='flete'?'#F0FDF4':'#F0FDF4';
+  g.style.color='#16A34A';
+  g.innerHTML='✅ '+(mejor==='flete'?'El flete profesional conviene por solo '+fmt(Math.abs(ahorro)):'La camioneta propia ahorra '+fmt(Math.abs(ahorro)))+' en este caso';
+  document.getElementById('desglose-mud').innerHTML=
+    '<b>Opción flete profesional:</b><br>Tarifa base: '+fmt(p.flete_base)+' · Km adicionales: '+fmt(costo_km_flete)+'<br><br>'+
+    '<b>Opción camioneta propia:</b><br>Alquiler camión ('+p.camion_hs+'hs): '+fmt(alquiler_camion)+' · Combustible: '+fmt(combustible)+' · Km adicional: '+fmt(costo_km_camion)+' · Comida/bebida colaboradores: '+fmt(comida_cerveza)+' · Seguro: '+fmt(seguro_camion);
+  document.getElementById('ins-mud').innerHTML='Estos valores son estimativos para tu zona. El flete incluye carga, descarga y traslado. La opción propia asume <b>'+helpers+' personas ayudando</b> más comida. Considerá también el esfuerzo físico y el tiempo: un flete profesional lo hace en la mitad del tiempo.';
+  document.getElementById('res-mud').className='results card show';
+}
+</script>
+
+</div>
+</body>
+</html>

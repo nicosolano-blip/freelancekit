@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calculadora de CAC y LTV — FreelanceKit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;color:#0F172A;background:#F8FAFC;min-height:100vh}
+a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid #E2E8F0;padding:0 20px;position:sticky;top:0;z-index:99}
+.nav-in{max-width:860px;margin:0 auto;display:flex;align-items:center;height:54px;gap:16px}
+.back{font-size:.85rem;color:#2563EB;font-weight:600;display:flex;align-items:center;gap:5px}
+.back:hover{color:#1B3A6B}
+.logo{font-size:1.1rem;font-weight:900;color:#1B3A6B}
+.logo b{color:#2563EB}
+.page{max-width:860px;margin:0 auto;padding:32px 20px 60px}
+.header{margin-bottom:28px}
+.cat-badge{display:inline-block;background:#EFF6FF;color:#2563EB;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:12px}
+.header h1{font-size:1.6rem;font-weight:900;margin-bottom:8px}
+.header p{font-size:.95rem;color:#475569}
+.card{background:#fff;border-radius:12px;border:1.5px solid #E2E8F0;padding:28px;margin-bottom:20px}
+.card h2{font-size:1rem;font-weight:700;margin-bottom:20px;color:#1B3A6B;display:flex;align-items:center;gap:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}}
+.field label{display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:5px}
+.field input,.field select{width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.95rem;color:#0F172A;outline:none;font-family:Arial,sans-serif}
+.field input:focus,.field select:focus{border-color:#2563EB}
+.field .hint{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.btn{background:#2563EB;color:#fff;border:none;padding:13px 28px;border-radius:9px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px}
+.btn:hover{background:#1B3A6B}
+.results{display:none}
+.results.show{display:block}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:20px}
+.res-box{background:#F1F5F9;border-radius:10px;padding:18px 16px;text-align:center}
+.res-box.highlight{background:#EFF6FF;border:2px solid #2563EB}
+.res-box.green{background:#F0FDF4;border:2px solid #16A34A}
+.res-box.red{background:#FEF2F2;border:2px solid #DC2626}
+.res-box.orange{background:#FFF7ED;border:2px solid #EA580C}
+.res-label{font-size:.75rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.res-val{font-size:1.6rem;font-weight:900;color:#0F172A;line-height:1}
+.res-sub{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.insight{background:#F8FAFC;border-left:4px solid #2563EB;border-radius:0 8px 8px 0;padding:14px 16px;font-size:.875rem;color:#475569;margin-top:16px}
+.insight b{color:#0F172A}
+.sep{border:none;border-top:1px solid #E2E8F0;margin:20px 0}
+</style>
+</head>
+<body>
+<nav><div class="nav-in">
+  <a href="index.html" class="back">← Volver</a>
+  <div class="logo">Freelance<b>Kit</b></div>
+</div></nav>
+<div class="page">
+  <div class="header">
+    <div class="cat-badge">📦 Pequeños Negocios</div>
+    <h1>🎯 Calculadora de CAC y LTV</h1>
+    <p>Calculá cuánto te cuesta conseguir un cliente nuevo y si tu negocio tiene sentido a largo plazo.</p>
+  </div>
+  
+<div class="card">
+  <h2>⚙️ Datos del mes</h2>
+  <div class="grid2">
+    <div class="field"><label>Inversión total en marketing ($)</label>
+      <input type="number" id="mktInv" placeholder="Ej: 80000" min="0">
+      <span class="hint">Publicidad + equipo + herramientas + agencias</span></div>
+    <div class="field"><label>Clientes nuevos obtenidos</label>
+      <input type="number" id="clientes" placeholder="Ej: 25" min="1"></div>
+    <div class="field"><label>Ticket promedio por compra ($)</label>
+      <input type="number" id="ticketC" placeholder="Ej: 5000" min="0"></div>
+    <div class="field"><label>Compras promedio por año (por cliente)</label>
+      <input type="number" id="compras" placeholder="Ej: 3" min="0" step="0.1">
+      <span class="hint">Cuántas veces compra el mismo cliente en un año</span></div>
+    <div class="field"><label>Años promedio que retiene un cliente</label>
+      <input type="number" id="anos" placeholder="Ej: 2" min="0" step="0.5"></div>
+    <div class="field"><label>Margen bruto (%)</label>
+      <input type="number" id="margC" placeholder="Ej: 40" min="0" max="100"></div>
+  </div>
+  <button class="btn" onclick="calcCAC()">Calcular CAC y LTV</button>
+</div>
+<div class="results card" id="res4">
+  <h2>📊 Resultados</h2>
+  <div class="res-grid">
+    <div class="res-box highlight"><div class="res-label">CAC (Costo por cliente)</div><div class="res-val" id="r-cac">—</div><div class="res-sub">Costo de adquisición</div></div>
+    <div class="res-box green"><div class="res-label">LTV (Valor de vida)</div><div class="res-val" id="r-ltv">—</div><div class="res-sub">Ingresos totales por cliente</div></div>
+    <div class="res-box" id="ratio-box"><div class="res-label">Ratio LTV/CAC</div><div class="res-val" id="r-ratio">—</div><div class="res-sub">+3x es saludable</div></div>
+    <div class="res-box orange"><div class="res-label">Meses para recuperar CAC</div><div class="res-val" id="r-payback">—</div><div class="res-sub">Payback period</div></div>
+  </div>
+  <div class="insight" id="insight4"></div>
+</div>
+<script>
+function fmt4(n){return '$'+n.toLocaleString('es-AR',{maximumFractionDigits:0})}
+function calcCAC(){
+  var inv=+document.getElementById('mktInv').value;
+  var cli=+document.getElementById('clientes').value;
+  var ticket=+document.getElementById('ticketC').value;
+  var compras=+document.getElementById('compras').value||1;
+  var anos=+document.getElementById('anos').value||1;
+  var marg=+document.getElementById('margC').value/100||1;
+  if(!inv||!cli||!ticket){alert('Completá al menos los primeros 3 campos');return}
+  var cac=inv/cli;
+  var ltv=ticket*compras*anos;
+  var ltvMarg=ltv*marg;
+  var ratio=ltvMarg/cac;
+  var ingMensual=(ticket*compras)/12*marg;
+  var payback=Math.ceil(cac/ingMensual);
+  document.getElementById('r-cac').textContent=fmt4(cac);
+  document.getElementById('r-ltv').textContent=fmt4(ltvMarg);
+  document.getElementById('r-ratio').textContent=ratio.toFixed(1)+'x';
+  document.getElementById('r-payback').textContent=payback+' meses';
+  var rb=document.getElementById('ratio-box');
+  rb.className='res-box '+(ratio<1?'red':ratio<3?'orange':'green');
+  var msg=ratio<1?'🚨 <b>Modelo insostenible.</b> Gastás más en conseguir un cliente de lo que te genera. Reducí el CAC o aumentá el LTV urgente.':ratio<3?'⚠️ <b>Margen ajustado.</b> El negocio funciona pero es vulnerable. El benchmark saludable es LTV/CAC ≥ 3x.':'✅ <b>Modelo saludable.</b> Por cada peso que invertís en adquirir un cliente, recuperás '+ratio.toFixed(1)+'x en su vida útil.';
+  document.getElementById('insight4').innerHTML=msg;
+  document.getElementById('res4').className='results card show';
+}
+</script>
+
+</div>
+</body>
+</html>

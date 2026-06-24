@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Estimador de Costo de Mascota por Año — FreelanceKit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;color:#0F172A;background:#F8FAFC;min-height:100vh}
+a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid #E2E8F0;padding:0 20px}
+.nav-in{max-width:860px;margin:0 auto;display:flex;align-items:center;height:54px;gap:16px}
+.back{font-size:.85rem;font-weight:600}
+.logo{font-size:1.1rem;font-weight:900;color:#1B3A6B}
+.logo b{color:#2563EB}
+.free-tag{margin-left:auto;background:#DCFCE7;color:#16A34A;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:100px}
+.page{max-width:860px;margin:0 auto;padding:32px 20px 60px}
+.header{margin-bottom:28px}
+.cat-badge{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:12px}
+.header h1{font-size:1.6rem;font-weight:900;margin-bottom:8px}
+.header p{font-size:.95rem;color:#475569}
+.card{background:#fff;border-radius:12px;border:1.5px solid #E2E8F0;padding:28px;margin-bottom:20px}
+.card h2{font-size:1rem;font-weight:700;margin-bottom:20px;color:#1E3A5F}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}}
+.field label{display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:5px}
+.field input,.field select{width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.9rem;color:#0F172A;outline:none;font-family:Arial,sans-serif}
+.field .hint{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.btn{color:#fff;border:none;padding:13px 28px;border-radius:9px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px}
+.btn-sm{color:#fff;border:none;padding:9px 18px;border-radius:8px;font-size:.875rem;font-weight:700;cursor:pointer}
+.btn-outline{background:transparent;border:1.5px solid;padding:9px 18px;border-radius:8px;font-size:.875rem;font-weight:700;cursor:pointer}
+.results{display:none}
+.results.show{display:block}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:16px}
+.res-box{background:#F1F5F9;border-radius:10px;padding:18px 14px;text-align:center}
+.rl{font-size:.72rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.rv{font-size:1.4rem;font-weight:900;color:#0F172A;line-height:1}
+.rs{font-size:.72rem;color:#94A3B8;margin-top:4px}
+.sep{border:none;border-top:1px solid #E2E8F0;margin:20px 0}
+.insight{border-left:4px solid;border-radius:0 8px 8px 0;padding:14px 16px;font-size:.875rem;color:#475569;margin-top:16px}
+.insight b{color:#0F172A}
+
+.back{color:#9333EA}
+.logo b{color:#9333EA}
+.cat-badge{background:#FDF4FF;color:#9333EA}
+.field input:focus,.field select:focus{border-color:#9333EA}
+.btn{background:#9333EA}
+.res-box.hi{background:#FDF4FF;border:2px solid #9333EA}
+.res-box.green{background:#F0FDF4;border:2px solid #16A34A}
+.res-box.red{background:#FEF2F2;border:2px solid #DC2626}
+.res-box.orange{background:#FFF7ED;border:2px solid #EA580C}
+.res-box.blue{background:#EFF6FF;border:2px solid #2563EB}
+.insight{background:#FDF4FF;border-color:#9333EA}
+</style>
+</head>
+<body>
+<nav><div class="nav-in">
+  <a href="index.html" class="back">← Volver</a>
+  <div class="logo">Freelance<b>Kit</b></div>
+  
+</div></nav>
+<div class="page">
+  <div class="header">
+    <div class="cat-badge">🎉 Eventos y Vida Cotidiana</div>
+    <h1>🐾 Estimador de Costo de Mascota por Año</h1>
+    <p>¿Cuánto cuesta tener una mascota realmente? Calculá el gasto anual por especie y tamaño antes de adoptar.</p>
+  </div>
+  
+<div class="card">
+  <h2>⚙️ Tu mascota</h2>
+  <div class="grid2">
+    <div class="field"><label>Especie</label>
+      <select id="especie" onchange="setMascota()">
+        <option value="perro_chico">🐶 Perro — raza chica (hasta 10kg)</option>
+        <option value="perro_mediano">🐕 Perro — raza mediana (10-25kg)</option>
+        <option value="perro_grande">🦮 Perro — raza grande (25kg+)</option>
+        <option value="gato">🐱 Gato</option>
+        <option value="ave">🐦 Ave / pájaro</option>
+        <option value="conejo">🐰 Conejo / roedor</option>
+        <option value="reptil">🦎 Reptil / tortuga</option>
+        <option value="pez">🐟 Peces (acuario)</option>
+      </select></div>
+    <div class="field"><label>Moneda</label>
+      <select id="mon" onchange="calcMascota()"><option>ARS</option><option>USD</option><option>MXN</option></select></div>
+    <div class="field"><label>¿Ya tenés la mascota? (sin costo inicial)</label>
+      <select id="yaT" onchange="calcMascota()">
+        <option value="0">No, voy a adoptar/comprar</option>
+        <option value="1">Sí, ya la tengo</option>
+      </select></div>
+    <div class="field"><label>¿Contratás seguro de salud animal?</label>
+      <select id="seguro" onchange="calcMascota()">
+        <option value="0">No</option>
+        <option value="1">Sí</option>
+      </select></div>
+  </div>
+</div>
+<div class="results card" id="res-masc">
+  <h2>🐾 Costo estimado por año</h2>
+  <div class="res-grid">
+    <div class="res-box" id="r-inicial-box"><div class="rl">Costo inicial</div><div class="rv" id="r-inicial">—</div><div class="rs">Adopción + setup</div></div>
+    <div class="res-box hi"><div class="rl">Gasto mensual</div><div class="rv" id="r-mensual">—</div></div>
+    <div class="res-box orange"><div class="rl">Gasto anual</div><div class="rv" id="r-anual-masc">—</div><div class="rs">Sin imprevistos</div></div>
+    <div class="res-box red"><div class="rl">Estimado real (con imprevistos)</div><div class="rv" id="r-real">—</div><div class="rs">+30% para el veterinario</div></div>
+  </div>
+  <hr class="sep">
+  <div id="desglose-masc" style="font-size:.875rem;color:#475569;line-height:2;margin-bottom:12px"></div>
+  <div class="insight" id="ins-masc"></div>
+</div>
+<script>
+var mascotas={
+  perro_chico:{inicial:40000,comida:8000,vet:4000,peluqueria:3000,accesorios:1500,seguro:5000,paseos:0,label:'Perro chico'},
+  perro_mediano:{inicial:50000,comida:14000,vet:5000,peluqueria:3500,accesorios:2000,seguro:7000,paseos:3000,label:'Perro mediano'},
+  perro_grande:{inicial:60000,comida:22000,vet:6000,peluqueria:4000,accesorios:2500,seguro:9000,paseos:4000,label:'Perro grande'},
+  gato:{inicial:30000,comida:7000,vet:3500,peluqueria:0,accesorios:1500,seguro:4000,paseos:0,label:'Gato'},
+  ave:{inicial:15000,comida:1500,vet:1000,peluqueria:0,accesorios:500,seguro:0,paseos:0,label:'Ave'},
+  conejo:{inicial:12000,comida:2000,vet:1500,peluqueria:0,accesorios:800,seguro:0,paseos:0,label:'Conejo'},
+  reptil:{inicial:25000,comida:2500,vet:2000,peluqueria:0,accesorios:1500,seguro:0,paseos:0,label:'Reptil'},
+  pez:{inicial:20000,comida:1000,vet:500,peluqueria:0,accesorios:2000,seguro:0,paseos:0,label:'Peces'}
+};
+function fmt(n){var m=document.getElementById('mon').value;return m+' '+Math.round(n).toLocaleString('es-AR')}
+function setMascota(){calcMascota();}
+function calcMascota(){
+  var esp=document.getElementById('especie').value;
+  var yaT=+document.getElementById('yaT').value;
+  var seg=+document.getElementById('seguro').value;
+  var d=mascotas[esp];
+  var mensual=d.comida+d.vet/12+d.peluqueria/4+d.accesorios+(seg?d.seguro/12:0)+d.paseos;
+  var anual=mensual*12;
+  var inicial=yaT?0:d.inicial;
+  var real=(anual+inicial)*1.3;
+  document.getElementById('r-inicial').textContent=fmt(inicial);
+  document.getElementById('r-mensual').textContent=fmt(mensual);
+  document.getElementById('r-anual-masc').textContent=fmt(anual);
+  document.getElementById('r-real').textContent=fmt(real);
+  document.getElementById('desglose-masc').innerHTML=
+    '🍖 Comida / alimento: <b>'+fmt(d.comida)+'/mes</b><br>'+
+    '🏥 Veterinario (vacunas, consultas): <b>'+fmt(d.vet/12)+'/mes</b> ('+fmt(d.vet)+'/año)<br>'+
+    (d.peluqueria?'✂️ Peluquería / baño: <b>'+fmt(d.peluqueria/4)+'/mes</b><br>':'')+
+    '🧸 Accesorios, juguetes, cama: <b>'+fmt(d.accesorios)+'/mes</b><br>'+
+    (d.paseos?'🦮 Paseos / guardería: <b>'+fmt(d.paseos)+'/mes</b><br>':'')+
+    (seg&&d.seguro?'🛡️ Seguro de salud animal: <b>'+fmt(d.seguro/12)+'/mes</b><br>':'')+
+    '⚠️ Imprevistos / emergencias veterinarias: <b>+30%</b>';
+  document.getElementById('ins-masc').innerHTML='Tener un <b>'+d.label+'</b> cuesta aproximadamente <b>'+fmt(mensual)+'/mes</b> o <b>'+fmt(anual)+'/año</b> en gastos regulares. Sumando emergencias veterinarias (cirugías, enfermedades) el costo real puede superar <b>'+fmt(real)+'/año</b>. ¡Asegurate de poder sostener ese gasto antes de adoptar!';
+  document.getElementById('res-masc').className='results card show';
+}
+setMascota();
+</script>
+
+</div>
+</body>
+</html>

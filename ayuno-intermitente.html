@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calculadora de Ayuno Intermitente — FreelanceKit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;color:#0F172A;background:#F8FAFC;min-height:100vh}
+a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid #E2E8F0;padding:0 20px}
+.nav-in{max-width:860px;margin:0 auto;display:flex;align-items:center;height:54px;gap:16px}
+.back{font-size:.85rem;color:#2563EB;font-weight:600}
+.back:hover{color:#1B3A6B}
+.logo{font-size:1.1rem;font-weight:900;color:#1B3A6B}
+.logo b{color:#2563EB}
+.free-tag{margin-left:auto;background:#DCFCE7;color:#16A34A;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:100px}
+.page{max-width:860px;margin:0 auto;padding:32px 20px 60px}
+.header{margin-bottom:28px}
+.cat-badge{display:inline-block;background:#FDF2F8;color:#9333EA;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:12px}
+.header h1{font-size:1.6rem;font-weight:900;margin-bottom:8px}
+.header p{font-size:.95rem;color:#475569}
+.card{background:#fff;border-radius:12px;border:1.5px solid #E2E8F0;padding:28px;margin-bottom:20px}
+.card h2{font-size:1rem;font-weight:700;margin-bottom:20px;color:#1B3A6B}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}}
+.field label{display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:5px}
+.field input,.field select{width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.9rem;color:#0F172A;outline:none;font-family:Arial,sans-serif}
+.field input:focus,.field select:focus{border-color:#9333EA}
+.field .hint{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.btn{background:#9333EA;color:#fff;border:none;padding:13px 28px;border-radius:9px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px}
+.btn:hover{background:#7E22CE}
+.results{display:none}
+.results.show{display:block}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:16px}
+.res-box{background:#F1F5F9;border-radius:10px;padding:18px 14px;text-align:center}
+.res-box.hi{background:#FAF5FF;border:2px solid #9333EA}
+.res-box.green{background:#F0FDF4;border:2px solid #16A34A}
+.res-box.orange{background:#FFF7ED;border:2px solid #EA580C}
+.res-box.red{background:#FEF2F2;border:2px solid #DC2626}
+.res-box.blue{background:#EFF6FF;border:2px solid #2563EB}
+.rl{font-size:.72rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.rv{font-size:1.5rem;font-weight:900;color:#0F172A;line-height:1}
+.rs{font-size:.72rem;color:#94A3B8;margin-top:4px}
+.insight{background:#FAF5FF;border-left:4px solid #9333EA;border-radius:0 8px 8px 0;padding:14px 16px;font-size:.875rem;color:#475569;margin-top:16px}
+.insight b{color:#0F172A}
+.sep{border:none;border-top:1px solid #E2E8F0;margin:20px 0}
+.bar-wrap{background:#F1F5F9;border-radius:100px;height:18px;overflow:hidden;margin:6px 0}
+.bar-fill{height:100%;border-radius:100px;transition:width .4s}
+</style>
+</head>
+<body>
+<nav><div class="nav-in">
+  <a href="index.html" class="back">← Volver</a>
+  <div class="logo">Freelance<b>Kit</b></div>
+  
+</div></nav>
+<div class="page">
+  <div class="header">
+    <div class="cat-badge">💚 Salud y Bienestar</div>
+    <h1>🕐 Calculadora de Ayuno Intermitente</h1>
+    <p>Elegí tu protocolo de ayuno, ingresá a qué hora te despertás y calculá tus ventanas de ayuno y alimentación.</p>
+  </div>
+  
+<div class="card">
+  <h2>⚙️ Tu protocolo</h2>
+  <div class="grid2">
+    <div class="field"><label>Protocolo de ayuno</label>
+      <select id="proto" onchange="calcAyuno()">
+        <option value="16-8">16:8 — El más popular (ayuno 16h, comer 8h)</option>
+        <option value="18-6">18:6 — Más agresivo (ayuno 18h, comer 6h)</option>
+        <option value="20-4">20:4 — Avanzado / Warrior Diet</option>
+        <option value="14-10">14:10 — Suave, ideal para comenzar</option>
+        <option value="12-12">12:12 — Mínimo, fácil de mantener</option>
+      </select></div>
+    <div class="field"><label>Hora en que te levantás</label>
+      <input type="time" id="despertar" value="07:00" onchange="calcAyuno()"></div>
+    <div class="field"><label>¿A qué hora preferís empezar a comer?</label>
+      <input type="time" id="comer-ini" value="12:00" onchange="calcAyuno()"></div>
+    <div class="field"><label>Tu objetivo principal</label>
+      <select id="objetivo">
+        <option>Perder grasa</option>
+        <option>Mejorar digestión</option>
+        <option>Longevidad / autofagia</option>
+        <option>Control de glucosa</option>
+      </select></div>
+  </div>
+</div>
+<div class="results card" id="res4">
+  <h2>🕐 Tu ventana de ayuno</h2>
+  <div class="res-grid">
+    <div class="res-box hi"><div class="rl">Última comida</div><div class="rv" id="r-ultima">—</div><div class="rs" id="r-proto-s">—</div></div>
+    <div class="res-box green"><div class="rl">Primer comida</div><div class="rv" id="r-primera">—</div><div class="rs">Romper el ayuno</div></div>
+    <div class="res-box blue"><div class="rl">Ventana de comida</div><div class="rv" id="r-ventana">—</div><div class="rs" id="r-ventana-s">—</div></div>
+    <div class="res-box orange"><div class="rl">Horas de ayuno</div><div class="rv" id="r-ayuno">—</div><div class="rs">Incluye horas de sueño</div></div>
+  </div>
+  <hr class="sep">
+  <div style="margin-bottom:16px">
+    <div style="font-size:.8rem;font-weight:700;color:#475569;margin-bottom:12px">LÍNEA DE TIEMPO DEL DÍA</div>
+    <div id="timeline" style="position:relative;height:32px;background:#F1F5F9;border-radius:8px;overflow:hidden"></div>
+    <div id="leyenda" style="display:flex;gap:16px;margin-top:8px;font-size:.75rem;color:#475569">
+      <span><span style="display:inline-block;width:12px;height:12px;background:#F87171;border-radius:3px;margin-right:4px;vertical-align:middle"></span>Ayuno</span>
+      <span><span style="display:inline-block;width:12px;height:12px;background:#4ADE80;border-radius:3px;margin-right:4px;vertical-align:middle"></span>Ventana alimentaria</span>
+    </div>
+  </div>
+  <div style="margin-bottom:14px" id="comidas-sug-wrap">
+    <div style="font-size:.8rem;font-weight:700;color:#475569;margin-bottom:10px">COMIDAS SUGERIDAS</div>
+    <div id="comidas-sug"></div>
+  </div>
+  <div class="insight" id="ins4"></div>
+</div>
+<script>
+function addH(t,h){var p=t.split(':');var tot=+p[0]*60+(+p[1])+h*60;tot=tot%(24*60);if(tot<0)tot+=1440;var hh=Math.floor(tot/60);var mm=tot%60;return String(hh).padStart(2,'0')+':'+String(mm).padStart(2,'0');}
+function calcAyuno(){
+  var proto=document.getElementById('proto').value;
+  var ayH=+proto.split('-')[0];
+  var comH=+proto.split('-')[1];
+  var ini=document.getElementById('comer-ini').value||'12:00';
+  var fin=addH(ini,comH);
+  var ultima=addH(fin,-0);
+  document.getElementById('r-primera').textContent=ini;
+  document.getElementById('r-ultima').textContent=fin+' hs';
+  document.getElementById('r-proto-s').textContent='Protocolo '+proto;
+  document.getElementById('r-ventana').textContent=comH+'h';
+  var iniH=+ini.split(':')[0]; var finH=+fin.split(':')[0];
+  document.getElementById('r-ventana-s').textContent=ini+' → '+fin;
+  document.getElementById('r-ayuno').textContent=ayH+'h';
+  // Timeline
+  var tl=document.getElementById('timeline');
+  tl.innerHTML='';
+  var iniMin=+ini.split(':')[0]*60+(+ini.split(':')[1]);
+  var finMin=+fin.split(':')[0]*60+(+fin.split(':')[1]);
+  if(finMin<iniMin)finMin+=1440;
+  var iniPct=iniMin/1440*100;
+  var comPct=(finMin-iniMin)/1440*100;
+  // Fast zone 1 (start of day to eat window)
+  var f1=document.createElement('div');
+  f1.style.cssText='position:absolute;left:0;top:0;height:100%;background:#FCA5A5;width:'+iniPct+'%';
+  tl.appendChild(f1);
+  // Eat window
+  var eat=document.createElement('div');
+  eat.style.cssText='position:absolute;left:'+iniPct+'%;top:0;height:100%;background:#4ADE80;width:'+comPct+'%';
+  tl.appendChild(eat);
+  // Fast zone 2
+  var f2=document.createElement('div');
+  f2.style.cssText='position:absolute;left:'+(iniPct+comPct)+'%;top:0;height:100%;background:#FCA5A5;width:'+(100-iniPct-comPct)+'%';
+  tl.appendChild(f2);
+  // Hour marks
+  [6,12,18].forEach(function(h){
+    var m=document.createElement('div');
+    m.style.cssText='position:absolute;left:'+(h/24*100)+'%;top:0;height:100%;border-left:1px solid rgba(0,0,0,.15);font-size:.6rem;color:rgba(0,0,0,.4);padding-left:2px;line-height:32px';
+    m.textContent=h+'h';
+    tl.appendChild(m);
+  });
+  // Comidas
+  var comidas='';
+  var slots=comH>=8?3:comH>=6?2:1;
+  var intervalo=comH/slots;
+  for(var i=0;i<slots;i++){
+    var h=addH(ini,i*intervalo);
+    var nom=i===0?'🥗 Primer comida (romper ayuno)':i===slots-1?'🍽️ Última comida del día':' 🥙 Comida intermedia';
+    comidas+='<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 14px;border-radius:8px;background:#F8FAFC;border:1.5px solid #E2E8F0;margin-bottom:7px"><span style="font-size:.875rem">'+nom+'</span><span style="font-weight:700;color:#9333EA">'+h+'</span></div>';
+  }
+  document.getElementById('comidas-sug').innerHTML=comidas;
+  document.getElementById('ins4').innerHTML='Con el protocolo <b>'+proto+'</b>, tu ventana de alimentación va de <b>'+ini+' a '+fin+'</b>. Las horas de ayuno incluyen el sueño, así que la carga real es menor de lo que parece. Después de ~<b>12-14h de ayuno</b> el cuerpo empieza a usar grasa como combustible. Bebé agua, café negro o té durante el ayuno — no rompen el estado de ayuno.';
+  document.getElementById('res4').className='results card show';
+}
+calcAyuno();
+</script>
+
+</div>
+</body>
+</html>

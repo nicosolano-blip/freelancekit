@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FreelanceKit — 39 Herramientas para Freelancers y Emprendedores de LATAM</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;color:#0F172A;background:#fff;line-height:1.6}
+a{text-decoration:none;color:inherit}
+
+/* NAV */
+nav{background:#fff;border-bottom:1px solid #E2E8F0;padding:0 24px;position:sticky;top:0;z-index:99}
+.nav-in{max-width:1080px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:60px;gap:16px}
+.logo{font-size:1.2rem;font-weight:900;color:#1B3A6B;white-space:nowrap}
+.logo b{color:#2563EB}
+.nav-links{display:flex;gap:20px;list-style:none;font-size:.85rem;color:#475569;flex-wrap:nowrap}
+.nav-links a:hover{color:#2563EB}
+.nav-btn{background:#2563EB;color:#fff;padding:8px 18px;border-radius:8px;font-size:.875rem;font-weight:700;white-space:nowrap}
+.nav-btn:hover{background:#1B3A6B}
+
+/* HERO */
+.hero{background:#1B3A6B;color:#fff;padding:80px 24px;text-align:center}
+.badge{display:inline-block;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:100px;padding:5px 14px;font-size:.78rem;font-weight:700;color:#93C5FD;margin-bottom:24px}
+.hero h1{font-size:clamp(1.8rem,4vw,3rem);font-weight:900;line-height:1.15;max-width:700px;margin:0 auto 16px}
+.hero h1 em{font-style:normal;color:#60A5FA}
+.hero p{font-size:1.05rem;color:#CBD5E1;max-width:560px;margin:0 auto 36px}
+.btn-row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.btn-p{background:#2563EB;color:#fff;padding:13px 28px;border-radius:9px;font-size:1rem;font-weight:700}
+.btn-p:hover{background:#1D4ED8}
+.btn-s{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.25);padding:13px 24px;border-radius:9px;font-size:1rem;font-weight:600}
+.btn-s:hover{background:rgba(255,255,255,.18)}
+.stats{display:flex;gap:40px;justify-content:center;margin-top:56px;flex-wrap:wrap}
+.stat-n{font-size:2rem;font-weight:900}
+.stat-l{font-size:.78rem;color:#94A3B8;margin-top:3px}
+
+/* CAT NAV */
+.cat-nav{background:#F8FAFC;border-bottom:1px solid #E2E8F0;padding:0 24px;overflow-x:auto}
+.cat-nav-in{max-width:1080px;margin:0 auto;display:flex;gap:4px;height:52px;align-items:center}
+.cat-btn{white-space:nowrap;padding:6px 14px;border-radius:100px;font-size:.82rem;font-weight:600;color:#475569;border:1.5px solid transparent}
+.cat-btn:hover{background:#fff;border-color:#E2E8F0;color:#0F172A}
+
+/* SECTIONS */
+.sec{padding:72px 24px}
+.ctr{text-align:center}
+.wrap{max-width:1080px;margin:0 auto}
+.lbl{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+h2{font-size:clamp(1.5rem,2.8vw,2.2rem);font-weight:900;line-height:1.2;margin-bottom:14px}
+.sub{font-size:1rem;color:#475569;max-width:520px}
+.sub.c{margin:0 auto}
+
+/* PROBLEM */
+.prob{background:#F8FAFC}
+.prob-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-top:44px}
+.prob-card{background:#fff;border-radius:10px;padding:24px;border-left:4px solid #DC2626;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.prob-card .ic{font-size:1.8rem;margin-bottom:12px}
+.prob-card h3{font-size:.95rem;font-weight:700;margin-bottom:6px}
+.prob-card p{font-size:.85rem;color:#475569}
+
+/* TOOLS */
+.tools-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px;margin-top:44px}
+.tool{background:#fff;border-radius:10px;border:1.5px solid #E2E8F0;padding:24px;position:relative}
+.tool:hover{box-shadow:0 4px 20px rgba(0,0,0,.08)}
+.tool.free{border-width:2px}
+.fbadge{position:absolute;top:14px;right:14px;color:#fff;font-size:.68rem;font-weight:700;padding:3px 9px;border-radius:100px}
+.lbadge{position:absolute;top:14px;right:14px;background:#E2E8F0;color:#94A3B8;font-size:.68rem;font-weight:700;padding:3px 9px;border-radius:100px}
+.tic{font-size:1.6rem;margin-bottom:12px}
+.tool h3{font-size:.95rem;font-weight:700;margin-bottom:6px}
+.tool p{font-size:.85rem;color:#475569;margin-bottom:16px}
+.preview{background:#F1F5F9;border:1px solid #E2E8F0;border-radius:7px;padding:12px 14px;font-size:.78rem;color:#475569;font-family:monospace;line-height:1.8}
+.preview .res{font-weight:700;font-size:.88rem}
+.tc{display:inline-block;margin-top:14px;color:#fff;padding:8px 16px;border-radius:7px;font-size:.85rem;font-weight:700}
+.tc.out{background:transparent!important;border:1.5px solid}
+
+/* SECTION HEADERS */
+.cat-head{margin-bottom:0}
+.cat-head .lbl{margin-bottom:8px}
+
+/* HOW */
+.how{background:#1B3A6B;color:#fff}
+.how h2{color:#fff}
+.how .sub{color:#94A3B8}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:28px;margin-top:48px}
+.step{text-align:center}
+.snum{width:50px;height:50px;border-radius:50%;background:#2563EB;color:#fff;font-size:1.3rem;font-weight:800;display:grid;place-items:center;margin:0 auto 16px}
+.step h3{font-size:.95rem;font-weight:700;margin-bottom:6px}
+.step p{font-size:.85rem;color:#94A3B8}
+
+/* PRICING */
+.p-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;margin-top:48px;max-width:680px;margin-left:auto;margin-right:auto}
+.pcard{border-radius:10px;padding:32px;border:2px solid #E2E8F0;background:#fff}
+.pcard.feat{border-color:#2563EB;background:#EFF6FF;position:relative}
+.pop{position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:#2563EB;color:#fff;font-size:.72rem;font-weight:700;letter-spacing:.05em;padding:4px 14px;border-radius:100px;white-space:nowrap}
+.pname{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#475569;margin-bottom:10px}
+.pamount{font-size:2.8rem;font-weight:900;line-height:1;margin-bottom:8px}
+.pamount sup{font-size:1.1rem;vertical-align:super}
+.pamount .per{font-size:.95rem;font-weight:400;color:#94A3B8}
+.pdesc{font-size:.875rem;color:#475569;margin-bottom:22px}
+.pfeats{list-style:none;margin-bottom:24px}
+.pfeats li{font-size:.875rem;color:#475569;padding:6px 0;border-bottom:1px solid #F1F5F9;display:flex;align-items:center;gap:8px}
+.pfeats li::before{content:'✓';color:#16A34A;font-weight:700;flex-shrink:0}
+.pfeats li.no::before{content:'✕';color:#94A3B8}
+.pfeats li.no{color:#94A3B8}
+.bbuy{display:block;text-align:center;background:#2563EB;color:#fff;padding:13px;border-radius:9px;font-size:.95rem;font-weight:700}
+.bbuy:hover{background:#1B3A6B}
+.bbuy.out{background:transparent;color:#2563EB;border:2px solid #2563EB}
+.bbuy.out:hover{background:#2563EB;color:#fff}
+.guar{text-align:center;margin-top:14px;font-size:.78rem;color:#94A3B8}
+.guar span{color:#16A34A;font-weight:600}
+
+/* TESTIMONIALS */
+.tgray{background:#F8FAFC}
+.t-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;margin-top:44px}
+.tc2{background:#fff;border-radius:10px;border:1.5px solid #E2E8F0;padding:24px;box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.stars{color:#FBBF24;font-size:.95rem;margin-bottom:12px}
+.tc2 p{font-size:.875rem;color:#475569;font-style:italic;margin-bottom:16px}
+.ta{display:flex;align-items:center;gap:10px}
+.av{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;font-size:.95rem;font-weight:700;color:#fff;flex-shrink:0}
+.tn{font-size:.875rem;font-weight:700}
+.tr{font-size:.78rem;color:#94A3B8}
+
+/* FAQ */
+.faq-bg{background:#F8FAFC}
+.faq-list{max-width:680px;margin:44px auto 0}
+.fi{background:#fff;border-radius:9px;border:1.5px solid #E2E8F0;margin-bottom:10px;overflow:hidden}
+.fq{padding:18px 22px;font-weight:600;font-size:.9rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none}
+.fq:hover{color:#2563EB}
+.arr{transition:transform .25s}
+.fi.open .arr{transform:rotate(180deg)}
+.fa{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .35s;font-size:.875rem;color:#475569;padding:0 22px}
+.fi.open .fa{max-height:180px;padding:0 22px 16px}
+
+/* FINAL CTA */
+.fcta{background:#1B3A6B;color:#fff;text-align:center;padding:72px 24px}
+.fcta h2{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:900;margin-bottom:14px}
+.fcta p{color:#94A3B8;max-width:460px;margin:0 auto 32px}
+.fcta .note{margin-top:18px;font-size:.78rem;color:#64748B}
+
+/* FOOTER */
+footer{background:#0F172A;color:#64748B;padding:44px 24px 28px}
+.f-in{max-width:1080px;margin:0 auto;display:flex;flex-wrap:wrap;gap:36px;justify-content:space-between}
+.f-brand p{font-size:.85rem;margin-top:10px}
+.fh{color:#94A3B8;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px}
+.flinks{list-style:none}
+.flinks li{margin-bottom:7px}
+.flinks a{font-size:.85rem}
+.flinks a:hover{color:#fff}
+.f-bot{max-width:1080px;margin:32px auto 0;border-top:1px solid #1E293B;padding-top:20px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:.78rem}
+.pays{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.pi{background:#1E293B;border:1px solid #334155;border-radius:5px;padding:3px 9px;font-size:.68rem;color:#94A3B8;font-weight:600}
+
+@media(max-width:760px){.nav-links{display:none}.cat-nav-in{gap:6px}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-in">
+    <div class="logo">Freelance<b>Kit</b></div>
+    <ul class="nav-links">
+      <li><a href="#freelancers">Freelancers</a></li>
+      <li><a href="#construccion">Construcción</a></li>
+      <li><a href="#rrhh">RRHH</a></li>
+      <li><a href="#finanzas">Finanzas</a></li>
+      <li><a href="#negocios">Negocios</a></li>
+      <li><a href="#precios">Precios</a></li>
+    </ul>
+    <a href="#precios" class="nav-btn">Obtener el Pack →</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="badge">🇦🇷 🇲🇽 🇨🇴 🇨🇱 🇺🇾 Hecho para LATAM</div>
+  <h1>39 herramientas para trabajar <em>sin adivinar</em></h1>
+  <p>Calculadoras, presupuestos, contratos y planillas para freelancers, constructores, empleadores y emprendedores. Sin registro, sin instalación.</p>
+  <div class="btn-row">
+    <a href="#freelancers" class="btn-p">⚡ Probar gratis ahora</a>
+    <a href="#precios" class="btn-s">Ver el Pack completo — $19</a>
+  </div>
+  <div class="stats">
+    <div><div class="stat-n">39</div><div class="stat-l">Herramientas</div></div>
+    <div><div class="stat-n">7</div><div class="stat-l">Categorías</div></div>
+    <div><div class="stat-n">$19</div><div class="stat-l">Pago único, para siempre</div></div>
+    <div><div class="stat-n">0</div><div class="stat-l">Registro requerido</div></div>
+  </div>
+</section>
+
+<!-- CAT NAV -->
+<div class="cat-nav">
+  <div class="cat-nav-in">
+    <input type="text" id="search" placeholder="🔍 Buscar herramienta..." style="padding:8px 14px;border-radius:100px;border:1.5px solid #E2E8F0;font-size:.85rem;width:240px;max-width:100%">
+    <a href="#freelancers" class="cat-btn">💼 Freelancers</a>
+    <a href="#construccion" class="cat-btn">🏗️ Construcción</a>
+    <a href="#rrhh" class="cat-btn">👷 RRHH</a>
+    <a href="#eventos" class="cat-btn">🎉 Eventos</a>
+    <a href="#finanzas" class="cat-btn">💰 Finanzas</a>
+    <a href="#salud" class="cat-btn">💚 Salud</a>
+    <a href="#negocios" class="cat-btn">📦 Negocios</a>
+  </div>
+</div>
+
+<!-- PROBLEMA -->
+<section class="sec prob">
+  <div class="wrap ctr">
+    <div class="lbl" style="color:#DC2626">El problema</div>
+    <h2>¿Te suena alguna de estas situaciones?</h2>
+    <p class="sub c">La mayoría de los freelancers y emprendedores de LATAM pierde plata por los mismos errores.</p>
+    <div class="prob-grid">
+      <div class="prob-card"><div class="ic">🤔</div><h3>Cobrás "lo que te parece"</h3><p>Sin calcular gastos reales ni impuestos. Siempre cobrás de menos.</p></div>
+      <div class="prob-card"><div class="ic">😰</div><h3>Las cotizaciones no convencen</h3><p>Un PDF armado en Word sin diseño. El cliente no lo toma en serio.</p></div>
+      <div class="prob-card"><div class="ic">💸</div><h3>No sabés cuánto subir los precios</h3><p>Con inflación alta, lo que cobrabas el año pasado ya no alcanza.</p></div>
+      <div class="prob-card"><div class="ic">📄</div><h3>Trabajás sin contrato ni respaldo</h3><p>Cuando el cliente no paga no tenés a qué agarrarte.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     FREELANCERS Y AUTÓNOMOS
+═══════════════════════════════════════════════════════════════════════════ -->
+<section class="sec" id="freelancers">
+  <div class="wrap">
+    <div class="lbl ctr" style="color:#2563EB">💼 Categoría 1 de 7</div>
+    <h2 class="ctr">Freelancers y Autónomos</h2>
+    <p class="sub c ctr" style="margin:0 auto 44px">Las herramientas core para cobrar bien, cotizar profesional y protegerte legalmente.</p>
+    <div class="tools-grid">
+
+      <div class="tool free" style="border-color:#3B82F6;background:#EFF6FF">
+        <span class="fbadge" style="background:#2563EB">✓ GRATIS</span>
+        <div class="tic">💰</div>
+        <h3>Calculadora de Tarifa Hora</h3>
+        <p>Ingresá gastos, impuestos y horas. Te dice exactamente cuánto cobrar por hora.</p>
+        <div class="preview">
+          Gastos: $150,000 · Impuestos: 21%<br>
+          Horas facturables: 120/mes<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#2563EB">Tu tarifa: $1,750/hora ✓</span>
+        </div>
+        <a href="tarifa-hora.html" class="tc" style="background:#2563EB">Usar gratis →</a>
+      </div>
+
+      <div class="tool">
+        <span class="lbadge">🔒 Pack</span>
+        <div class="tic">📄</div>
+        <h3>Generador de Cotización PDF</h3>
+        <p>Completás los datos del proyecto y genera un PDF profesional listo para enviar.</p>
+        <div class="preview">
+          Cliente: Startup XYZ<br>
+          Servicio: Diseño web · $2,400 USD<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#2563EB">PDF profesional generado ✓</span>
+        </div>
+        <a href="cotizacion-pdf.html" class="tc out" style="color:#2563EB;border-color:#2563EB">Desbloquear →</a>
+      </div>
+
+      <div class="tool">
+        <span class="lbadge">🔒 Pack</span>
+        <div class="tic">📈</div>
+        <h3>Tarifa en USD para Clientes del Exterior</h3>
+        <p>¿Cuánto cobrar a clientes de EEUU o Europa siendo de LATAM? Considera posicionamiento.</p>
+        <div class="preview">
+          Tarifa local: $1,750/hr<br>
+          Ajuste por experiencia y nicho<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#2563EB">Tu tarifa USD: $35/hr ✓</span>
+        </div>
+        <a href="tarifa-usd.html" class="tc out" style="color:#2563EB;border-color:#2563EB">Desbloquear →</a>
+      </div>
+
+      <div class="tool">
+        <span class="lbadge">🔒 Pack</span>
+        <div class="tic">📝</div>
+        <h3>Generador de Contrato Freelance</h3>
+        <p>7 cláusulas legales, condiciones de pago, propiedad intelectual y firma. Listo para imprimir.</p>
+        <div class="preview">
+          Servicio: Desarrollo web<br>
+          Pago: 50% adelanto · 30 días<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#2563EB">Contrato en PDF → firmar ✓</span>
+        </div>
+        <a href="contrato-freelance.html" class="tc out" style="color:#2563EB;border-color:#2563EB">Desbloquear →</a>
+      </div>
+
+      <div class="tool">
+        <span class="lbadge">🔒 Pack</span>
+        <div class="tic">⏱️</div>
+        <h3>Tracker de Horas y Facturación</h3>
+        <p>Registrá horas por cliente en el browser. Al fin del mes muestra cuánto facturar a cada uno.</p>
+        <div class="preview">
+          Cliente A: 18 hs × $1,750<br>
+          Cliente B: 32 hs × $2,100<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#2563EB">Total a facturar: $98,700 ✓</span>
+        </div>
+        <a href="tracker-horas.html" class="tc out" style="color:#2563EB;border-color:#2563EB">Desbloquear →</a>
+      </div>
+
+      <div class="tool">
+        <span class="lbadge">🔒 Pack</span>
+        <div class="tic">🔄</div>
+        <h3>Calculadora de Aumento por Inflación</h3>
+        <p>Cuánto subir la tarifa para mantener el mismo ingreso real. Con tabla de proyección.</p>
+        <div class="preview">
+          Tarifa: $1,750/hr · Inf: 8.4%<br>
+          Proyección 6 meses<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#2563EB">Nueva tarifa: $1,897/hr ✓</span>
+        </div>
+        <a href="aumento-inflacion.html" class="tc out" style="color:#2563EB;border-color:#2563EB">Desbloquear →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     CONSTRUCCIÓN Y OFICIOS
+═══════════════════════════════════════════════════════════════════════════ -->
+<section class="sec" style="background:#FFFBEB" id="construccion">
+  <div class="wrap">
+    <div class="lbl ctr" style="color:#D97706">🏗️ Categoría 2 de 7</div>
+    <h2 class="ctr">Construcción y Oficios</h2>
+    <p class="sub c ctr" style="margin:0 auto 44px">Para albañiles, electricistas, pintores y contratistas. El nicho menos digitalizado de LATAM.</p>
+    <div class="tools-grid">
+
+      <div class="tool free" style="border-color:#F59E0B;background:#FFFBEB">
+        <span class="fbadge" style="background:#D97706">✓ GRATIS</span>
+        <div class="tic">🧱</div>
+        <h3>Ladrillos, Cemento y Arena</h3>
+        <p>Calculá exactamente cuántos ladrillos y bolsas de cemento necesitás por m² de pared.</p>
+        <div class="preview">
+          Pared 5×2.5m · Ladrillo hueco<br>
+          Vanos: 2.5m² · Desperdicio: 10%<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#D97706">342 ladrillos · 8 bolsas cemento ✓</span>
+        </div>
+        <a href="ladrillos-cemento.html" class="tc" style="background:#D97706">Usar gratis →</a>
+      </div>
+
+      <div class="tool" style="background:#FFFBEB">
+        <span class="lbadge">🔒 Pack</span>
+        <div class="tic">🏠</div>
+        <h3>Presupuesto de Refacción</h3>
+        <p>Estimá el costo total habitación por habitación con mano de obra y materiales.</p>
+        <div class="preview">
+          Baño: MO $18k · Mat $12k<br>
+          Cocina: MO $22k · Mat $35k<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#D97706">Total: $103,500 (20% ganancia) ✓</span>
+        </div>
+        <a href="presupuesto-refaccion.html" class="tc out" style="color:#D97706;border-color:#D97706">Desbloquear →</a>
+      </div>
+
+      <div class="tool" style="background:#FFFBEB">
+        <span class="lbadge">🔒 Pack</span>
+        <div class="tic">🖌️</div>
+        <h3>Calculadora de Pintura</h3>
+        <p>Litros exactos según dimensiones, tipo de superficie, cantidad de manos y techo.</p>
+        <div class="preview">
+          Ambiente 4×3.5m · 2 manos<br>
+          Superficie: revoque liso<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#D97706">8.4 L → 3 latas de 4L ✓</span>
+        </div>
+        <a href="pintura.html" class="tc out" style="color:#D97706;border-color:#D97706">Desbloquear →</a>
+      </div>
+
+      <div class="tool" style="background:#FFFBEB">
+        <span class="lbadge">🔒 Pack</span>
+        <div class="tic">🔲</div>
+        <h3>Pisos y Cerámicos</h3>
+        <p>Metros cuadrados + desperdicio según patrón (recto/diagonal/espiga). Cajas y precio total.</p>
+        <div class="preview">
+          Ambiente 4.5×3.2m · 60×60cm<br>
+          Colocación en diagonal<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#D97706">16.6 m² → 8 cajas de cerámico ✓</span>
+        </div>
+        <a href="pisos-ceramicos.html" class="tc out" style="color:#D97706;border-color:#D97706">Desbloquear →</a>
+      </div>
+
+      <div class="tool" style="background:#FFFBEB">
+        <span class="lbadge">🔒 Pack</span>
+        <div class="tic">📋</div>
+        <h3>Presupuesto de Obra PDF</h3>
+        <p>Para maestros mayores y contratistas. Desglose MO/materiales, % ganancia y firma.</p>
+        <div class="preview">
+          García Construcciones<br>
+          3 ítems · Adelanto 30%<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#D97706">PDF profesional → entregar ✓</span>
+        </div>
+        <a href="presupuesto-obra.html" class="tc out" style="color:#D97706;border-color:#D97706">Desbloquear →</a>
+      </div>
+
+      <div class="tool" style="background:#FFFBEB">
+        <span class="lbadge">🔒 Pack</span>
+        <div class="tic">⚡</div>
+        <h3>Dimensionado de Cableado Eléctrico</h3>
+        <p>Sección de cable (mm²) según potencia, tensión, distancia e instalación. Disyuntor recomendado.</p>
+        <div class="preview">
+          2,000W · 220V · 15m<br>
+          Instalación embutida<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#D97706">Cable 2.5mm² · Disyuntor 16A ✓</span>
+        </div>
+        <a href="cableado-electrico.html" class="tc out" style="color:#D97706;border-color:#D97706">Desbloquear →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     RECURSOS HUMANOS
+═══════════════════════════════════════════════════════════════════════════ -->
+<section class="sec" id="rrhh">
+  <div class="wrap">
+    <div class="lbl ctr" style="color:#1D4ED8">💼 Categoría 3 de 7</div>
+    <h2 class="ctr">Recursos Humanos y Empleo</h2>
+    <p class="sub c ctr" style="margin:0 auto 44px">Para empleadores que no saben lo que cuesta un empleado, y para empleados que quieren verificar su liquidación.</p>
+    <div class="tools-grid">
+
+      <div class="tool free" style="border-color:#93C5FD;background:#EFF6FF">
+        <span class="fbadge" style="background:#1D4ED8">✓ GRATIS</span>
+        <div class="tic">👷</div>
+        <h3>Costo Real de Empleado</h3>
+        <p>Salario bruto + cargas sociales + ART. Lo que realmente cuesta contratar. AR/MX/CO/CL/UY.</p>
+        <div class="preview">
+          Bruto: $500,000 · Argentina<br>
+          Cargas patronales: ~42%<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#1D4ED8">Costo real: $710,000/mes ✓</span>
+        </div>
+        <a href="costo-empleado.html" class="tc" style="background:#1D4ED8">Usar gratis →</a>
+      </div>
+
+      <div class="tool">
+        <span class="lbadge">🔒 Pack</span>
+        <div class="tic">📄</div>
+        <h3>Verificador de Liquidación de Sueldo</h3>
+        <p>Del bruto al neto con todas las deducciones por país. Verificá si tu sueldo está bien liquidado.</p>
+        <div class="preview">
+          Bruto: $400,000 · Argentina<br>
+          Jubilación + OS + desempleo<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#1D4ED8">Neto a cobrar: $348,000 ✓</span>
+        </div>
+        <a href="liquidacion-sueldo.html" class="tc out" style="color:#1D4ED8;border-color:#1D4ED8">Desbloquear →</a>
+      </div>
+
+      <div class="tool">
+        <span class="lbadge">🔒 Pack</span>
+        <div class="tic">⚖️</div>
+        <h3>Estimador de Indemnización</h3>
+        <p>Cuánto corresponde por antigüedad, preaviso y SAC según tipo de despido y país.</p>
+        <div class="preview">
+          Sueldo: $500,000 · 4 años<br>
+          Despido sin causa · Argentina<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#1D4ED8">Total estimado: $2,600,000 ✓</span>
+        </div>
+        <a href="indemnizacion.html" class="tc out" style="color:#1D4ED8;border-color:#1D4ED8">Desbloquear →</a>
+      </div>
+
+      <div class="tool">
+        <span class="lbadge">🔒 Pack</span>
+        <div class="tic">🔍</div>
+        <h3>Comparador de Ofertas de Trabajo</h3>
+        <p>Dos ofertas laborales analizadas en profundidad: neto real, beneficios, distancia y horas.</p>
+        <div class="preview">
+          Oferta A: $600k · 40hs · remoto<br>
+          Oferta B: $700k · 45hs · 20km<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#1D4ED8">Oferta A vale 8% más en real ✓</span>
+        </div>
+        <a href="comparador-empleos.html" class="tc out" style="color:#1D4ED8;border-color:#1D4ED8">Desbloquear →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     EVENTOS Y VIDA COTIDIANA
+═══════════════════════════════════════════════════════════════════════════ -->
+<section class="sec" style="background:#FDF4FF" id="eventos">
+  <div class="wrap">
+    <div class="lbl ctr" style="color:#9333EA">🎉 Categoría 4 de 7</div>
+    <h2 class="ctr">Eventos y Vida Cotidiana</h2>
+    <p class="sub c ctr" style="margin:0 auto 44px">Para casamientos, viajes, mudanzas, mascotas y dieta. Calculadoras para decisiones reales.</p>
+    <div class="tools-grid">
+
+      <div class="tool free" style="border-color:#C084FC;background:#FDF4FF">
+        <span class="fbadge" style="background:#9333EA">✓ GRATIS</span>
+        <div class="tic">🎊</div>
+        <h3>Costo por Persona en Eventos</h3>
+        <p>Presupuesto total del evento y costo por invitado con desglose por rubro. Ideal para casamientos.</p>
+        <div class="preview">
+          120 invitados · Casamiento<br>
+          Salón + catering + foto + DJ<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#9333EA">$18,500 por persona ✓</span>
+        </div>
+        <a href="costo-evento.html" class="tc" style="background:#9333EA">Usar gratis →</a>
+      </div>
+
+      <div class="tool" style="background:#FDF4FF">
+        <span class="lbadge">🔒 Pack</span>
+        <div class="tic">✈️</div>
+        <h3>Divisor de Gastos en Viaje Grupal</h3>
+        <p>Registrá quién pagó qué y calculá exactamente quién le debe a quién para saldar todo.</p>
+        <div class="preview">
+          4 personas · 12 gastos<br>
+          Cena: Martín pagó $8,400<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#9333EA">Juan le debe $2,100 a Martín ✓</span>
+        </div>
+        <a href="divisor-viaje.html" class="tc out" style="color:#9333EA;border-color:#9333EA">Desbloquear →</a>
+      </div>
+
+      <div class="tool" style="background:#FDF4FF">
+        <span class="lbadge">🔒 Pack</span>
+        <div class="tic">📦</div>
+        <h3>Calculadora de Mudanza</h3>
+        <p>¿Contratar flete o alquilar camioneta? Compará el costo real de cada opción.</p>
+        <div class="preview">
+          3 ambientes · 20km<br>
+          Flete profesional vs. camioneta<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#9333EA">La camioneta ahorra $18,000 ✓</span>
+        </div>
+        <a href="calculadora-mudanza.html" class="tc out" style="color:#9333EA;border-color:#9333EA">Desbloquear →</a>
+      </div>
+
+      <div class="tool" style="background:#FDF4FF">
+        <span class="lbadge">🔒 Pack</span>
+        <div class="tic">🐾</div>
+        <h3>Costo de Mascota por Año</h3>
+        <p>¿Cuánto cuesta realmente tener un perro, gato u otra mascota? Con buffer para imprevistos.</p>
+        <div class="preview">
+          Perro mediano<br>
+          Comida + vet + peluquería<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#9333EA">$312,000/año + imprevistos ✓</span>
+        </div>
+        <a href="costo-mascota.html" class="tc out" style="color:#9333EA;border-color:#9333EA">Desbloquear →</a>
+      </div>
+
+      <div class="tool" style="background:#FDF4FF">
+        <span class="lbadge">🔒 Pack</span>
+        <div class="tic">🥗</div>
+        <h3>Costo de Dieta Semanal</h3>
+        <p>¿Cuánto más cuesta comer keto, vegano o mediterráneo? Comparador de 6 dietas populares.</p>
+        <div class="preview">
+          Omnívora → Keto · 1 persona<br>
+          Costo semanal comparado<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#9333EA">+$5,100/semana · +55% más cara ✓</span>
+        </div>
+        <a href="costo-dieta.html" class="tc out" style="color:#9333EA;border-color:#9333EA">Desbloquear →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     FINANZAS PERSONALES
+═══════════════════════════════════════════════════════════════════════════ -->
+<section class="sec" id="finanzas">
+  <div class="wrap">
+    <div class="lbl ctr" style="color:#059669">💰 Categoría 5 de 7</div>
+    <h2 class="ctr">Finanzas Personales</h2>
+    <p class="sub c ctr" style="margin:0 auto 44px">Ahorro, deuda, inversión y presupuesto. Todo lo que necesitás para tomar el control de tu plata.</p>
+    <div class="tools-grid">
+
+      <div class="tool free" style="border-color:#34D399;background:#ECFDF5">
+        <span class="fbadge" style="background:#059669">✓ GRATIS</span>
+        <div class="tic">🎯</div>
+        <h3>Calculadora de Meta de Ahorro</h3>
+        <p>¿Cuánto ahorrar por mes para llegar a tu objetivo? Con ajuste por inflación y tabla mes a mes.</p>
+        <div class="preview">
+          Meta: $5,000,000 · 12 meses<br>
+          Inflación: 3%/mes · Tengo: $0<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#059669">Ahorrar $436,000/mes ✓</span>
+        </div>
+        <a href="meta-ahorro.html" class="tc" style="background:#059669">Usar gratis →</a>
+      </div>
+
+      <div class="tool">
+        <span class="lbadge">🔒 Pack</span>
+        <div class="tic">💳</div>
+        <h3>Simulador de Deuda / Tarjeta</h3>
+        <p>Costo real de pagar el mínimo vs. pagar más. Tabla de amortización y ahorro total en intereses.</p>
+        <div class="preview">
+          Deuda: $200,000 · 6.5%/mes<br>
+          Mínimo: $8,000 · Extra: $20,000<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#059669">Ahorrás $192,000 en intereses ✓</span>
+        </div>
+        <a href="simulador-deuda.html" class="tc out" style="color:#059669;border-color:#059669">Desbloquear →</a>
+      </div>
+
+      <div class="tool">
+        <span class="lbadge">🔒 Pack</span>
+        <div class="tic">📈</div>
+        <h3>Simulador de Inversión / Plazo Fijo</h3>
+        <p>Interés compuesto con aportes mensuales. Muestra ganancia nominal vs. ganancia real.</p>
+        <div class="preview">
+          Capital: $500,000 · 3.5%/mes<br>
+          Aportes: $50,000/mes · 12 meses<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#059669">Total: $1,480,000 (+196%) ✓</span>
+        </div>
+        <a href="simulador-inversion.html" class="tc out" style="color:#059669;border-color:#059669">Desbloquear →</a>
+      </div>
+
+      <div class="tool">
+        <span class="lbadge">🔒 Pack</span>
+        <div class="tic">🏦</div>
+        <h3>Calculadora de Préstamo Personal</h3>
+        <p>Cuota mensual, total pagado y CFT real. Compará entre dos opciones de crédito.</p>
+        <div class="preview">
+          Préstamo: $1,000,000 · 5%/mes<br>
+          12 cuotas · CFT: 79% anual<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#059669">Cuota: $112k | Total: $1.34M ✓</span>
+        </div>
+        <a href="calculadora-prestamo.html" class="tc out" style="color:#059669;border-color:#059669">Desbloquear →</a>
+      </div>
+
+      <div class="tool">
+        <span class="lbadge">🔒 Pack</span>
+        <div class="tic">📊</div>
+        <h3>Presupuesto Personal Mensual</h3>
+        <p>Ingresos y gastos en 10 categorías. Barras visuales de distribución y tasa de ahorro real.</p>
+        <div class="preview">
+          Ingresos: $480,000<br>
+          10 categorías de gastos<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#059669">Podés ahorrar $70,000/mes ✓</span>
+        </div>
+        <a href="presupuesto-personal.html" class="tc out" style="color:#059669;border-color:#059669">Desbloquear →</a>
+      </div>
+
+      <div class="tool">
+        <span class="lbadge">🔒 Pack</span>
+        <div class="tic">🌅</div>
+        <h3>Calculadora de Jubilación / Retiro</h3>
+        <p>¿A qué edad podés retirarte? Capital necesario según tu gasto mensual y años de retiro.</p>
+        <div class="preview">
+          Retiro: 60 años · $200k/mes<br>
+          Ahorro actual + $62k/mes<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#059669">Meta: $28.5M · Plan proyectado ✓</span>
+        </div>
+        <a href="calculadora-jubilacion.html" class="tc out" style="color:#059669;border-color:#059669">Desbloquear →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     SALUD Y BIENESTAR
+═══════════════════════════════════════════════════════════════════════════ -->
+<section class="sec" style="background:#FAF5FF" id="salud">
+  <div class="wrap">
+    <div class="lbl ctr" style="color:#7C3AED">💚 Categoría 6 de 7</div>
+    <h2 class="ctr">Salud y Bienestar</h2>
+    <p class="sub c ctr" style="margin:0 auto 44px">Calculadoras de salud basadas en evidencia, sin apps, sin registro, sin suscripción.</p>
+    <div class="tools-grid">
+
+      <div class="tool free" style="border-color:#A78BFA;background:#FAF5FF">
+        <span class="fbadge" style="background:#7C3AED">✓ GRATIS</span>
+        <div class="tic">⚖️</div>
+        <h3>IMC y Peso Ideal</h3>
+        <p>Índice de Masa Corporal, rango saludable visual y cuánto te falta o sobra para llegar.</p>
+        <div class="preview">
+          Peso: 78 kg · Altura: 175 cm<br>
+          IMC: 25.5 → Sobrepeso leve<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#7C3AED">Bajar 5.4 kg para peso ideal ✓</span>
+        </div>
+        <a href="imc-peso.html" class="tc" style="background:#7C3AED">Usar gratis →</a>
+      </div>
+
+      <div class="tool" style="background:#FAF5FF">
+        <span class="lbadge">🔒 Pack</span>
+        <div class="tic">🔥</div>
+        <h3>Calorías Diarias (TDEE)</h3>
+        <p>Calorías necesarias según peso, actividad y objetivo. Con desglose de macros.</p>
+        <div class="preview">
+          Peso: 78kg · Actividad: moderada<br>
+          Objetivo: bajar de peso<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#7C3AED">Meta: 1,740 kcal/día ✓</span>
+        </div>
+        <a href="calorias-tdee.html" class="tc out" style="color:#7C3AED;border-color:#7C3AED">Desbloquear →</a>
+      </div>
+
+      <div class="tool" style="background:#FAF5FF">
+        <span class="lbadge">🔒 Pack</span>
+        <div class="tic">💧</div>
+        <h3>Hidratación Diaria</h3>
+        <p>Cuánta agua necesitás por día según peso, clima y actividad. Con tracker interactivo de vasos.</p>
+        <div class="preview">
+          Peso: 78 kg · Clima cálido<br>
+          Ejercicio moderado<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#7C3AED">2.9 L/día · 12 vasos ✓</span>
+        </div>
+        <a href="hidratacion.html" class="tc out" style="color:#7C3AED;border-color:#7C3AED">Desbloquear →</a>
+      </div>
+
+      <div class="tool" style="background:#FAF5FF">
+        <span class="lbadge">🔒 Pack</span>
+        <div class="tic">🕐</div>
+        <h3>Ayuno Intermitente</h3>
+        <p>Elegí tu protocolo (16:8, 18:6, 20:4, 14:10...) y calculá tus ventanas con línea de tiempo.</p>
+        <div class="preview">
+          Protocolo: 16:8<br>
+          Empezar a comer: 12:00<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#7C3AED">Ventana: 12:00 – 20:00 ✓</span>
+        </div>
+        <a href="ayuno-intermitente.html" class="tc out" style="color:#7C3AED;border-color:#7C3AED">Desbloquear →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     PEQUEÑOS NEGOCIOS
+═══════════════════════════════════════════════════════════════════════════ -->
+<section class="sec" id="negocios">
+  <div class="wrap">
+    <div class="lbl ctr" style="color:#D97706">📦 Categoría 7 de 7</div>
+    <h2 class="ctr">Pequeños Negocios y Emprendedores</h2>
+    <p class="sub c ctr" style="margin:0 auto 44px">Para PyMEs, tiendas online, artesanos y emprendedores. Finanzas sin contador.</p>
+    <div class="tools-grid">
+
+      <div class="tool free" style="border-color:#FCD34D;background:#FFFBEB">
+        <span class="fbadge" style="background:#D97706">✓ GRATIS</span>
+        <div class="tic">⚖️</div>
+        <h3>Punto de Equilibrio</h3>
+        <p>¿Cuánto tenés que vender para no perder plata? Costos fijos, variables y precio de venta.</p>
+        <div class="preview">
+          Costos fijos: $150,000<br>
+          Precio: $5,000 · CV: $2,000<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#D97706">50 unidades / $250,000 ✓</span>
+        </div>
+        <a href="punto-equilibrio.html" class="tc" style="background:#D97706">Usar gratis →</a>
+      </div>
+
+      <div class="tool" style="background:#FFFBEB">
+        <span class="lbadge">🔒 Pack</span>
+        <div class="tic">🛒</div>
+        <h3>Margen Real para E-commerce</h3>
+        <p>Precio menos costo, shipping y comisión de plataforma. Tu ganancia neta real en Mercado Libre.</p>
+        <div class="preview">
+          Precio: $10,000 · Costo: $4,000<br>
+          ML: 12% | Envío: $800<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#D97706">Ganancia neta: $4,000 (40%) ✓</span>
+        </div>
+        <a href="margen-ecommerce.html" class="tc out" style="color:#D97706;border-color:#D97706">Desbloquear →</a>
+      </div>
+
+      <div class="tool" style="background:#FFFBEB">
+        <span class="lbadge">🔒 Pack</span>
+        <div class="tic">📣</div>
+        <h3>ROAS Mínimo Rentable</h3>
+        <p>El ROAS mínimo para que tu publicidad en Meta o Google sea rentable según tu margen.</p>
+        <div class="preview">
+          Inversión: $50,000<br>
+          Margen bruto: 40%<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#D97706">ROAS mínimo: 2.5x ✓</span>
+        </div>
+        <a href="estimador-roas.html" class="tc out" style="color:#D97706;border-color:#D97706">Desbloquear →</a>
+      </div>
+
+      <div class="tool" style="background:#FFFBEB">
+        <span class="lbadge">🔒 Pack</span>
+        <div class="tic">🎯</div>
+        <h3>CAC y LTV</h3>
+        <p>Cuánto te cuesta conseguir un cliente nuevo y si tu modelo tiene sentido a largo plazo.</p>
+        <div class="preview">
+          Inversión mkt: $80,000<br>
+          Clientes nuevos: 25<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#D97706">CAC: $3,200 | LTV/CAC: 4.1x ✓</span>
+        </div>
+        <a href="calculadora-cac.html" class="tc out" style="color:#D97706;border-color:#D97706">Desbloquear →</a>
+      </div>
+
+      <div class="tool" style="background:#FFFBEB">
+        <span class="lbadge">🔒 Pack</span>
+        <div class="tic">💵</div>
+        <h3>Flujo de Caja Mensual</h3>
+        <p>Ingresos y egresos mes a mes. Visualizá 12 meses de flujo y detectá los meses en rojo.</p>
+        <div class="preview">
+          12 meses editables<br>
+          Flujo neto + saldo acumulado<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#D97706">3 meses críticos detectados ✓</span>
+        </div>
+        <a href="flujo-caja.html" class="tc out" style="color:#D97706;border-color:#D97706">Desbloquear →</a>
+      </div>
+
+      <div class="tool" style="background:#FFFBEB">
+        <span class="lbadge">🔒 Pack</span>
+        <div class="tic">📐</div>
+        <h3>Simulador de Escenarios</h3>
+        <p>¿Qué pasa si subís precios 15% o vendés 20% más? Pesimista / Actual / Optimista en tiempo real.</p>
+        <div class="preview">
+          3 escenarios comparados<br>
+          Precio · volumen · costos<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#D97706">+$180,000/mes en escenario opt. ✓</span>
+        </div>
+        <a href="simulador-escenarios.html" class="tc out" style="color:#D97706;border-color:#D97706">Desbloquear →</a>
+      </div>
+
+      <div class="tool" style="background:#FFFBEB">
+        <span class="lbadge">🔒 Pack</span>
+        <div class="tic">🏷️</div>
+        <h3>Precio de Producto Físico / Artesanal</h3>
+        <p>Materiales + mano de obra + overhead = precio correcto. Para artesanos, reposteros y talleres.</p>
+        <div class="preview">
+          Materiales: $1,500 · 2 hs<br>
+          Overhead: 20% | Ganancia: 35%<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#D97706">Precio sugerido: $4,725 ✓</span>
+        </div>
+        <a href="precio-producto.html" class="tc out" style="color:#D97706;border-color:#D97706">Desbloquear →</a>
+      </div>
+
+      <div class="tool" style="background:#FFFBEB">
+        <span class="lbadge">🔒 Pack</span>
+        <div class="tic">🔒</div>
+        <h3>Generador de Política de Privacidad</h3>
+        <p>Completás un formulario y genera políticas de privacidad y T&amp;C en español para tu país.</p>
+        <div class="preview">
+          Empresa · País · Cookies<br>
+          Pagos · Terceros · Datos<br>
+          ─────────────────────<br>
+          <span class="res" style="color:#D97706">Documento legal listo → copiar ✓</span>
+        </div>
+        <a href="politica-privacidad.html" class="tc out" style="color:#D97706;border-color:#D97706">Desbloquear →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     CÓMO FUNCIONA
+═══════════════════════════════════════════════════════════════════════════ -->
+<section class="sec how">
+  <div class="wrap ctr">
+    <div class="lbl" style="color:#60A5FA">Cómo funciona</div>
+    <h2>Sin registro. Sin instalación. Listo en 2 minutos.</h2>
+    <p class="sub c">Todo corre en tu computadora. Ningún dato sale de tu navegador.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="snum">1</div>
+        <h3>Probá gratis</h3>
+        <p>Usá las 7 herramientas gratuitas sin pagar nada ni crear una cuenta.</p>
+      </div>
+      <div class="step">
+        <div class="snum">2</div>
+        <h3>Comprá el Pack</h3>
+        <p>Un pago único de $19 USD. Sin suscripción, sin sorpresas, para siempre.</p>
+      </div>
+      <div class="step">
+        <div class="snum">3</div>
+        <h3>Accedé al instante</h3>
+        <p>Recibís el link de descarga por email en menos de 60 segundos.</p>
+      </div>
+      <div class="step">
+        <div class="snum">4</div>
+        <h3>Usá para siempre</h3>
+        <p>Tuyas para siempre. Se actualizan cuando mejoramos algo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     PRECIOS
+═══════════════════════════════════════════════════════════════════════════ -->
+<section class="sec" id="precios">
+  <div class="wrap ctr">
+    <div class="lbl" style="color:#2563EB">Precios</div>
+    <h2>Simple. Sin suscripción.</h2>
+    <p class="sub c">Una inversión que se paga con la primera cotización que mandes bien.</p>
+    <div class="p-grid">
+      <div class="pcard">
+        <div class="pname">Gratis · Para siempre</div>
+        <div class="pamount"><sup>$</sup>0</div>
+        <p class="pdesc">7 herramientas completamente gratis, sin tarjeta ni cuenta.</p>
+        <ul class="pfeats">
+          <li>💰 Calculadora de Tarifa Hora</li>
+          <li>🧱 Ladrillos, Cemento y Arena</li>
+          <li>👷 Costo Real de Empleado</li>
+          <li>🎊 Costo por Persona en Eventos</li>
+          <li>🎯 Meta de Ahorro</li>
+          <li>⚖️ IMC y Peso Ideal</li>
+          <li>⚖️ Punto de Equilibrio</li>
+          <li class="no">32 herramientas del Pack</li>
+        </ul>
+        <a href="#freelancers" class="bbuy out">Usar gratis →</a>
+      </div>
+      <div class="pcard feat">
+        <div class="pop">⭐ MÁS POPULAR</div>
+        <div class="pname">Pack Completo</div>
+        <div class="pamount"><sup>$</sup>19 <span class="per">USD · pago único</span></div>
+        <p class="pdesc">Las 39 herramientas en 7 categorías. Para siempre.</p>
+        <ul class="pfeats">
+          <li>7 herramientas gratis incluidas</li>
+          <li>💼 6 herramientas Freelancers</li>
+          <li>🏗️ 6 herramientas Construcción</li>
+          <li>💼 4 herramientas RRHH y Empleo</li>
+          <li>🎉 5 herramientas Eventos</li>
+          <li>💰 6 herramientas Finanzas</li>
+          <li>💚 4 herramientas Salud</li>
+          <li>📦 8 herramientas Negocios</li>
+        </ul>
+        <a href="#" class="bbuy" onclick="alert('Pago via Lemon Squeezy — próximamente'); return false">Comprar ahora — $19 →</a>
+        <p class="guar"><span>✓ Garantía de 7 días</span> — si no te sirve, devolvemos tu dinero.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     TESTIMONIOS
+═══════════════════════════════════════════════════════════════════════════ -->
+<section class="sec tgray">
+  <div class="wrap ctr">
+    <div class="lbl" style="color:#2563EB">Lo que dicen</div>
+    <h2>Freelancers que cobraron mejor</h2>
+    <div class="t-grid">
+      <div class="tc2">
+        <div class="stars">★★★★★</div>
+        <p>"Usé la calculadora y me di cuenta que estaba cobrando casi la mitad de lo que debía. Subí mis precios y no perdí ningún cliente."</p>
+        <div class="ta"><div class="av" style="background:#2563EB">M</div><div><div class="tn">Mariana G.</div><div class="tr">Diseñadora UX · Buenos Aires</div></div></div>
+      </div>
+      <div class="tc2">
+        <div class="stars">★★★★★</div>
+        <p>"El generador de cotizaciones me salvó. Antes mandaba un Excel horrible. Ahora los clientes me toman mucho más en serio."</p>
+        <div class="ta"><div class="av" style="background:#0E7490">R</div><div><div class="tn">Rodrigo M.</div><div class="tr">Desarrollador · Medellín</div></div></div>
+      </div>
+      <div class="tc2">
+        <div class="stars">★★★★★</div>
+        <p>"Soy electricista y nunca encontré herramientas en español para calcular materiales. Esta me ahorró horas de trabajo."</p>
+        <div class="ta"><div class="av" style="background:#D97706">C</div><div><div class="tn">Carlos V.</div><div class="tr">Electricista · Montevideo</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     FAQ
+═══════════════════════════════════════════════════════════════════════════ -->
+<section class="sec faq-bg" id="faq">
+  <div class="wrap ctr">
+    <div class="lbl" style="color:#2563EB">FAQ</div>
+    <h2>Todo lo que querés saber</h2>
+    <div class="faq-list">
+      <div class="fi" onclick="this.classList.toggle('open')">
+        <div class="fq">¿En qué formato vienen las herramientas? <span class="arr">▾</span></div>
+        <div class="fa">Son archivos HTML. Los abrís con cualquier navegador sin instalar nada. Funcionan offline una vez descargados.</div>
+      </div>
+      <div class="fi" onclick="this.classList.toggle('open')">
+        <div class="fq">¿Las herramientas guardan mis datos? <span class="arr">▾</span></div>
+        <div class="fa">No. Todo corre 100% en tu computadora. Ningún dato sale de tu navegador. No hay servidores ni cuenta que crear.</div>
+      </div>
+      <div class="fi" onclick="this.classList.toggle('open')">
+        <div class="fq">¿Funciona para Argentina, México, Colombia, Chile y Uruguay? <span class="arr">▾</span></div>
+        <div class="fa">Sí. Las herramientas de RRHH tienen tablas de cargas sociales por país. El resto usa tu moneda y contexto local.</div>
+      </div>
+      <div class="fi" onclick="this.classList.toggle('open')">
+        <div class="fq">¿Qué pasa si no me sirven? <span class="arr">▾</span></div>
+        <div class="fa">Garantía de 7 días sin preguntas. Mandás un email y te devolvemos los $19 completos.</div>
+      </div>
+      <div class="fi" onclick="this.classList.toggle('open')">
+        <div class="fq">¿Aceptan tarjeta local? <span class="arr">▾</span></div>
+        <div class="fa">Sí. Aceptamos Visa, Mastercard y Amex. El pago es en USD vía Lemon Squeezy, que gestiona impuestos automáticamente.</div>
+      </div>
+      <div class="fi" onclick="this.classList.toggle('open')">
+        <div class="fq">¿Puedo usar las herramientas en el celular? <span class="arr">▾</span></div>
+        <div class="fa">Sí. Todos los archivos HTML son responsive y funcionan en cualquier dispositivo con navegador web.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="fcta">
+  <h2>Empezá a cobrar lo que vale tu trabajo</h2>
+  <p>7 herramientas gratis hoy. El Pack completo con 39 si te convence.</p>
+  <div class="btn-row">
+    <a href="#freelancers" class="btn-p">⚡ Probar gratis</a>
+    <a href="#precios" class="btn-s">Ver el Pack — $19</a>
+  </div>
+  <p class="note">Sin registro · Sin instalación · Funciona offline · Garantía 7 días · 7 países de LATAM</p>
+</section>
+
+<footer>
+  <div class="f-in">
+    <div class="f-brand">
+      <div class="logo" style="color:#94A3B8">Freelance<b style="color:#60A5FA">Kit</b></div>
+      <p>39 herramientas para autónomos y emprendedores de LATAM.<br>Sin suscripción, sin complicaciones.</p>
+    </div>
+    <div>
+      <div class="fh">Categorías</div>
+      <ul class="flinks">
+        <li><a href="#freelancers">💼 Freelancers y Autónomos</a></li>
+        <li><a href="#construccion">🏗️ Construcción y Oficios</a></li>
+        <li><a href="#rrhh">👷 Recursos Humanos</a></li>
+        <li><a href="#eventos">🎉 Eventos y Vida Cotidiana</a></li>
+        <li><a href="#finanzas">💰 Finanzas Personales</a></li>
+        <li><a href="#salud">💚 Salud y Bienestar</a></li>
+        <li><a href="#negocios">📦 Pequeños Negocios</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="fh">Herramientas gratis</div>
+      <ul class="flinks">
+        <li><a href="tarifa-hora.html">Calculadora de Tarifa Hora</a></li>
+        <li><a href="ladrillos-cemento.html">Ladrillos y Cemento</a></li>
+        <li><a href="costo-empleado.html">Costo Real de Empleado</a></li>
+        <li><a href="meta-ahorro.html">Meta de Ahorro</a></li>
+        <li><a href="imc-peso.html">IMC y Peso Ideal</a></li>
+        <li><a href="punto-equilibrio.html">Punto de Equilibrio</a></li>
+        <li><a href="costo-evento.html">Costo de Evento</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="fh">Legal</div>
+      <ul class="flinks">
+        <li><a href="#">Términos y condiciones</a></li>
+        <li><a href="#">Política de privacidad</a></li>
+        <li><a href="#">Garantía de devolución</a></li>
+        <li><a href="#">Contacto</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="f-bot">
+    <span>© 2026 FreelanceKit · Todos los derechos reservados</span>
+    <div class="pays">
+      <span style="font-size:.75rem">Pagos via</span>
+      <div class="pi">VISA</div>
+      <div class="pi">MASTERCARD</div>
+      <div class="pi">AMEX</div>
+      <div class="pi">LEMON SQUEEZY</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Búsqueda de herramientas
+document.getElementById('search').addEventListener('keyup', function(e) {
+  const term = e.target.value.toLowerCase();
+  const tools = document.querySelectorAll('.tool');
+  let found = 0;
+
+  tools.forEach(tool => {
+    const text = tool.innerText.toLowerCase();
+    if (text.includes(term)) {
+      tool.style.display = '';
+      found++;
+    } else {
+      tool.style.display = 'none';
+    }
+  });
+
+  if (term === '') {
+    tools.forEach(tool => tool.style.display = '');
+  }
+});
+
+// Google Analytics
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-XXXXX'); // Reemplazar con ID real
+
+// Track clicks en herramientas
+document.querySelectorAll('.tool').forEach(tool => {
+  tool.addEventListener('click', function() {
+    const title = this.querySelector('h3')?.innerText || 'unknown';
+    gtag('event', 'tool_clicked', {
+      'tool_name': title
+    });
+  });
+});
+</script>
+
+<!-- Google Analytics (se activa cuando hagas deploy) -->
+<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXX"></script> -->
+
+</body>
+</html>
