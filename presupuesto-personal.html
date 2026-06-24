@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Presupuesto Personal Mensual — FreelanceKit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;color:#0F172A;background:#F8FAFC;min-height:100vh}
+a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid #E2E8F0;padding:0 20px}
+.nav-in{max-width:860px;margin:0 auto;display:flex;align-items:center;height:54px;gap:16px}
+.back{font-size:.85rem;font-weight:600;color:#059669}
+.logo{font-size:1.1rem;font-weight:900;color:#1B3A6B}
+.logo b{color:#059669}
+.free-tag{margin-left:auto;background:#DCFCE7;color:#16A34A;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:100px}
+.page{max-width:860px;margin:0 auto;padding:32px 20px 60px}
+.header{margin-bottom:28px}
+.cat-badge{display:inline-block;background:#ECFDF5;color:#059669;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:12px}
+.header h1{font-size:1.6rem;font-weight:900;margin-bottom:8px}
+.header p{font-size:.95rem;color:#475569}
+.card{background:#fff;border-radius:12px;border:1.5px solid #E2E8F0;padding:28px;margin-bottom:20px}
+.card h2{font-size:1rem;font-weight:700;margin-bottom:20px;color:#065F46}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}}
+.field label{display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:5px}
+.field input,.field select{width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.9rem;color:#0F172A;outline:none;font-family:Arial,sans-serif}
+.field input:focus,.field select:focus{border-color:#059669}
+.field .hint{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.btn{background:#059669;color:#fff;border:none;padding:13px 28px;border-radius:9px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px}
+.btn:hover{background:#065F46}
+.results{display:none}
+.results.show{display:block}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:16px}
+.res-box{background:#F1F5F9;border-radius:10px;padding:18px 14px;text-align:center}
+.res-box.hi{background:#ECFDF5;border:2px solid #059669}
+.res-box.green{background:#F0FDF4;border:2px solid #16A34A}
+.res-box.red{background:#FEF2F2;border:2px solid #DC2626}
+.res-box.orange{background:#FFF7ED;border:2px solid #EA580C}
+.res-box.blue{background:#EFF6FF;border:2px solid #2563EB}
+.rl{font-size:.72rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.rv{font-size:1.4rem;font-weight:900;color:#0F172A;line-height:1}
+.rs{font-size:.72rem;color:#94A3B8;margin-top:4px}
+.sep{border:none;border-top:1px solid #E2E8F0;margin:20px 0}
+.insight{background:#ECFDF5;border-left:4px solid #059669;border-radius:0 8px 8px 0;padding:14px 16px;font-size:.875rem;color:#475569;margin-top:16px}
+.insight b{color:#0F172A}
+.bar-wrap{background:#F1F5F9;border-radius:100px;height:14px;overflow:hidden;margin:4px 0}
+.bar-fill{height:100%;border-radius:100px}
+</style>
+</head>
+<body>
+<nav><div class="nav-in">
+  <a href="index.html" class="back">← Volver</a>
+  <div class="logo">Freelance<b>Kit</b></div>
+  
+</div></nav>
+<div class="page">
+  <div class="header">
+    <div class="cat-badge">💰 Finanzas Personales</div>
+    <h1>📊 Presupuesto Personal Mensual</h1>
+    <p>Registrá tus ingresos y gastos por categoría. La calculadora te muestra en qué gastás más y cuánto podés ahorrar.</p>
+  </div>
+  
+<div class="card">
+  <h2>💵 Ingresos mensuales</h2>
+  <div class="grid2">
+    <div class="field"><label>Sueldo / ingreso principal ($)</label><input type="number" id="ing1" placeholder="Ej: 400000" min="0" oninput="calcBudget()"></div>
+    <div class="field"><label>Ingresos extra / freelance ($)</label><input type="number" id="ing2" placeholder="Ej: 80000" min="0" value="0" oninput="calcBudget()"></div>
+    <div class="field"><label>Rentas / alquileres / dividendos ($)</label><input type="number" id="ing3" placeholder="0" min="0" value="0" oninput="calcBudget()"></div>
+    <div class="field"><label>Moneda</label><select id="mon" onchange="calcBudget()"><option>ARS</option><option>USD</option><option>MXN</option></select></div>
+  </div>
+</div>
+<div class="card">
+  <h2>💸 Gastos mensuales por categoría</h2>
+  <div class="grid2">
+    <div class="field"><label>🏠 Vivienda (alquiler, expensas, servicios)</label><input type="number" id="g1" placeholder="Ej: 120000" min="0" value="0" oninput="calcBudget()"></div>
+    <div class="field"><label>🍽️ Alimentación (supermercado + restaurantes)</label><input type="number" id="g2" placeholder="Ej: 80000" min="0" value="0" oninput="calcBudget()"></div>
+    <div class="field"><label>🚗 Transporte (nafta, sube, uber)</label><input type="number" id="g3" placeholder="Ej: 30000" min="0" value="0" oninput="calcBudget()"></div>
+    <div class="field"><label>🏥 Salud (prepagas, medicamentos, gym)</label><input type="number" id="g4" placeholder="Ej: 25000" min="0" value="0" oninput="calcBudget()"></div>
+    <div class="field"><label>📱 Tecnología y suscripciones</label><input type="number" id="g5" placeholder="Ej: 15000" min="0" value="0" oninput="calcBudget()"></div>
+    <div class="field"><label>👕 Ropa y calzado</label><input type="number" id="g6" placeholder="Ej: 20000" min="0" value="0" oninput="calcBudget()"></div>
+    <div class="field"><label>🎭 Entretenimiento y ocio</label><input type="number" id="g7" placeholder="Ej: 20000" min="0" value="0" oninput="calcBudget()"></div>
+    <div class="field"><label>💳 Deudas / cuotas / tarjeta</label><input type="number" id="g8" placeholder="Ej: 40000" min="0" value="0" oninput="calcBudget()"></div>
+    <div class="field"><label>🎓 Educación / cursos</label><input type="number" id="g9" placeholder="Ej: 10000" min="0" value="0" oninput="calcBudget()"></div>
+    <div class="field"><label>📦 Otros gastos</label><input type="number" id="g10" placeholder="0" min="0" value="0" oninput="calcBudget()"></div>
+  </div>
+</div>
+<div class="results card" id="res5">
+  <h2>📊 Tu balance mensual</h2>
+  <div class="res-grid">
+    <div class="res-box green"><div class="rl">Ingresos totales</div><div class="rv" id="r5-ing">—</div></div>
+    <div class="res-box red"><div class="rl">Gastos totales</div><div class="rv" id="r5-gas">—</div></div>
+    <div class="res-box hi" id="r5-saldo-box"><div class="rl">Saldo / ahorro posible</div><div class="rv" id="r5-saldo">—</div><div class="rs" id="r5-saldo-s">—</div></div>
+    <div class="res-box orange"><div class="rl">Tasa de ahorro</div><div class="rv" id="r5-tasa">—</div><div class="rs">% de ingresos que ahorrás</div></div>
+  </div>
+  <hr class="sep">
+  <div style="margin-bottom:14px">
+    <div style="font-size:.8rem;font-weight:700;color:#475569;margin-bottom:12px">DISTRIBUCIÓN DE GASTOS</div>
+    <div id="barras-gastos"></div>
+  </div>
+  <div class="insight" id="ins5"></div>
+</div>
+<script>
+var cats=[
+  {id:'g1',label:'🏠 Vivienda'},{id:'g2',label:'🍽️ Alimentación'},
+  {id:'g3',label:'🚗 Transporte'},{id:'g4',label:'🏥 Salud'},
+  {id:'g5',label:'📱 Tecnología'},{id:'g6',label:'👕 Ropa'},
+  {id:'g7',label:'🎭 Ocio'},{id:'g8',label:'💳 Deudas'},
+  {id:'g9',label:'🎓 Educación'},{id:'g10',label:'📦 Otros'}
+];
+function fmt(n){var m=document.getElementById('mon').value;return m+' '+Math.round(n).toLocaleString('es-AR')}
+function calcBudget(){
+  var ing=[+document.getElementById('ing1').value||0,+document.getElementById('ing2').value||0,+document.getElementById('ing3').value||0];
+  var totalIng=ing.reduce(function(a,b){return a+b},0);
+  if(!totalIng)return;
+  var gastos=cats.map(function(c){return{label:c.label,val:+document.getElementById(c.id).value||0}});
+  var totalGas=gastos.reduce(function(a,b){return a+b.val},0);
+  var saldo=totalIng-totalGas;
+  var tasaAh=totalIng>0?(saldo/totalIng*100):0;
+  document.getElementById('r5-ing').textContent=fmt(totalIng);
+  document.getElementById('r5-gas').textContent=fmt(totalGas);
+  document.getElementById('r5-saldo').textContent=fmt(saldo);
+  document.getElementById('r5-saldo-s').textContent=saldo>=0?'Superávit — podés ahorrar esto':'Déficit — gastás más de lo que ganás';
+  document.getElementById('r5-saldo-box').className='res-box '+(saldo>=0?'hi':'red');
+  document.getElementById('r5-tasa').textContent=tasaAh.toFixed(1)+'%';
+  var barras='';
+  var sorted=gastos.filter(function(g){return g.val>0}).sort(function(a,b){return b.val-a.val});
+  sorted.forEach(function(g){
+    var pct=totalIng>0?(g.val/totalIng*100):0;
+    var color=pct>40?'#DC2626':pct>25?'#EA580C':'#059669';
+    barras+='<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:3px"><span>'+g.label+'</span><span style="color:#94A3B8">'+fmt(g.val)+' ('+pct.toFixed(0)+'%)</span></div><div class="bar-wrap"><div class="bar-fill" style="width:'+pct+'%;background:'+color+'"></div></div></div>';
+  });
+  document.getElementById('barras-gastos').innerHTML=barras||'<span style="color:#94A3B8;font-size:.875rem">Completá los gastos para ver el desglose</span>';
+  var mayor=sorted[0];
+  document.getElementById('ins5').innerHTML='Tus gastos representan el <b>'+( totalGas/totalIng*100).toFixed(0)+'%</b> de tus ingresos. '+(saldo>=0?'Podés ahorrar <b>'+fmt(saldo)+'/mes</b> ('+tasaAh.toFixed(0)+'%). La regla 50/30/20 sugiere: 50% necesidades, 30% deseos, 20% ahorro.':'⚠️ Tenés un déficit de <b>'+fmt(Math.abs(saldo))+'/mes</b>. Revisá los gastos en <b>'+(mayor?mayor.label:'las categorías principales')+'</b>.');
+  document.getElementById('res5').className='results card show';
+}
+</script>
+
+</div>
+</body>
+</html>

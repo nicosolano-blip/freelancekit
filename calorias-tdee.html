@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calculadora de Calorías Diarias (TDEE) — FreelanceKit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;color:#0F172A;background:#F8FAFC;min-height:100vh}
+a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid #E2E8F0;padding:0 20px}
+.nav-in{max-width:860px;margin:0 auto;display:flex;align-items:center;height:54px;gap:16px}
+.back{font-size:.85rem;color:#2563EB;font-weight:600}
+.back:hover{color:#1B3A6B}
+.logo{font-size:1.1rem;font-weight:900;color:#1B3A6B}
+.logo b{color:#2563EB}
+.free-tag{margin-left:auto;background:#DCFCE7;color:#16A34A;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:100px}
+.page{max-width:860px;margin:0 auto;padding:32px 20px 60px}
+.header{margin-bottom:28px}
+.cat-badge{display:inline-block;background:#FDF2F8;color:#9333EA;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:12px}
+.header h1{font-size:1.6rem;font-weight:900;margin-bottom:8px}
+.header p{font-size:.95rem;color:#475569}
+.card{background:#fff;border-radius:12px;border:1.5px solid #E2E8F0;padding:28px;margin-bottom:20px}
+.card h2{font-size:1rem;font-weight:700;margin-bottom:20px;color:#1B3A6B}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}}
+.field label{display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:5px}
+.field input,.field select{width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.9rem;color:#0F172A;outline:none;font-family:Arial,sans-serif}
+.field input:focus,.field select:focus{border-color:#9333EA}
+.field .hint{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.btn{background:#9333EA;color:#fff;border:none;padding:13px 28px;border-radius:9px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px}
+.btn:hover{background:#7E22CE}
+.results{display:none}
+.results.show{display:block}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:16px}
+.res-box{background:#F1F5F9;border-radius:10px;padding:18px 14px;text-align:center}
+.res-box.hi{background:#FAF5FF;border:2px solid #9333EA}
+.res-box.green{background:#F0FDF4;border:2px solid #16A34A}
+.res-box.orange{background:#FFF7ED;border:2px solid #EA580C}
+.res-box.red{background:#FEF2F2;border:2px solid #DC2626}
+.res-box.blue{background:#EFF6FF;border:2px solid #2563EB}
+.rl{font-size:.72rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.rv{font-size:1.5rem;font-weight:900;color:#0F172A;line-height:1}
+.rs{font-size:.72rem;color:#94A3B8;margin-top:4px}
+.insight{background:#FAF5FF;border-left:4px solid #9333EA;border-radius:0 8px 8px 0;padding:14px 16px;font-size:.875rem;color:#475569;margin-top:16px}
+.insight b{color:#0F172A}
+.sep{border:none;border-top:1px solid #E2E8F0;margin:20px 0}
+.bar-wrap{background:#F1F5F9;border-radius:100px;height:18px;overflow:hidden;margin:6px 0}
+.bar-fill{height:100%;border-radius:100px;transition:width .4s}
+</style>
+</head>
+<body>
+<nav><div class="nav-in">
+  <a href="index.html" class="back">← Volver</a>
+  <div class="logo">Freelance<b>Kit</b></div>
+  
+</div></nav>
+<div class="page">
+  <div class="header">
+    <div class="cat-badge">💚 Salud y Bienestar</div>
+    <h1>🔥 Calculadora de Calorías Diarias (TDEE)</h1>
+    <p>¿Cuántas calorías necesitás por día según tu objetivo? Calculá tu metabolismo basal y gasto real.</p>
+  </div>
+  
+<div class="card">
+  <h2>⚙️ Tus datos</h2>
+  <div class="grid2">
+    <div class="field"><label>Peso (kg)</label>
+      <input type="number" id="peso" placeholder="Ej: 70" min="30" oninput="calcTDEE()"></div>
+    <div class="field"><label>Altura (cm)</label>
+      <input type="number" id="altura" placeholder="Ej: 170" min="100" oninput="calcTDEE()"></div>
+    <div class="field"><label>Edad</label>
+      <input type="number" id="edad" placeholder="Ej: 28" min="15" oninput="calcTDEE()"></div>
+    <div class="field"><label>Sexo</label>
+      <select id="sexo" onchange="calcTDEE()"><option value="m">Masculino</option><option value="f">Femenino</option></select></div>
+    <div class="field"><label>Nivel de actividad</label>
+      <select id="act" onchange="calcTDEE()">
+        <option value="1.2">Sedentario (poco o nada de ejercicio)</option>
+        <option value="1.375">Ligero (1-3 días/semana)</option>
+        <option value="1.55" selected>Moderado (3-5 días/semana)</option>
+        <option value="1.725">Activo (6-7 días/semana)</option>
+        <option value="1.9">Muy activo (trabajo físico + ejercicio)</option>
+      </select></div>
+    <div class="field"><label>Tu objetivo</label>
+      <select id="obj" onchange="calcTDEE()">
+        <option value="-500">Bajar de peso (déficit 500 kcal)</option>
+        <option value="-250">Bajar suavemente (déficit 250 kcal)</option>
+        <option value="0" selected>Mantener peso actual</option>
+        <option value="250">Ganar músculo (superávit 250 kcal)</option>
+        <option value="500">Ganar masa (superávit 500 kcal)</option>
+      </select></div>
+  </div>
+</div>
+<div class="results card" id="res2">
+  <h2>📊 Tu gasto calórico</h2>
+  <div class="res-grid">
+    <div class="res-box"><div class="rl">Metabolismo basal (BMR)</div><div class="rv" id="r-bmr">—</div><div class="rs">En reposo total</div></div>
+    <div class="res-box hi"><div class="rl">Gasto real (TDEE)</div><div class="rv" id="r-tdee">—</div><div class="rs">Con tu actividad</div></div>
+    <div class="res-box green"><div class="rl">Calorías objetivo/día</div><div class="rv" id="r-obj">—</div><div class="rs" id="r-obj-s">—</div></div>
+    <div class="res-box blue"><div class="rl">En 1 mes</div><div class="rv" id="r-mes">—</div><div class="rs" id="r-mes-s">—</div></div>
+  </div>
+  <hr class="sep">
+  <div style="margin-bottom:14px">
+    <div style="font-size:.8rem;font-weight:700;color:#475569;margin-bottom:12px">DISTRIBUCIÓN SUGERIDA DE MACROS</div>
+    <div id="macros"></div>
+  </div>
+  <div class="insight" id="ins2"></div>
+</div>
+<script>
+function calcTDEE(){
+  var p=+document.getElementById('peso').value;
+  var h=+document.getElementById('altura').value;
+  var e=+document.getElementById('edad').value;
+  var s=document.getElementById('sexo').value;
+  var a=+document.getElementById('act').value;
+  var o=+document.getElementById('obj').value;
+  if(!p||!h||!e)return;
+  var bmr=s==='m'?(10*p)+(6.25*h)-(5*e)+5:(10*p)+(6.25*h)-(5*e)-161;
+  var tdee=bmr*a;
+  var obj=tdee+o;
+  var pesos30=(o/7700)*30;
+  document.getElementById('r-bmr').textContent=Math.round(bmr)+' kcal';
+  document.getElementById('r-tdee').textContent=Math.round(tdee)+' kcal';
+  document.getElementById('r-obj').textContent=Math.round(obj)+' kcal';
+  document.getElementById('r-obj-s').textContent=o===0?'Para mantener peso':o<0?'Déficit '+Math.abs(o)+' kcal':'Superávit '+o+' kcal';
+  document.getElementById('r-mes').textContent=(pesos30>0?'+':'')+pesos30.toFixed(1)+' kg';
+  document.getElementById('r-mes-s').textContent=o===0?'Sin cambio esperado':o<0?'Pérdida estimada':'Ganancia estimada';
+  var prot=Math.round(obj*0.30/4);
+  var gras=Math.round(obj*0.25/9);
+  var carb=Math.round(obj*0.45/4);
+  var macros='';
+  [{n:'Proteínas',g:prot,pct:30,c:'#9333EA'},{n:'Carbohidratos',g:carb,pct:45,c:'#2563EB'},{n:'Grasas',g:gras,pct:25,c:'#EA580C'}].forEach(function(m){
+    macros+='<div style="margin-bottom:10px"><div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:4px"><span style="font-weight:600">'+m.n+'</span><span style="color:#94A3B8">'+m.g+'g · '+m.pct+'%</span></div><div class="bar-wrap"><div class="bar-fill" style="width:'+m.pct+'%;background:'+m.c+'"></div></div></div>';
+  });
+  document.getElementById('macros').innerHTML=macros;
+  var ins='Tu metabolismo basal es <b>'+Math.round(bmr)+' kcal/día</b>. Con tu nivel de actividad, quemás <b>'+Math.round(tdee)+' kcal</b>. ';
+  if(o!==0)ins+='Con un '+(o<0?'déficit':'superávit')+' de <b>'+Math.abs(o)+' kcal/día</b>, esperás '+(o<0?'perder':'ganar')+' ~<b>'+Math.abs(pesos30).toFixed(1)+'kg</b> al mes.';
+  document.getElementById('ins2').innerHTML=ins;
+  document.getElementById('res2').className='results card show';
+}
+</script>
+
+</div>
+</body>
+</html>

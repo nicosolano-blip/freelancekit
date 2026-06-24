@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calculadora de Punto de Equilibrio — FreelanceKit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;color:#0F172A;background:#F8FAFC;min-height:100vh}
+a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid #E2E8F0;padding:0 20px;position:sticky;top:0;z-index:99}
+.nav-in{max-width:860px;margin:0 auto;display:flex;align-items:center;height:54px;gap:16px}
+.back{font-size:.85rem;color:#2563EB;font-weight:600;display:flex;align-items:center;gap:5px}
+.back:hover{color:#1B3A6B}
+.logo{font-size:1.1rem;font-weight:900;color:#1B3A6B}
+.logo b{color:#2563EB}
+.page{max-width:860px;margin:0 auto;padding:32px 20px 60px}
+.header{margin-bottom:28px}
+.cat-badge{display:inline-block;background:#EFF6FF;color:#2563EB;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:12px}
+.header h1{font-size:1.6rem;font-weight:900;margin-bottom:8px}
+.header p{font-size:.95rem;color:#475569}
+.card{background:#fff;border-radius:12px;border:1.5px solid #E2E8F0;padding:28px;margin-bottom:20px}
+.card h2{font-size:1rem;font-weight:700;margin-bottom:20px;color:#1B3A6B;display:flex;align-items:center;gap:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}}
+.field label{display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:5px}
+.field input,.field select{width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.95rem;color:#0F172A;outline:none;font-family:Arial,sans-serif}
+.field input:focus,.field select:focus{border-color:#2563EB}
+.field .hint{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.btn{background:#2563EB;color:#fff;border:none;padding:13px 28px;border-radius:9px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px}
+.btn:hover{background:#1B3A6B}
+.results{display:none}
+.results.show{display:block}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:20px}
+.res-box{background:#F1F5F9;border-radius:10px;padding:18px 16px;text-align:center}
+.res-box.highlight{background:#EFF6FF;border:2px solid #2563EB}
+.res-box.green{background:#F0FDF4;border:2px solid #16A34A}
+.res-box.red{background:#FEF2F2;border:2px solid #DC2626}
+.res-box.orange{background:#FFF7ED;border:2px solid #EA580C}
+.res-label{font-size:.75rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.res-val{font-size:1.6rem;font-weight:900;color:#0F172A;line-height:1}
+.res-sub{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.insight{background:#F8FAFC;border-left:4px solid #2563EB;border-radius:0 8px 8px 0;padding:14px 16px;font-size:.875rem;color:#475569;margin-top:16px}
+.insight b{color:#0F172A}
+.sep{border:none;border-top:1px solid #E2E8F0;margin:20px 0}
+</style>
+</head>
+<body>
+<nav><div class="nav-in">
+  <a href="index.html" class="back">← Volver</a>
+  <div class="logo">Freelance<b>Kit</b></div>
+</div></nav>
+<div class="page">
+  <div class="header">
+    <div class="cat-badge">📦 Pequeños Negocios</div>
+    <h1>⚖️ Calculadora de Punto de Equilibrio</h1>
+    <p>Calculá cuántas unidades o cuánto revenue necesitás vender para cubrir todos tus costos.</p>
+  </div>
+  
+<div class="card">
+  <h2>⚙️ Ingresá tus datos</h2>
+  <div class="grid2">
+    <div class="field"><label>Costos fijos mensuales ($)</label>
+      <input type="number" id="cf" placeholder="Ej: 150000" min="0">
+      <span class="hint">Alquiler, sueldos, servicios, etc.</span></div>
+    <div class="field"><label>Precio de venta por unidad ($)</label>
+      <input type="number" id="pv" placeholder="Ej: 5000" min="0"></div>
+    <div class="field"><label>Costo variable por unidad ($)</label>
+      <input type="number" id="cv" placeholder="Ej: 2000" min="0">
+      <span class="hint">Materia prima, packaging, comisión, etc.</span></div>
+    <div class="field"><label>Moneda</label>
+      <select id="moneda"><option>ARS</option><option>USD</option><option>MXN</option><option>COP</option><option>CLP</option></select></div>
+  </div>
+  <button class="btn" onclick="calcPE()">Calcular punto de equilibrio</button>
+</div>
+<div class="results card" id="res">
+  <h2>📊 Resultados</h2>
+  <div class="res-grid">
+    <div class="res-box highlight"><div class="res-label">Unidades mínimas/mes</div><div class="res-val" id="r-units">—</div><div class="res-sub">Para no perder plata</div></div>
+    <div class="res-box green"><div class="res-label">Revenue mínimo/mes</div><div class="res-val" id="r-rev">—</div><div class="res-sub">Facturación necesaria</div></div>
+    <div class="res-box"><div class="res-label">Margen de contribución</div><div class="res-val" id="r-mc">—</div><div class="res-sub">Por unidad vendida</div></div>
+    <div class="res-box orange"><div class="res-label">Unidades/día (30 días)</div><div class="res-val" id="r-day">—</div><div class="res-sub">Ritmo diario necesario</div></div>
+  </div>
+  <div class="insight" id="insight"></div>
+</div>
+<script>
+function fmt(n,m){return m+' '+n.toLocaleString('es-AR',{maximumFractionDigits:0})}
+function calcPE(){
+  var cf=+document.getElementById('cf').value;
+  var pv=+document.getElementById('pv').value;
+  var cv=+document.getElementById('cv').value;
+  var m=document.getElementById('moneda').value;
+  if(!cf||!pv||!cv){alert('Completá todos los campos');return}
+  if(pv<=cv){alert('El precio de venta debe ser mayor al costo variable');return}
+  var mc=pv-cv;
+  var units=Math.ceil(cf/mc);
+  var rev=units*pv;
+  var day=(units/30).toFixed(1);
+  document.getElementById('r-units').textContent=units.toLocaleString('es-AR');
+  document.getElementById('r-rev').textContent=fmt(rev,m);
+  document.getElementById('r-mc').textContent=fmt(mc,m);
+  document.getElementById('r-day').textContent=day;
+  var pct=((mc/pv)*100).toFixed(1);
+  document.getElementById('insight').innerHTML='<b>Margen de contribución:</b> '+pct+'% del precio de venta se destina a cubrir costos fijos. '+(pct<30?'⚠️ Margen bajo — revisá si podés reducir costos variables o subir el precio.':pct>60?'✅ Buen margen de contribución. Cada venta cubre una parte significativa de tus costos fijos.':'🟡 Margen moderado. Hay espacio para mejorar.');
+  document.getElementById('res').className='results card show';
+}
+</script>
+
+</div>
+</body>
+</html>

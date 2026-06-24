@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Simulador de Escenarios de Negocio — FreelanceKit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;color:#0F172A;background:#F8FAFC;min-height:100vh}
+a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid #E2E8F0;padding:0 20px;position:sticky;top:0;z-index:99}
+.nav-in{max-width:860px;margin:0 auto;display:flex;align-items:center;height:54px;gap:16px}
+.back{font-size:.85rem;color:#2563EB;font-weight:600;display:flex;align-items:center;gap:5px}
+.back:hover{color:#1B3A6B}
+.logo{font-size:1.1rem;font-weight:900;color:#1B3A6B}
+.logo b{color:#2563EB}
+.page{max-width:860px;margin:0 auto;padding:32px 20px 60px}
+.header{margin-bottom:28px}
+.cat-badge{display:inline-block;background:#EFF6FF;color:#2563EB;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:12px}
+.header h1{font-size:1.6rem;font-weight:900;margin-bottom:8px}
+.header p{font-size:.95rem;color:#475569}
+.card{background:#fff;border-radius:12px;border:1.5px solid #E2E8F0;padding:28px;margin-bottom:20px}
+.card h2{font-size:1rem;font-weight:700;margin-bottom:20px;color:#1B3A6B;display:flex;align-items:center;gap:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}}
+.field label{display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:5px}
+.field input,.field select{width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.95rem;color:#0F172A;outline:none;font-family:Arial,sans-serif}
+.field input:focus,.field select:focus{border-color:#2563EB}
+.field .hint{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.btn{background:#2563EB;color:#fff;border:none;padding:13px 28px;border-radius:9px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px}
+.btn:hover{background:#1B3A6B}
+.results{display:none}
+.results.show{display:block}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:20px}
+.res-box{background:#F1F5F9;border-radius:10px;padding:18px 16px;text-align:center}
+.res-box.highlight{background:#EFF6FF;border:2px solid #2563EB}
+.res-box.green{background:#F0FDF4;border:2px solid #16A34A}
+.res-box.red{background:#FEF2F2;border:2px solid #DC2626}
+.res-box.orange{background:#FFF7ED;border:2px solid #EA580C}
+.res-label{font-size:.75rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.res-val{font-size:1.6rem;font-weight:900;color:#0F172A;line-height:1}
+.res-sub{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.insight{background:#F8FAFC;border-left:4px solid #2563EB;border-radius:0 8px 8px 0;padding:14px 16px;font-size:.875rem;color:#475569;margin-top:16px}
+.insight b{color:#0F172A}
+.sep{border:none;border-top:1px solid #E2E8F0;margin:20px 0}
+</style>
+</head>
+<body>
+<nav><div class="nav-in">
+  <a href="index.html" class="back">← Volver</a>
+  <div class="logo">Freelance<b>Kit</b></div>
+</div></nav>
+<div class="page">
+  <div class="header">
+    <div class="cat-badge">📦 Pequeños Negocios</div>
+    <h1>📐 Simulador de Escenarios de Negocio</h1>
+    <p>¿Qué pasa con tu ganancia si subís los precios, vendés más o bajás costos? Compará 3 escenarios en tiempo real.</p>
+  </div>
+  
+<div class="card">
+  <h2>⚙️ Situación actual del negocio</h2>
+  <div class="grid2">
+    <div class="field"><label>Unidades vendidas por mes</label>
+      <input type="number" id="unids" placeholder="Ej: 200" min="0" oninput="simular()"></div>
+    <div class="field"><label>Precio de venta por unidad ($)</label>
+      <input type="number" id="pvSim" placeholder="Ej: 5000" min="0" oninput="simular()"></div>
+    <div class="field"><label>Costo variable por unidad ($)</label>
+      <input type="number" id="cvSim" placeholder="Ej: 2500" min="0" oninput="simular()"></div>
+    <div class="field"><label>Costos fijos mensuales ($)</label>
+      <input type="number" id="cfSim" placeholder="Ej: 200000" min="0" oninput="simular()"></div>
+  </div>
+</div>
+<div class="card">
+  <h2>🎛️ Ajustá los escenarios</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px">
+    <div style="background:#FEF2F2;border-radius:10px;padding:16px">
+      <div style="font-size:.8rem;font-weight:700;color:#DC2626;margin-bottom:12px">📉 PESIMISTA</div>
+      <div class="field"><label>Variación precio (%)</label><input type="number" id="p1-pv" value="-10" oninput="simular()" style="background:#fff;border:1.5px solid #FECACA;border-radius:7px;padding:7px 10px;width:100%;font-size:.9rem;outline:none"></div>
+      <div class="field" style="margin-top:8px"><label>Variación volumen (%)</label><input type="number" id="p1-vol" value="-15" oninput="simular()" style="background:#fff;border:1.5px solid #FECACA;border-radius:7px;padding:7px 10px;width:100%;font-size:.9rem;outline:none"></div>
+      <div class="field" style="margin-top:8px"><label>Variación costos (%)</label><input type="number" id="p1-cos" value="+10" oninput="simular()" style="background:#fff;border:1.5px solid #FECACA;border-radius:7px;padding:7px 10px;width:100%;font-size:.9rem;outline:none"></div>
+    </div>
+    <div style="background:#EFF6FF;border-radius:10px;padding:16px;border:2px solid #2563EB">
+      <div style="font-size:.8rem;font-weight:700;color:#2563EB;margin-bottom:12px">📊 ACTUAL (base)</div>
+      <div style="font-size:.8rem;color:#475569;margin-top:8px">Precio: <b id="s-pv">—</b></div>
+      <div style="font-size:.8rem;color:#475569;margin-top:8px">Volumen: <b id="s-vol">—</b> uds</div>
+      <div style="font-size:.8rem;color:#475569;margin-top:8px">Ganancia: <b id="s-gan">—</b></div>
+      <div style="font-size:.8rem;color:#475569;margin-top:8px">Margen: <b id="s-marg">—</b></div>
+    </div>
+    <div style="background:#F0FDF4;border-radius:10px;padding:16px">
+      <div style="font-size:.8rem;font-weight:700;color:#16A34A;margin-bottom:12px">📈 OPTIMISTA</div>
+      <div class="field"><label>Variación precio (%)</label><input type="number" id="p3-pv" value="+15" oninput="simular()" style="background:#fff;border:1.5px solid #BBF7D0;border-radius:7px;padding:7px 10px;width:100%;font-size:.9rem;outline:none"></div>
+      <div class="field" style="margin-top:8px"><label>Variación volumen (%)</label><input type="number" id="p3-vol" value="+20" oninput="simular()" style="background:#fff;border:1.5px solid #BBF7D0;border-radius:7px;padding:7px 10px;width:100%;font-size:.9rem;outline:none"></div>
+      <div class="field" style="margin-top:8px"><label>Variación costos (%)</label><input type="number" id="p3-cos" value="-5" oninput="simular()" style="background:#fff;border:1.5px solid #BBF7D0;border-radius:7px;padding:7px 10px;width:100%;font-size:.9rem;outline:none"></div>
+    </div>
+  </div>
+</div>
+<div class="results card show" id="res6">
+  <h2>📊 Comparación de escenarios</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px">
+    <div class="res-box red"><div class="res-label">Pesimista</div><div class="res-val" id="r-p1">—</div><div class="res-sub" id="r-p1d">—</div></div>
+    <div class="res-box highlight"><div class="res-label">Actual</div><div class="res-val" id="r-p2">—</div><div class="res-sub">Base</div></div>
+    <div class="res-box green"><div class="res-label">Optimista</div><div class="res-val" id="r-p3">—</div><div class="res-sub" id="r-p3d">—</div></div>
+  </div>
+  <div class="insight" id="insight6" style="margin-top:16px"></div>
+</div>
+<script>
+function fmt6(n){return '$'+Math.round(n).toLocaleString('es-AR')}
+function calcGan(u,p,cv,cf){return u*p - u*cv - cf}
+function simular(){
+  var u=+document.getElementById('unids').value||0;
+  var p=+document.getElementById('pvSim').value||0;
+  var cv=+document.getElementById('cvSim').value||0;
+  var cf=+document.getElementById('cfSim').value||0;
+  if(!u||!p){return}
+  var ganBase=calcGan(u,p,cv,cf);
+  var margBase=p>0?((p-cv)/p*100):0;
+  document.getElementById('s-pv').textContent=fmt6(p);
+  document.getElementById('s-vol').textContent=u;
+  document.getElementById('s-gan').textContent=fmt6(ganBase);
+  document.getElementById('s-marg').textContent=margBase.toFixed(1)+'%';
+  function escenario(pvVar,volVar,cosVar){
+    var np=p*(1+pvVar/100);
+    var nu=u*(1+volVar/100);
+    var ncv=cv*(1+cosVar/100);
+    return calcGan(nu,np,ncv,cf);
+  }
+  var g1=escenario(+document.getElementById('p1-pv').value,+document.getElementById('p1-vol').value,+document.getElementById('p1-cos').value);
+  var g3=escenario(+document.getElementById('p3-pv').value,+document.getElementById('p3-vol').value,+document.getElementById('p3-cos').value);
+  document.getElementById('r-p1').textContent=fmt6(g1);
+  document.getElementById('r-p1').style.color=g1<0?'#DC2626':'inherit';
+  document.getElementById('r-p1d').textContent=(g1-ganBase>=0?'+':'')+fmt6(g1-ganBase)+' vs actual';
+  document.getElementById('r-p2').textContent=fmt6(ganBase);
+  document.getElementById('r-p2').style.color=ganBase<0?'#DC2626':'inherit';
+  document.getElementById('r-p3').textContent=fmt6(g3);
+  document.getElementById('r-p3d').textContent='+'+(g3-ganBase>=0?'+':'')+fmt6(g3-ganBase)+' vs actual';
+  var diff=g3-g1;
+  document.getElementById('insight6').innerHTML='La diferencia entre el peor y mejor escenario es <b>'+fmt6(diff)+'</b> por mes. '+(g1<0?'⚠️ En el escenario pesimista tu negocio pierde plata — tené un plan de contingencia.':'✅ Incluso en el escenario pesimista el negocio es positivo. Buena robustez.');
+}
+simular();
+</script>
+
+</div>
+</body>
+</html>

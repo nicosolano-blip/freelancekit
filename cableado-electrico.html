@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calculadora de Cableado Eléctrico — FreelanceKit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;color:#0F172A;background:#F8FAFC;min-height:100vh}
+a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid #E2E8F0;padding:0 20px}
+.nav-in{max-width:860px;margin:0 auto;display:flex;align-items:center;height:54px;gap:16px}
+.back{font-size:.85rem;color:#D97706;font-weight:600}
+.back:hover{color:#92400E}
+.logo{font-size:1.1rem;font-weight:900;color:#1B3A6B}
+.logo b{color:#D97706}
+.free-tag{margin-left:auto;background:#DCFCE7;color:#16A34A;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:100px}
+.page{max-width:860px;margin:0 auto;padding:32px 20px 60px}
+.header{margin-bottom:28px}
+.cat-badge{display:inline-block;background:#FFFBEB;color:#D97706;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:12px}
+.header h1{font-size:1.6rem;font-weight:900;margin-bottom:8px}
+.header p{font-size:.95rem;color:#475569}
+.card{background:#fff;border-radius:12px;border:1.5px solid #E2E8F0;padding:28px;margin-bottom:20px}
+.card h2{font-size:1rem;font-weight:700;margin-bottom:20px;color:#92400E}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}}
+.field label{display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:5px}
+.field input,.field select{width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.9rem;color:#0F172A;outline:none;font-family:Arial,sans-serif}
+.field input:focus,.field select:focus{border-color:#D97706}
+.field .hint{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.btn{background:#D97706;color:#fff;border:none;padding:13px 28px;border-radius:9px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px}
+.btn:hover{background:#92400E}
+.btn-sm{background:#D97706;color:#fff;border:none;padding:9px 18px;border-radius:8px;font-size:.875rem;font-weight:700;cursor:pointer}
+.btn-sm:hover{background:#92400E}
+.btn-outline{background:transparent;color:#D97706;border:1.5px solid #D97706;padding:9px 18px;border-radius:8px;font-size:.875rem;font-weight:700;cursor:pointer}
+.btn-outline:hover{background:#D97706;color:#fff}
+.results{display:none}
+.results.show{display:block}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:16px}
+.res-box{background:#F1F5F9;border-radius:10px;padding:18px 14px;text-align:center}
+.res-box.hi{background:#FFFBEB;border:2px solid #D97706}
+.res-box.green{background:#F0FDF4;border:2px solid #16A34A}
+.res-box.orange{background:#FFF7ED;border:2px solid #EA580C}
+.res-box.red{background:#FEF2F2;border:2px solid #DC2626}
+.res-box.blue{background:#EFF6FF;border:2px solid #2563EB}
+.rl{font-size:.72rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.rv{font-size:1.5rem;font-weight:900;color:#0F172A;line-height:1}
+.rs{font-size:.72rem;color:#94A3B8;margin-top:4px}
+.insight{background:#FFFBEB;border-left:4px solid #D97706;border-radius:0 8px 8px 0;padding:14px 16px;font-size:.875rem;color:#475569;margin-top:16px}
+.insight b{color:#0F172A}
+.sep{border:none;border-top:1px solid #E2E8F0;margin:20px 0}
+@media print{nav,#print-btn,.btn,.btn-sm,.btn-outline,.no-print{display:none!important}body{background:#fff}}
+</style>
+</head>
+<body>
+<nav><div class="nav-in">
+  <a href="index.html" class="back">← Volver</a>
+  <div class="logo">Freelance<b>Kit</b></div>
+  
+</div></nav>
+<div class="page">
+  <div class="header">
+    <div class="cat-badge">🏗️ Construcción y Oficios</div>
+    <h1>⚡ Calculadora de Cableado Eléctrico</h1>
+    <p>Calculá la sección de cable correcta según potencia, tensión y distancia. Para electricistas y constructores.</p>
+  </div>
+  
+<div class="card">
+  <h2>⚙️ Datos del circuito</h2>
+  <div class="grid2">
+    <div class="field"><label>Carga / Potencia (W)</label>
+      <input type="number" id="watts" placeholder="Ej: 2000" min="0" oninput="calcCable()">
+      <span class="hint">Suma la potencia de todos los aparatos del circuito</span></div>
+    <div class="field"><label>Tensión del sistema</label>
+      <select id="tension" onchange="calcCable()">
+        <option value="220">220V (Argentina, Chile, Uruguay, Europa)</option>
+        <option value="127">127V (México, algunas zonas)</option>
+        <option value="110">110V (EEUU, Colombia, Venezuela)</option>
+        <option value="380">380V trifásico</option>
+      </select></div>
+    <div class="field"><label>Distancia total del recorrido (m)</label>
+      <input type="number" id="dist" placeholder="Ej: 15" min="1" oninput="calcCable()">
+      <span class="hint">Ida + vuelta ya está calculado internamente</span></div>
+    <div class="field"><label>Tipo de instalación</label>
+      <select id="inst" onchange="calcCable()">
+        <option value="1.0">Embutido en pared / cañero</option>
+        <option value="0.85">Canaleta o bandeja</option>
+        <option value="0.7">Dentro de caño en losa / bajo piso</option>
+        <option value="1.2">Al aire libre / vista</option>
+      </select></div>
+    <div class="field"><label>Material del conductor</label>
+      <select id="material" onchange="calcCable()">
+        <option value="56">Cobre (estándar)</option>
+        <option value="35">Aluminio</option>
+      </select></div>
+    <div class="field"><label>Caída de tensión máxima permitida (%)</label>
+      <select id="caida" onchange="calcCable()">
+        <option value="3">3% — Iluminación (recomendado)</option>
+        <option value="5" selected>5% — Fuerza motriz (estándar)</option>
+        <option value="8">8% — Circuitos secundarios</option>
+      </select></div>
+  </div>
+</div>
+<div class="results card" id="res6">
+  <h2>⚡ Resultado del circuito</h2>
+  <div class="res-grid">
+    <div class="res-box blue"><div class="rl">Corriente (Amperes)</div><div class="rv" id="r-amp">—</div><div class="rs">Intensidad del circuito</div></div>
+    <div class="res-box hi"><div class="rl">Sección mínima</div><div class="rv" id="r-sec">—</div><div class="rs">mm² por caída de tensión</div></div>
+    <div class="res-box green"><div class="rl">Sección recomendada</div><div class="rv" id="r-rec">—</div><div class="rs">Valor comercial estándar</div></div>
+    <div class="res-box orange"><div class="rl">Disyuntor/Termomagnético</div><div class="rv" id="r-dis">—</div><div class="rs">Protección recomendada</div></div>
+  </div>
+  <hr class="sep">
+  <div style="margin-bottom:14px">
+    <div style="font-size:.8rem;font-weight:700;color:#475569;margin-bottom:10px">TABLA DE REFERENCIA RÁPIDA (cobre, embutido)</div>
+    <div style="overflow-x:auto">
+    <table id="tabla-ref" style="width:100%;border-collapse:collapse;font-size:.82rem">
+      <thead><tr style="background:#F1F5F9">
+        <th style="padding:7px 12px;text-align:left;font-weight:700;color:#475569">Sección</th>
+        <th style="padding:7px 12px;text-align:center;font-weight:700;color:#475569">Cap. corriente</th>
+        <th style="padding:7px 12px;text-align:center;font-weight:700;color:#475569">Potencia @220V</th>
+        <th style="padding:7px 12px;text-align:left;font-weight:700;color:#475569">Uso típico</th>
+      </tr></thead>
+      <tbody>
+        <tr style="border-bottom:1px solid #F1F5F9"><td style="padding:7px 12px;font-weight:600">1.5 mm²</td><td style="padding:7px 12px;text-align:center">15A</td><td style="padding:7px 12px;text-align:center">3.3 kW</td><td style="padding:7px 12px;color:#475569">Iluminación, enchufes livianos</td></tr>
+        <tr style="border-bottom:1px solid #F1F5F9;background:#FAFAFA"><td style="padding:7px 12px;font-weight:600">2.5 mm²</td><td style="padding:7px 12px;text-align:center">20A</td><td style="padding:7px 12px;text-align:center">4.4 kW</td><td style="padding:7px 12px;color:#475569">Enchufes comunes, microondas</td></tr>
+        <tr style="border-bottom:1px solid #F1F5F9"><td style="padding:7px 12px;font-weight:600">4 mm²</td><td style="padding:7px 12px;text-align:center">25A</td><td style="padding:7px 12px;text-align:center">5.5 kW</td><td style="padding:7px 12px;color:#475569">Lavarropas, lavavajillas</td></tr>
+        <tr style="border-bottom:1px solid #F1F5F9;background:#FAFAFA"><td style="padding:7px 12px;font-weight:600">6 mm²</td><td style="padding:7px 12px;text-align:center">32A</td><td style="padding:7px 12px;text-align:center">7 kW</td><td style="padding:7px 12px;color:#475569">Aire acondicionado, secarropa</td></tr>
+        <tr style="border-bottom:1px solid #F1F5F9"><td style="padding:7px 12px;font-weight:600">10 mm²</td><td style="padding:7px 12px;text-align:center">50A</td><td style="padding:7px 12px;text-align:center">11 kW</td><td style="padding:7px 12px;color:#475569">Horno eléctrico, calefón</td></tr>
+        <tr style="background:#FAFAFA"><td style="padding:7px 12px;font-weight:600">16 mm²</td><td style="padding:7px 12px;text-align:center">63A</td><td style="padding:7px 12px;text-align:center">13.8 kW</td><td style="padding:7px 12px;color:#475569">Calefacción eléctrica, ducha eléctrica</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+  <div class="insight" id="ins6"></div>
+</div>
+<script>
+var secciones=[1.5,2.5,4,6,10,16,25,35,50];
+var disyuntores=[6,10,16,20,25,32,40,50,63,80,100];
+function calcCable(){
+  var W=+document.getElementById('watts').value||0;
+  var V=+document.getElementById('tension').value||220;
+  var d=+document.getElementById('dist').value||0;
+  var fc=+document.getElementById('inst').value||1;
+  var cond=+document.getElementById('material').value||56;
+  var caidaPct=+document.getElementById('caida').value||5;
+  if(!W||!d)return;
+  var I=W/V;
+  var I_ajust=I/fc;
+  // Sección por caída de tensión: S = (2 * d * I) / (cond * caida_V)
+  var caida_V=V*caidaPct/100;
+  var S_min=(2*d*I)/(cond*caida_V);
+  // Sección comercial mínima
+  var S_rec=secciones.find(function(s){return s>=S_min*1.25})||secciones[secciones.length-1];
+  if(S_rec<1.5)S_rec=1.5;
+  // Disyuntor
+  var dis_min=I_ajust*1.25;
+  var dis=disyuntores.find(function(d){return d>=dis_min})||disyuntores[disyuntores.length-1];
+  document.getElementById('r-amp').textContent=I.toFixed(1)+' A';
+  document.getElementById('r-sec').textContent=S_min.toFixed(2)+' mm²';
+  document.getElementById('r-rec').textContent=S_rec+' mm²';
+  document.getElementById('r-dis').textContent=dis+'A';
+  var trows=document.querySelectorAll('#tabla-ref tbody tr');
+  trows.forEach(function(tr){tr.style.background='';tr.style.fontWeight='';});
+  var secLabels={'1.5':0,'2.5':1,'4':2,'6':3,'10':4,'16':5};
+  if(secLabels[S_rec]!==undefined){
+    trows[secLabels[S_rec]].style.background='#FFFBEB';
+    trows[secLabels[S_rec]].style.fontWeight='700';
+  }
+  document.getElementById('ins6').innerHTML='Para <b>'+W+'W a '+V+'V</b> la corriente es <b>'+I.toFixed(1)+'A</b>. La sección mínima calculada por caída de tensión es <b>'+S_min.toFixed(2)+'mm²</b> — usá el valor comercial inmediato superior: <b>'+S_rec+'mm²</b>. Protegé el circuito con un termomagnético de <b>'+dis+'A</b>. <b>Importante:</b> esta calculadora es orientativa. La instalación eléctrica debe ser ejecutada y certificada por un electricista matriculado.';
+  document.getElementById('res6').className='results card show';
+}
+</script>
+
+</div>
+</body>
+</html>

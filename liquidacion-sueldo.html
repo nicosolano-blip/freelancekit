@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calculadora de Liquidación de Sueldo — FreelanceKit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;color:#0F172A;background:#F8FAFC;min-height:100vh}
+a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid #E2E8F0;padding:0 20px}
+.nav-in{max-width:860px;margin:0 auto;display:flex;align-items:center;height:54px;gap:16px}
+.back{font-size:.85rem;font-weight:600}
+.logo{font-size:1.1rem;font-weight:900;color:#1B3A6B}
+.logo b{color:#2563EB}
+.free-tag{margin-left:auto;background:#DCFCE7;color:#16A34A;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:100px}
+.page{max-width:860px;margin:0 auto;padding:32px 20px 60px}
+.header{margin-bottom:28px}
+.cat-badge{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:12px}
+.header h1{font-size:1.6rem;font-weight:900;margin-bottom:8px}
+.header p{font-size:.95rem;color:#475569}
+.card{background:#fff;border-radius:12px;border:1.5px solid #E2E8F0;padding:28px;margin-bottom:20px}
+.card h2{font-size:1rem;font-weight:700;margin-bottom:20px;color:#1E3A5F}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}}
+.field label{display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:5px}
+.field input,.field select{width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.9rem;color:#0F172A;outline:none;font-family:Arial,sans-serif}
+.field .hint{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.btn{color:#fff;border:none;padding:13px 28px;border-radius:9px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px}
+.btn-sm{color:#fff;border:none;padding:9px 18px;border-radius:8px;font-size:.875rem;font-weight:700;cursor:pointer}
+.btn-outline{background:transparent;border:1.5px solid;padding:9px 18px;border-radius:8px;font-size:.875rem;font-weight:700;cursor:pointer}
+.results{display:none}
+.results.show{display:block}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:16px}
+.res-box{background:#F1F5F9;border-radius:10px;padding:18px 14px;text-align:center}
+.rl{font-size:.72rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.rv{font-size:1.4rem;font-weight:900;color:#0F172A;line-height:1}
+.rs{font-size:.72rem;color:#94A3B8;margin-top:4px}
+.sep{border:none;border-top:1px solid #E2E8F0;margin:20px 0}
+.insight{border-left:4px solid;border-radius:0 8px 8px 0;padding:14px 16px;font-size:.875rem;color:#475569;margin-top:16px}
+.insight b{color:#0F172A}
+
+.back{color:#1D4ED8}
+.logo b{color:#1D4ED8}
+.cat-badge{background:#EFF6FF;color:#1D4ED8}
+.field input:focus,.field select:focus{border-color:#1D4ED8}
+.btn{background:#1D4ED8}
+.res-box.hi{background:#EFF6FF;border:2px solid #1D4ED8}
+.res-box.green{background:#F0FDF4;border:2px solid #16A34A}
+.res-box.red{background:#FEF2F2;border:2px solid #DC2626}
+.res-box.orange{background:#FFF7ED;border:2px solid #EA580C}
+.res-box.blue{background:#EFF6FF;border:2px solid #2563EB}
+.insight{background:#EFF6FF;border-color:#1D4ED8}
+</style>
+</head>
+<body>
+<nav><div class="nav-in">
+  <a href="index.html" class="back">← Volver</a>
+  <div class="logo">Freelance<b>Kit</b></div>
+  
+</div></nav>
+<div class="page">
+  <div class="header">
+    <div class="cat-badge">💼 Recursos Humanos</div>
+    <h1>📄 Calculadora de Liquidación de Sueldo</h1>
+    <p>Verificá si tu sueldo está bien liquidado. Calculá el neto a cobrar desde el bruto con todas las deducciones.</p>
+  </div>
+  
+<div class="card">
+  <h2>⚙️ Tus datos</h2>
+  <div class="grid2">
+    <div class="field"><label>Salario bruto mensual ($)</label>
+      <input type="number" id="bruto" placeholder="Ej: 400000" min="0" oninput="calcLiq()"></div>
+    <div class="field"><label>País</label>
+      <select id="pais" onchange="calcLiq()">
+        <option value="AR">Argentina</option>
+        <option value="MX">México</option>
+        <option value="CO">Colombia</option>
+        <option value="CL">Chile</option>
+      </select></div>
+    <div class="field"><label>Horas extras (cantidad)</label>
+      <input type="number" id="horas_extra" placeholder="0" min="0" value="0" oninput="calcLiq()"></div>
+    <div class="field"><label>Valor hora extra ($)</label>
+      <input type="number" id="val_extra" placeholder="Ej: 2500" min="0" value="0" oninput="calcLiq()"></div>
+    <div class="field"><label>Otros adicionales ($)</label>
+      <input type="number" id="adicionales" placeholder="Ej: ticket, bono, etc." min="0" value="0" oninput="calcLiq()"></div>
+    <div class="field"><label>Días trabajados del mes</label>
+      <input type="number" id="dias" placeholder="25" min="1" max="31" value="25" oninput="calcLiq()"></div>
+    <div class="field"><label>Moneda</label>
+      <select id="mon" onchange="calcLiq()"><option>ARS</option><option>USD</option><option>MXN</option></select></div>
+  </div>
+</div>
+<div class="results card" id="res2">
+  <h2>💰 Tu liquidación</h2>
+  <div class="res-grid">
+    <div class="res-box"><div class="rl">Bruto base</div><div class="rv" id="r2-bruto">—</div></div>
+    <div class="res-box red"><div class="rl">Deducciones</div><div class="rv" id="r2-ded">—</div><div class="rs" id="r2-ded-pct">—</div></div>
+    <div class="res-box hi"><div class="rl">Neto a cobrar</div><div class="rv" id="r2-neto">—</div><div class="rs">Lo que depositás en mano</div></div>
+    <div class="res-box green"><div class="rl">Extras y adicionales</div><div class="rv" id="r2-extras">—</div></div>
+  </div>
+  <hr class="sep">
+  <div id="desglose2" style="font-size:.875rem;color:#475569;line-height:2.2;margin-bottom:14px"></div>
+  <div class="insight" id="ins2"></div>
+</div>
+<script>
+var ded={
+  AR:{jub:0.11,obra_social:0.03,desempleo:0.01,label:'Argentina'},
+  MX:{jub:0.0175,obra_social:0.0175,desempleo:0.005,label:'México'},
+  CO:{jub:0.04,obra_social:0.04,desempleo:0.0,label:'Colombia'},
+  CL:{jub:0.10,obra_social:0.07,desempleo:0.006,label:'Chile'}
+};
+function fmt(n){var m=document.getElementById('mon').value;return m+' '+Math.round(n).toLocaleString('es-AR')}
+function calcLiq(){
+  var bruto=+document.getElementById('bruto').value||0;
+  if(!bruto)return;
+  var pais=document.getElementById('pais').value;
+  var d=ded[pais];
+  var hext=+document.getElementById('horas_extra').value||0;
+  var vext=+document.getElementById('val_extra').value||0;
+  var adic=+document.getElementById('adicionales').value||0;
+  var dias=+document.getElementById('dias').value||25;
+  var bruto_dias=bruto/30*dias;
+  var extras=hext*vext+adic;
+  var base_ded=bruto_dias;
+  var jub=base_ded*d.jub;
+  var os=base_ded*d.obra_social;
+  var des=base_ded*d.desempleo;
+  var total_ded=jub+os+des;
+  var neto=bruto_dias-total_ded+extras;
+  document.getElementById('r2-bruto').textContent=fmt(bruto_dias);
+  document.getElementById('r2-ded').textContent=fmt(total_ded);
+  document.getElementById('r2-ded-pct').textContent=((total_ded/bruto_dias)*100).toFixed(1)+'% del bruto';
+  document.getElementById('r2-neto').textContent=fmt(neto);
+  document.getElementById('r2-extras').textContent=fmt(extras);
+  document.getElementById('desglose2').innerHTML=
+    '📌 Jubilación / pensión empleado: <b>'+fmt(jub)+'</b> ('+( d.jub*100).toFixed(2)+'%)<br>'+
+    '📌 Obra social / salud empleado: <b>'+fmt(os)+'</b> ('+( d.obra_social*100).toFixed(2)+'%)<br>'+
+    '📌 Fondo desempleo: <b>'+fmt(des)+'</b> ('+( d.desempleo*100).toFixed(2)+'%)<br>'+
+    (extras>0?'📌 Extras y adicionales: <b>+'+fmt(extras)+'</b><br>':'')+
+    '─────<br>Bruto ('+dias+' días): <b>'+fmt(bruto_dias)+'</b> → Neto: <b>'+fmt(neto)+'</b>';
+  document.getElementById('ins2').innerHTML='Con un bruto de <b>'+fmt(bruto)+'</b>, tu neto a cobrar es aproximadamente <b>'+fmt(neto)+'</b>. Las deducciones del empleado representan el <b>'+((total_ded/bruto_dias)*100).toFixed(1)+'%</b>. <b>Importante:</b> los valores exactos dependen de tu categoría, convenio colectivo y régimen impositivo. Esta calculadora es orientativa.';
+  document.getElementById('res2').className='results card show';
+}
+</script>
+
+</div>
+</body>
+</html>

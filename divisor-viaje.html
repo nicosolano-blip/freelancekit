@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Divisor de Gastos en Viaje Grupal — FreelanceKit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;color:#0F172A;background:#F8FAFC;min-height:100vh}
+a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid #E2E8F0;padding:0 20px}
+.nav-in{max-width:860px;margin:0 auto;display:flex;align-items:center;height:54px;gap:16px}
+.back{font-size:.85rem;font-weight:600}
+.logo{font-size:1.1rem;font-weight:900;color:#1B3A6B}
+.logo b{color:#2563EB}
+.free-tag{margin-left:auto;background:#DCFCE7;color:#16A34A;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:100px}
+.page{max-width:860px;margin:0 auto;padding:32px 20px 60px}
+.header{margin-bottom:28px}
+.cat-badge{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:12px}
+.header h1{font-size:1.6rem;font-weight:900;margin-bottom:8px}
+.header p{font-size:.95rem;color:#475569}
+.card{background:#fff;border-radius:12px;border:1.5px solid #E2E8F0;padding:28px;margin-bottom:20px}
+.card h2{font-size:1rem;font-weight:700;margin-bottom:20px;color:#1E3A5F}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}}
+.field label{display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:5px}
+.field input,.field select{width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.9rem;color:#0F172A;outline:none;font-family:Arial,sans-serif}
+.field .hint{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.btn{color:#fff;border:none;padding:13px 28px;border-radius:9px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px}
+.btn-sm{color:#fff;border:none;padding:9px 18px;border-radius:8px;font-size:.875rem;font-weight:700;cursor:pointer}
+.btn-outline{background:transparent;border:1.5px solid;padding:9px 18px;border-radius:8px;font-size:.875rem;font-weight:700;cursor:pointer}
+.results{display:none}
+.results.show{display:block}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:16px}
+.res-box{background:#F1F5F9;border-radius:10px;padding:18px 14px;text-align:center}
+.rl{font-size:.72rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.rv{font-size:1.4rem;font-weight:900;color:#0F172A;line-height:1}
+.rs{font-size:.72rem;color:#94A3B8;margin-top:4px}
+.sep{border:none;border-top:1px solid #E2E8F0;margin:20px 0}
+.insight{border-left:4px solid;border-radius:0 8px 8px 0;padding:14px 16px;font-size:.875rem;color:#475569;margin-top:16px}
+.insight b{color:#0F172A}
+
+.back{color:#9333EA}
+.logo b{color:#9333EA}
+.cat-badge{background:#FDF4FF;color:#9333EA}
+.field input:focus,.field select:focus{border-color:#9333EA}
+.btn{background:#9333EA}
+.res-box.hi{background:#FDF4FF;border:2px solid #9333EA}
+.res-box.green{background:#F0FDF4;border:2px solid #16A34A}
+.res-box.red{background:#FEF2F2;border:2px solid #DC2626}
+.res-box.orange{background:#FFF7ED;border:2px solid #EA580C}
+.res-box.blue{background:#EFF6FF;border:2px solid #2563EB}
+.insight{background:#FDF4FF;border-color:#9333EA}
+</style>
+</head>
+<body>
+<nav><div class="nav-in">
+  <a href="index.html" class="back">← Volver</a>
+  <div class="logo">Freelance<b>Kit</b></div>
+  
+</div></nav>
+<div class="page">
+  <div class="header">
+    <div class="cat-badge">🎉 Eventos y Vida Cotidiana</div>
+    <h1>✈️ Divisor de Gastos en Viaje Grupal</h1>
+    <p>Registrá quién pagó qué, y la calculadora te dice exactamente quién le debe a quién para saldar todo.</p>
+  </div>
+  
+<div class="card">
+  <h2>👥 Participantes</h2>
+  <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap" id="personas-tags"></div>
+  <div style="display:flex;gap:8px">
+    <input type="text" id="nueva-persona" placeholder="Nombre del participante" style="flex:1;padding:9px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.9rem;outline:none" onkeydown="if(event.key==='Enter')addPersona()">
+    <button class="btn-sm" onclick="addPersona()" style="background:#9333EA">+ Agregar</button>
+  </div>
+</div>
+<div class="card">
+  <h2>💸 Registrar gasto</h2>
+  <div style="display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:8px;align-items:end">
+    <div class="field"><label>Descripción</label><input type="text" id="g-desc" placeholder="Ej: Cena en restaurante"></div>
+    <div class="field"><label>Monto ($)</label><input type="number" id="g-monto" placeholder="Ej: 15000" min="0"></div>
+    <div class="field"><label>¿Quién pagó?</label><select id="g-pagador" style="padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.9rem;outline:none"><option value="">— seleccionar —</option></select></div>
+    <button class="btn-sm" onclick="addGasto()" style="background:#9333EA;height:42px;margin-bottom:0">+ Agregar</button>
+  </div>
+  <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap">
+    <div class="field" style="flex:1;min-width:120px;margin:0"><label>Moneda</label><select id="mon" onchange="calcDeudas()" style="padding:9px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.875rem;outline:none"><option>ARS</option><option>USD</option><option>MXN</option></select></div>
+  </div>
+</div>
+<div class="card" id="gastos-card" style="display:none">
+  <h2>📋 Gastos registrados</h2>
+  <div id="gastos-lista"></div>
+</div>
+<div class="results card" id="res-div">
+  <h2>🔄 Quién le debe a quién</h2>
+  <div class="res-grid" id="res-totales"></div>
+  <hr class="sep">
+  <div id="deudas-lista" style="margin-bottom:14px"></div>
+  <div class="insight" id="ins-div"></div>
+</div>
+<script>
+var personas=[]; var gastos=[]; var gid=0;
+function fmt(n){var m=document.getElementById('mon').value;return m+' '+Math.round(n).toLocaleString('es-AR')}
+function addPersona(){
+  var n=document.getElementById('nueva-persona').value.trim();
+  if(!n||personas.includes(n)){return;}
+  personas.push(n);
+  document.getElementById('nueva-persona').value='';
+  renderPersonas();
+  calcDeudas();
+}
+function removePersona(n){personas=personas.filter(function(p){return p!==n});renderPersonas();calcDeudas();}
+function renderPersonas(){
+  var tags=document.getElementById('personas-tags');
+  tags.innerHTML='';
+  personas.forEach(function(p){
+    var t=document.createElement('span');
+    t.style.cssText='background:#EDE9FE;color:#7C3AED;padding:5px 12px;border-radius:100px;font-size:.8rem;font-weight:700;display:flex;align-items:center;gap:6px';
+    t.innerHTML=p+' <button onclick="removePersona(''+p+'')" style="background:none;border:none;cursor:pointer;color:#7C3AED;font-size:.75rem">✕</button>';
+    tags.appendChild(t);
+  });
+  var sel=document.getElementById('g-pagador');
+  sel.innerHTML='<option value="">— seleccionar —</option>';
+  personas.forEach(function(p){var o=document.createElement('option');o.value=p;o.textContent=p;sel.appendChild(o);});
+}
+function addGasto(){
+  var desc=document.getElementById('g-desc').value.trim();
+  var monto=+document.getElementById('g-monto').value||0;
+  var pag=document.getElementById('g-pagador').value;
+  if(!desc||!monto||!pag){alert('Completá descripción, monto y pagador');return;}
+  gastos.push({id:gid++,desc:desc,monto:monto,pag:pag});
+  document.getElementById('g-desc').value=''; document.getElementById('g-monto').value='';
+  renderGastos(); calcDeudas();
+}
+function removeGasto(id){gastos=gastos.filter(function(g){return g.id!==id});renderGastos();calcDeudas();}
+function renderGastos(){
+  var lista=document.getElementById('gastos-lista');
+  lista.innerHTML='';
+  gastos.forEach(function(g){
+    lista.innerHTML+='<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 12px;border-radius:8px;background:#FDF4FF;border:1.5px solid #E9D5FF;margin-bottom:6px"><span><b>'+g.pag+'</b> pagó <b>'+fmt(g.monto)+'</b> — '+g.desc+'</span><button onclick="removeGasto('+g.id+')" style="background:#FEF2F2;border:1px solid #FECACA;border-radius:6px;padding:4px 8px;cursor:pointer;font-size:.75rem;color:#DC2626">✕</button></div>';
+  });
+  document.getElementById('gastos-card').style.display=gastos.length?'block':'none';
+}
+function calcDeudas(){
+  if(!personas.length||!gastos.length)return;
+  var n=personas.length;
+  var total=gastos.reduce(function(s,g){return s+g.monto},0);
+  var porPersona=total/n;
+  var balances={};
+  personas.forEach(function(p){balances[p]=-porPersona;});
+  gastos.forEach(function(g){balances[g.pag]+=g.monto;});
+  // Totales
+  var html='';
+  personas.forEach(function(p){
+    var b=balances[p];
+    var cls=b>0?'green':b<0?'red':'';
+    html+='<div class="res-box '+cls+'"><div class="rl">'+p+'</div><div class="rv">'+(b>0?'+':'')+fmt(b)+'</div><div class="rs">'+(b>0?'a cobrar':b<0?'a pagar':'justo')+'</div></div>';
+  });
+  document.getElementById('res-totales').innerHTML=html;
+  // Simplificar deudas
+  var creditors=[],debtors=[];
+  personas.forEach(function(p){if(balances[p]>1)creditors.push({n:p,b:balances[p]});else if(balances[p]<-1)debtors.push({n:p,b:-balances[p]});});
+  var transfers='';
+  var ci=0,di=0;
+  var ca=[...creditors],da=[...debtors];
+  while(ci<ca.length&&di<da.length){
+    var amt=Math.min(ca[ci].b,da[di].b);
+    transfers+='<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-radius:8px;background:#F0FDF4;border:1.5px solid #86EFAC;margin-bottom:8px"><span><b>'+da[di].n+'</b> → <b>'+ca[ci].n+'</b></span><b style="color:#16A34A">'+fmt(amt)+'</b></div>';
+    ca[ci].b-=amt; da[di].b-=amt;
+    if(ca[ci].b<1)ci++; if(da[di].b<1)di++;
+  }
+  document.getElementById('deudas-lista').innerHTML='<div style="font-size:.8rem;font-weight:700;color:#475569;margin-bottom:10px">TRANSFERENCIAS PARA SALDAR TODO</div>'+transfers;
+  document.getElementById('ins-div').innerHTML='Total del viaje: <b>'+fmt(total)+'</b> entre <b>'+n+' personas</b> → <b>'+fmt(porPersona)+' por persona</b>. Con estas transferencias todos quedan en cero.';
+  document.getElementById('res-div').className='results card show';
+}
+</script>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calculadora de Costo de Dieta por Semana — FreelanceKit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;color:#0F172A;background:#F8FAFC;min-height:100vh}
+a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid #E2E8F0;padding:0 20px}
+.nav-in{max-width:860px;margin:0 auto;display:flex;align-items:center;height:54px;gap:16px}
+.back{font-size:.85rem;font-weight:600}
+.logo{font-size:1.1rem;font-weight:900;color:#1B3A6B}
+.logo b{color:#2563EB}
+.free-tag{margin-left:auto;background:#DCFCE7;color:#16A34A;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:100px}
+.page{max-width:860px;margin:0 auto;padding:32px 20px 60px}
+.header{margin-bottom:28px}
+.cat-badge{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:12px}
+.header h1{font-size:1.6rem;font-weight:900;margin-bottom:8px}
+.header p{font-size:.95rem;color:#475569}
+.card{background:#fff;border-radius:12px;border:1.5px solid #E2E8F0;padding:28px;margin-bottom:20px}
+.card h2{font-size:1rem;font-weight:700;margin-bottom:20px;color:#1E3A5F}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}}
+.field label{display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:5px}
+.field input,.field select{width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.9rem;color:#0F172A;outline:none;font-family:Arial,sans-serif}
+.field .hint{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.btn{color:#fff;border:none;padding:13px 28px;border-radius:9px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px}
+.btn-sm{color:#fff;border:none;padding:9px 18px;border-radius:8px;font-size:.875rem;font-weight:700;cursor:pointer}
+.btn-outline{background:transparent;border:1.5px solid;padding:9px 18px;border-radius:8px;font-size:.875rem;font-weight:700;cursor:pointer}
+.results{display:none}
+.results.show{display:block}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:16px}
+.res-box{background:#F1F5F9;border-radius:10px;padding:18px 14px;text-align:center}
+.rl{font-size:.72rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.rv{font-size:1.4rem;font-weight:900;color:#0F172A;line-height:1}
+.rs{font-size:.72rem;color:#94A3B8;margin-top:4px}
+.sep{border:none;border-top:1px solid #E2E8F0;margin:20px 0}
+.insight{border-left:4px solid;border-radius:0 8px 8px 0;padding:14px 16px;font-size:.875rem;color:#475569;margin-top:16px}
+.insight b{color:#0F172A}
+
+.back{color:#9333EA}
+.logo b{color:#9333EA}
+.cat-badge{background:#FDF4FF;color:#9333EA}
+.field input:focus,.field select:focus{border-color:#9333EA}
+.btn{background:#9333EA}
+.res-box.hi{background:#FDF4FF;border:2px solid #9333EA}
+.res-box.green{background:#F0FDF4;border:2px solid #16A34A}
+.res-box.red{background:#FEF2F2;border:2px solid #DC2626}
+.res-box.orange{background:#FFF7ED;border:2px solid #EA580C}
+.res-box.blue{background:#EFF6FF;border:2px solid #2563EB}
+.insight{background:#FDF4FF;border-color:#9333EA}
+</style>
+</head>
+<body>
+<nav><div class="nav-in">
+  <a href="index.html" class="back">← Volver</a>
+  <div class="logo">Freelance<b>Kit</b></div>
+  
+</div></nav>
+<div class="page">
+  <div class="header">
+    <div class="cat-badge">🎉 Eventos y Vida Cotidiana</div>
+    <h1>🥗 Calculadora de Costo de Dieta por Semana</h1>
+    <p>¿Cuánto cuesta realmente cambiar tu alimentación? Compará el costo semanal de distintas dietas.</p>
+  </div>
+  
+<div class="card">
+  <h2>⚙️ Tu situación actual</h2>
+  <div class="grid2">
+    <div class="field"><label>Dieta actual</label>
+      <select id="dieta-act" onchange="calcDieta()">
+        <option value="omnivora">Omnívora estándar</option>
+        <option value="keto">Keto / carnívora</option>
+        <option value="vegana">Vegana</option>
+        <option value="vegetariana">Vegetariana</option>
+        <option value="mediterranea">Mediterránea</option>
+        <option value="paleo">Paleo</option>
+      </select></div>
+    <div class="field"><label>Dieta que querés comparar</label>
+      <select id="dieta-nueva" onchange="calcDieta()">
+        <option value="keto">Keto / carnívora</option>
+        <option value="vegana">Vegana</option>
+        <option value="vegetariana">Vegetariana</option>
+        <option value="mediterranea">Mediterránea</option>
+        <option value="omnivora">Omnívora estándar</option>
+        <option value="paleo">Paleo</option>
+      </select></div>
+    <div class="field"><label>Cantidad de personas en el hogar</label>
+      <input type="number" id="personas-dieta" placeholder="1" min="1" value="1" oninput="calcDieta()"></div>
+    <div class="field"><label>Moneda</label>
+      <select id="mon" onchange="calcDieta()"><option>ARS</option><option>USD</option><option>MXN</option></select></div>
+  </div>
+</div>
+<div class="results card" id="res-dieta">
+  <h2>🥗 Comparación de costos</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+    <div class="res-box" id="box-act" style="padding:20px">
+      <div class="rl" id="label-act">Dieta actual</div>
+      <div class="rv" id="r-act-s" style="font-size:1.1rem;margin:8px 0">—</div>
+      <div class="rs">por semana / persona</div>
+    </div>
+    <div class="res-box" id="box-nueva" style="padding:20px">
+      <div class="rl" id="label-nueva">Nueva dieta</div>
+      <div class="rv" id="r-nueva-s" style="font-size:1.1rem;margin:8px 0">—</div>
+      <div class="rs">por semana / persona</div>
+    </div>
+  </div>
+  <div class="res-grid">
+    <div class="res-box hi"><div class="rl">Diferencia semanal</div><div class="rv" id="r-diff-d">—</div></div>
+    <div class="res-box orange"><div class="rl">Diferencia mensual</div><div class="rv" id="r-diff-m">—</div></div>
+    <div class="res-box"><div class="rl">Diferencia anual</div><div class="rv" id="r-diff-a">—</div></div>
+  </div>
+  <hr class="sep">
+  <div id="tips-dieta" style="font-size:.875rem;color:#475569;margin-bottom:14px"></div>
+  <div class="insight" id="ins-dieta"></div>
+</div>
+<script>
+// Costo semanal relativo por persona (índice sobre omnívora = 100)
+var dietas={
+  omnivora:{idx:1.0,label:'Omnívora estándar',tip:'La dieta más barata y fácil de sostener. Variedad de proteínas animales y vegetales.'},
+  vegetariana:{idx:0.85,label:'Vegetariana',tip:'Generalmente más barata que la omnívora. Legumbres, huevos y lácteos son proteínas económicas.'},
+  vegana:{idx:0.90,label:'Vegana',tip:'Sin productos animales. Los productos procesados veganos (quesos, embutidos) suben el costo. Legumbres y cereales la abaratan.'},
+  mediterranea:{idx:1.15,label:'Mediterránea',tip:'Aceite de oliva, pescado, frutas y frutos secos. Nutritiva pero 15-20% más cara que la omnívora estándar.'},
+  keto:{idx:1.55,label:'Keto / carnívora',tip:'Alta en proteínas y grasas, sin carbohidratos. La carne, los lácteos y las verduras non-starchy son caros. Es la dieta más costosa.'},
+  paleo:{idx:1.40,label:'Paleo',tip:'Sin granos ni lácteos, alta en carnes y verduras frescas. Similar al keto en costo pero con más frutas y verduras.'}
+};
+var BASE_SEMANAL=8500; // ARS base omnívora 1 persona
+function fmt(n){var m=document.getElementById('mon').value;return m+' '+Math.round(n).toLocaleString('es-AR')}
+function calcDieta(){
+  var da=document.getElementById('dieta-act').value;
+  var dn=document.getElementById('dieta-nueva').value;
+  var pers=+document.getElementById('personas-dieta').value||1;
+  var dda=dietas[da]; var ddn=dietas[dn];
+  var act_sem=BASE_SEMANAL*dda.idx*pers;
+  var nueva_sem=BASE_SEMANAL*ddn.idx*pers;
+  var diff_sem=nueva_sem-act_sem;
+  document.getElementById('label-act').textContent=dda.label;
+  document.getElementById('label-nueva').textContent=ddn.label;
+  document.getElementById('r-act-s').textContent=fmt(act_sem);
+  document.getElementById('r-nueva-s').textContent=fmt(nueva_sem);
+  document.getElementById('r-diff-d').textContent=(diff_sem>0?'+':'')+fmt(diff_sem)+'/sem';
+  document.getElementById('r-diff-m').textContent=(diff_sem>0?'+':'')+fmt(diff_sem*4.3)+'/mes';
+  document.getElementById('r-diff-a').textContent=(diff_sem>0?'+':'')+fmt(diff_sem*52)+'/año';
+  var box_n=document.getElementById('box-nueva');
+  box_n.style.border=diff_sem<0?'2px solid #16A34A':diff_sem>0?'2px solid #EA580C':'2px solid #E2E8F0';
+  document.getElementById('tips-dieta').innerHTML='<b>'+dda.label+':</b> '+dda.tip+'<br><br><b>'+ddn.label+':</b> '+ddn.tip;
+  var dir=diff_sem<0?'ahorrarías':'gastarías más';
+  document.getElementById('ins-dieta').innerHTML='Cambiar de <b>'+dda.label+'</b> a <b>'+ddn.label+'</b> significa que '+dir+' <b>'+fmt(Math.abs(diff_sem*4.3))+'/mes</b> en alimentos (<b>'+fmt(Math.abs(diff_sem*52))+'/año</b>). Valores estimados para LATAM, varían según región y estación.';
+  document.getElementById('res-dieta').className='results card show';
+}
+calcDieta();
+</script>
+
+</div>
+</body>
+</html>

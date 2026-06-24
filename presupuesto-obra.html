@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Presupuesto de Obra Profesional — FreelanceKit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;color:#0F172A;background:#F8FAFC;min-height:100vh}
+a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid #E2E8F0;padding:0 20px}
+.nav-in{max-width:860px;margin:0 auto;display:flex;align-items:center;height:54px;gap:16px}
+.back{font-size:.85rem;color:#D97706;font-weight:600}
+.back:hover{color:#92400E}
+.logo{font-size:1.1rem;font-weight:900;color:#1B3A6B}
+.logo b{color:#D97706}
+.free-tag{margin-left:auto;background:#DCFCE7;color:#16A34A;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:100px}
+.page{max-width:860px;margin:0 auto;padding:32px 20px 60px}
+.header{margin-bottom:28px}
+.cat-badge{display:inline-block;background:#FFFBEB;color:#D97706;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:12px}
+.header h1{font-size:1.6rem;font-weight:900;margin-bottom:8px}
+.header p{font-size:.95rem;color:#475569}
+.card{background:#fff;border-radius:12px;border:1.5px solid #E2E8F0;padding:28px;margin-bottom:20px}
+.card h2{font-size:1rem;font-weight:700;margin-bottom:20px;color:#92400E}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}}
+.field label{display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:5px}
+.field input,.field select{width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.9rem;color:#0F172A;outline:none;font-family:Arial,sans-serif}
+.field input:focus,.field select:focus{border-color:#D97706}
+.field .hint{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.btn{background:#D97706;color:#fff;border:none;padding:13px 28px;border-radius:9px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px}
+.btn:hover{background:#92400E}
+.btn-sm{background:#D97706;color:#fff;border:none;padding:9px 18px;border-radius:8px;font-size:.875rem;font-weight:700;cursor:pointer}
+.btn-sm:hover{background:#92400E}
+.btn-outline{background:transparent;color:#D97706;border:1.5px solid #D97706;padding:9px 18px;border-radius:8px;font-size:.875rem;font-weight:700;cursor:pointer}
+.btn-outline:hover{background:#D97706;color:#fff}
+.results{display:none}
+.results.show{display:block}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:16px}
+.res-box{background:#F1F5F9;border-radius:10px;padding:18px 14px;text-align:center}
+.res-box.hi{background:#FFFBEB;border:2px solid #D97706}
+.res-box.green{background:#F0FDF4;border:2px solid #16A34A}
+.res-box.orange{background:#FFF7ED;border:2px solid #EA580C}
+.res-box.red{background:#FEF2F2;border:2px solid #DC2626}
+.res-box.blue{background:#EFF6FF;border:2px solid #2563EB}
+.rl{font-size:.72rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.rv{font-size:1.5rem;font-weight:900;color:#0F172A;line-height:1}
+.rs{font-size:.72rem;color:#94A3B8;margin-top:4px}
+.insight{background:#FFFBEB;border-left:4px solid #D97706;border-radius:0 8px 8px 0;padding:14px 16px;font-size:.875rem;color:#475569;margin-top:16px}
+.insight b{color:#0F172A}
+.sep{border:none;border-top:1px solid #E2E8F0;margin:20px 0}
+@media print{nav,#print-btn,.btn,.btn-sm,.btn-outline,.no-print{display:none!important}body{background:#fff}}
+</style>
+</head>
+<body>
+<nav><div class="nav-in">
+  <a href="index.html" class="back">← Volver</a>
+  <div class="logo">Freelance<b>Kit</b></div>
+  
+</div></nav>
+<div class="page">
+  <div class="header">
+    <div class="cat-badge">🏗️ Construcción y Oficios</div>
+    <h1>📋 Presupuesto de Obra Profesional</h1>
+    <p>Completá los datos y generá un presupuesto de obra formal listo para imprimir o guardar como PDF.</p>
+  </div>
+  
+<div class="card no-print">
+  <h2>👤 Datos del contratista</h2>
+  <div class="grid2">
+    <div class="field"><label>Nombre / Empresa</label><input type="text" id="cont" placeholder="Ej: Juan García Construcciones"></div>
+    <div class="field"><label>DNI / CUIT</label><input type="text" id="cuit" placeholder="Ej: 20-12345678-9"></div>
+    <div class="field"><label>Teléfono</label><input type="text" id="tel" placeholder="Ej: +54 11 1234-5678"></div>
+    <div class="field"><label>Especialidad</label><input type="text" id="esp" placeholder="Ej: Albañilería, pintura y reformas"></div>
+  </div>
+</div>
+<div class="card no-print">
+  <h2>🏠 Datos del cliente y obra</h2>
+  <div class="grid2">
+    <div class="field"><label>Cliente</label><input type="text" id="cliente" placeholder="Ej: María González"></div>
+    <div class="field"><label>Dirección de la obra</label><input type="text" id="dir" placeholder="Ej: Av. Corrientes 1234, CABA"></div>
+    <div class="field"><label>Descripción general de la obra</label>
+      <textarea id="obra-desc" rows="2" placeholder="Ej: Refacción integral de departamento de 3 ambientes: baño, cocina y dormitorios." style="width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.9rem;outline:none;resize:vertical;font-family:Arial,sans-serif"></textarea></div>
+    <div class="field"><label>Plazo estimado</label><input type="text" id="plazo" placeholder="Ej: 45 días hábiles"></div>
+  </div>
+</div>
+<div class="card no-print">
+  <h2>📦 Ítems del presupuesto</h2>
+  <div id="items">
+    <div class="item-row" style="display:grid;grid-template-columns:3fr 1.5fr 1.5fr auto;gap:8px;margin-bottom:8px;align-items:center">
+      <input type="text" placeholder="Descripción del trabajo" style="padding:9px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.875rem;outline:none" oninput="previewObra()">
+      <input type="number" placeholder="Mano de obra ($)" min="0" style="padding:9px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.875rem;outline:none" oninput="previewObra()">
+      <input type="number" placeholder="Materiales ($)" min="0" style="padding:9px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.875rem;outline:none" oninput="previewObra()">
+      <button onclick="removeObra(this)" style="background:#FEF2F2;border:1.5px solid #FECACA;border-radius:8px;padding:9px 12px;cursor:pointer;font-size:.85rem;color:#DC2626">✕</button>
+    </div>
+  </div>
+  <button onclick="addObra()" class="btn-outline" style="margin-top:4px;width:auto">+ Agregar ítem</button>
+  <hr class="sep">
+  <div class="grid2">
+    <div class="field"><label>Moneda</label>
+      <select id="monObra" onchange="previewObra()"><option>ARS</option><option>USD</option><option>MXN</option></select></div>
+    <div class="field"><label>% adelanto requerido</label>
+      <input type="number" id="adelanto" value="30" min="0" max="100" oninput="previewObra()"></div>
+  </div>
+  <div class="field" style="margin-top:12px"><label>Condiciones y observaciones</label>
+    <textarea id="obs" rows="2" placeholder="Ej: Los materiales corren por cuenta del cliente. El presupuesto no incluye transporte de escombros." style="width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.9rem;outline:none;resize:vertical;font-family:Arial,sans-serif" oninput="previewObra()"></textarea></div>
+</div>
+<div style="display:flex;gap:10px;margin-bottom:20px" class="no-print">
+  <button class="btn" style="width:auto;flex:1" onclick="previewObra()">👁 Vista previa</button>
+  <button class="btn-sm" onclick="window.print()" style="flex:1;padding:13px" id="print-btn">🖨 Guardar PDF</button>
+</div>
+<div id="obra-doc" style="display:none;background:#fff;border-radius:12px;border:1.5px solid #E2E8F0;padding:40px"></div>
+<script>
+var obraNum=Math.floor(Math.random()*9000)+1000;
+function fmt(n){var m=document.getElementById('monObra').value;return m+' '+Math.round(n).toLocaleString('es-AR')}
+function addObra(){
+  var d=document.getElementById('items');
+  var row=document.createElement('div');
+  row.className='item-row';
+  row.style.cssText='display:grid;grid-template-columns:3fr 1.5fr 1.5fr auto;gap:8px;margin-bottom:8px;align-items:center';
+  row.innerHTML='<input type="text" placeholder="Descripción" style="padding:9px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.875rem;outline:none" oninput="previewObra()"><input type="number" placeholder="Mano de obra ($)" min="0" style="padding:9px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.875rem;outline:none" oninput="previewObra()"><input type="number" placeholder="Materiales ($)" min="0" style="padding:9px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.875rem;outline:none" oninput="previewObra()"><button onclick="removeObra(this)" style="background:#FEF2F2;border:1.5px solid #FECACA;border-radius:8px;padding:9px 12px;cursor:pointer;font-size:.85rem;color:#DC2626">✕</button>';
+  d.appendChild(row);
+}
+function removeObra(btn){if(document.querySelectorAll('.item-row').length>1)btn.parentElement.remove();previewObra();}
+function previewObra(){
+  var cont=document.getElementById('cont').value||'[Contratista]';
+  var cuit=document.getElementById('cuit').value||'';
+  var tel=document.getElementById('tel').value||'';
+  var esp=document.getElementById('esp').value||'Construcción y reformas';
+  var cli=document.getElementById('cliente').value||'[Cliente]';
+  var dir=document.getElementById('dir').value||'';
+  var desc=document.getElementById('obra-desc').value||'';
+  var plazo=document.getElementById('plazo').value||'A convenir';
+  var obs=document.getElementById('obs').value||'';
+  var adPct=+document.getElementById('adelanto').value||30;
+  var fecha=new Date().toLocaleDateString('es-AR',{day:'numeric',month:'long',year:'numeric'});
+  var rows=document.querySelectorAll('.item-row');
+  var html='<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:28px;border-bottom:3px solid #D97706;padding-bottom:18px">';
+  html+='<div><div style="font-size:1.3rem;font-weight:900;color:#92400E">'+cont+'</div><div style="color:#475569;font-size:.85rem">'+esp+'</div><div style="color:#475569;font-size:.82rem;margin-top:4px">'+[cuit,tel].filter(Boolean).join(' · ')+'</div></div>';
+  html+='<div style="text-align:right"><div style="font-size:1.1rem;font-weight:900;color:#D97706">PRESUPUESTO DE OBRA</div><div style="font-size:.82rem;color:#94A3B8">'+fecha+'</div><div style="font-size:.82rem;color:#94A3B8">Nº OBRA-'+obraNum+'</div></div></div>';
+  html+='<div style="margin-bottom:20px"><div style="font-size:.75rem;font-weight:700;color:#94A3B8;margin-bottom:4px">CLIENTE Y DIRECCIÓN DE OBRA</div><div style="font-weight:700">'+cli+'</div><div style="font-size:.875rem;color:#475569">'+dir+'</div>'+(desc?'<div style="font-size:.875rem;color:#475569;margin-top:6px">'+desc+'</div>':'')+'</div>';
+  html+='<table style="width:100%;border-collapse:collapse;margin-bottom:20px"><thead><tr style="background:#92400E;color:#fff"><th style="padding:9px 14px;text-align:left;font-size:.78rem">DESCRIPCIÓN</th><th style="padding:9px 14px;text-align:right;font-size:.78rem;width:130px">MANO DE OBRA</th><th style="padding:9px 14px;text-align:right;font-size:.78rem;width:130px">MATERIALES</th><th style="padding:9px 14px;text-align:right;font-size:.78rem;width:130px">SUBTOTAL</th></tr></thead><tbody>';
+  var totMO=0,totMat=0;
+  rows.forEach(function(r,i){
+    var ins=r.querySelectorAll('input');
+    var d=ins[0].value||'(sin descripción)'; var mo=+ins[1].value||0; var mat=+ins[2].value||0; var sub=mo+mat;
+    totMO+=mo; totMat+=mat;
+    html+='<tr style="background:'+(i%2?'#fff':'#FFFBEB')+'"><td style="padding:9px 14px;font-size:.875rem">'+d+'</td><td style="padding:9px 14px;text-align:right;font-size:.875rem">'+fmt(mo)+'</td><td style="padding:9px 14px;text-align:right;font-size:.875rem">'+fmt(mat)+'</td><td style="padding:9px 14px;text-align:right;font-size:.875rem;font-weight:600">'+fmt(sub)+'</td></tr>';
+  });
+  var total=totMO+totMat;
+  var adAmt=total*adPct/100;
+  html+='<tr><td colspan="3" style="padding:10px 14px;text-align:right;font-weight:700;border-top:2px solid #D97706">TOTAL</td><td style="padding:10px 14px;text-align:right;font-weight:900;color:#D97706;border-top:2px solid #D97706;font-size:1.1rem">'+fmt(total)+'</td></tr></tbody></table>';
+  html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px"><div style="background:#FFFBEB;border-radius:8px;padding:12px"><div style="font-size:.75rem;font-weight:700;color:#94A3B8;margin-bottom:4px">CONDICIONES DE PAGO</div><div style="font-size:.875rem">'+adPct+'% adelanto al inicio: <b>'+fmt(adAmt)+'</b><br>'+(100-adPct)+'% contra entrega de obra</div></div><div style="background:#FFFBEB;border-radius:8px;padding:12px"><div style="font-size:.75rem;font-weight:700;color:#94A3B8;margin-bottom:4px">PLAZO ESTIMADO</div><div style="font-size:.875rem">'+plazo+'</div></div></div>';
+  if(obs)html+='<div style="background:#FEF3C7;border:1px solid #FDE68A;border-radius:8px;padding:12px;margin-bottom:16px;font-size:.875rem;color:#475569"><b>Observaciones: </b>'+obs+'</div>';
+  html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:48px"><div style="border-top:2px solid #0F172A;padding-top:10px;text-align:center;font-size:.875rem"><b>'+cont+'</b><br><span style="color:#94A3B8;font-size:.78rem">Contratista</span></div><div style="border-top:2px solid #0F172A;padding-top:10px;text-align:center;font-size:.875rem"><b>'+cli+'</b><br><span style="color:#94A3B8;font-size:.78rem">Cliente — Conformidad</span></div></div>';
+  html+='<div style="text-align:center;font-size:.75rem;color:#94A3B8;margin-top:20px;border-top:1px solid #E2E8F0;padding-top:12px">Presupuesto válido por 15 días desde la fecha de emisión.</div>';
+  document.getElementById('obra-doc').innerHTML=html;
+  document.getElementById('obra-doc').style.display='block';
+}
+previewObra();
+</script>
+
+</div>
+</body>
+</html>

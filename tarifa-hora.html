@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calculadora de Tarifa Hora — FreelanceKit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;color:#0F172A;background:#F8FAFC;min-height:100vh}
+a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid #E2E8F0;padding:0 20px}
+.nav-in{max-width:860px;margin:0 auto;display:flex;align-items:center;height:54px;gap:16px}
+.back{font-size:.85rem;color:#2563EB;font-weight:600}
+.back:hover{color:#1B3A6B}
+.logo{font-size:1.1rem;font-weight:900;color:#1B3A6B}
+.logo b{color:#2563EB}
+.free-tag{margin-left:auto;background:#DCFCE7;color:#16A34A;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:100px}
+.page{max-width:860px;margin:0 auto;padding:32px 20px 60px}
+.header{margin-bottom:28px}
+.cat-badge{display:inline-block;background:#EFF6FF;color:#2563EB;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:12px}
+.header h1{font-size:1.6rem;font-weight:900;margin-bottom:8px}
+.header p{font-size:.95rem;color:#475569}
+.card{background:#fff;border-radius:12px;border:1.5px solid #E2E8F0;padding:28px;margin-bottom:20px}
+.card h2{font-size:1rem;font-weight:700;margin-bottom:20px;color:#1B3A6B}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}}
+.field{margin-bottom:0}
+.field label{display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.9rem;color:#0F172A;outline:none;font-family:Arial,sans-serif}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#2563EB}
+.field .hint{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.btn{background:#2563EB;color:#fff;border:none;padding:13px 28px;border-radius:9px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px}
+.btn:hover{background:#1B3A6B}
+.btn-sm{background:#2563EB;color:#fff;border:none;padding:9px 18px;border-radius:8px;font-size:.875rem;font-weight:700;cursor:pointer}
+.btn-sm:hover{background:#1B3A6B}
+.btn-outline{background:transparent;color:#2563EB;border:1.5px solid #2563EB;padding:9px 18px;border-radius:8px;font-size:.875rem;font-weight:700;cursor:pointer}
+.btn-outline:hover{background:#2563EB;color:#fff}
+.results{display:none}
+.results.show{display:block}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:16px}
+.res-box{background:#F1F5F9;border-radius:10px;padding:18px 14px;text-align:center}
+.res-box.hi{background:#EFF6FF;border:2px solid #2563EB}
+.res-box.green{background:#F0FDF4;border:2px solid #16A34A}
+.res-box.orange{background:#FFF7ED;border:2px solid #EA580C}
+.res-box.red{background:#FEF2F2;border:2px solid #DC2626}
+.rl{font-size:.72rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.rv{font-size:1.5rem;font-weight:900;color:#0F172A;line-height:1}
+.rs{font-size:.72rem;color:#94A3B8;margin-top:4px}
+.insight{background:#F8FAFC;border-left:4px solid #2563EB;border-radius:0 8px 8px 0;padding:14px 16px;font-size:.875rem;color:#475569;margin-top:16px}
+.insight b{color:#0F172A}
+.sep{border:none;border-top:1px solid #E2E8F0;margin:20px 0}
+@media print{nav,#print-btn,.btn,.btn-sm,.btn-outline,.no-print{display:none!important}body{background:#fff}#print-area{box-shadow:none!important;border:none!important}}
+</style>
+</head>
+<body>
+<nav><div class="nav-in">
+  <a href="index.html" class="back">← Volver</a>
+  <div class="logo">Freelance<b>Kit</b></div>
+  <span class="free-tag">✓ GRATIS</span>
+</div></nav>
+<div class="page">
+  <div class="header">
+    <div class="cat-badge">💼 Freelancers y Autónomos</div>
+    <h1>💰 Calculadora de Tarifa Hora</h1>
+    <p>Calculá cuánto cobrar por hora basándote en tus gastos reales, impuestos y la ganancia que querés.</p>
+  </div>
+  
+<div class="card">
+  <h2>⚙️ Tus gastos y objetivos mensuales</h2>
+  <div class="grid2">
+    <div class="field"><label>Gastos fijos mensuales ($)</label>
+      <input type="number" id="gf" placeholder="Ej: 120000" min="0">
+      <span class="hint">Alquiler, internet, servicios, suscripciones, comida</span></div>
+    <div class="field"><label>Días trabajados por mes</label>
+      <input type="number" id="dias" placeholder="Ej: 20" min="1" max="31" value="20"></div>
+    <div class="field"><label>Horas facturables por día</label>
+      <input type="number" id="hs" placeholder="Ej: 6" min="1" max="12" value="6">
+      <span class="hint">No todas las horas son facturables (admin, ventas, etc.)</span></div>
+    <div class="field"><label>Impuestos / monotributo (%)</label>
+      <input type="number" id="imp" placeholder="Ej: 25" min="0" max="60" value="25"></div>
+    <div class="field"><label>Ganancia deseada sobre costos (%)</label>
+      <input type="number" id="gan" placeholder="Ej: 30" min="0" max="200" value="30"></div>
+    <div class="field"><label>Moneda</label>
+      <select id="mon"><option>ARS</option><option>USD</option><option>MXN</option><option>COP</option><option>CLP</option></select></div>
+  </div>
+  <button class="btn" onclick="calcTarifa()">Calcular mi tarifa</button>
+</div>
+<div class="results card" id="res">
+  <h2>📊 Tu tarifa</h2>
+  <div class="res-grid">
+    <div class="res-box hi"><div class="rl">Tarifa mínima/hora</div><div class="rv" id="r-min">—</div><div class="rs">Solo cubre costos</div></div>
+    <div class="res-box green"><div class="rl">Tarifa sugerida/hora</div><div class="rv" id="r-sug">—</div><div class="rs">Con tu ganancia deseada</div></div>
+    <div class="res-box"><div class="rl">Horas facturables/mes</div><div class="rv" id="r-hs">—</div><div class="rs">Capacidad real</div></div>
+    <div class="res-box orange"><div class="rl">Ingreso bruto necesario</div><div class="rv" id="r-bruto">—</div><div class="rs">Para cubrir todo</div></div>
+  </div>
+  <hr class="sep">
+  <div style="margin-bottom:12px">
+    <div style="font-size:.8rem;font-weight:700;color:#475569;margin-bottom:8px">¿Cuánto gano si cobro...?</div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+      <div style="flex:1;min-width:140px"><input type="number" id="sim" placeholder="Tarifa a simular" oninput="simTarifa()" style="padding:9px 12px;border:1.5px solid #E2E8F0;border-radius:8px;width:100%;font-size:.9rem;outline:none"></div>
+      <div id="sim-out" style="font-size:.9rem;flex:2;color:#475569"></div>
+    </div>
+  </div>
+  <div class="insight" id="ins"></div>
+</div>
+<script>
+var _cf=0,_hs=0,_mon='';
+function fmt(n){return _mon+' '+Math.round(n).toLocaleString('es-AR')}
+function calcTarifa(){
+  var gf=+document.getElementById('gf').value;
+  var dias=+document.getElementById('dias').value||20;
+  var hs=+document.getElementById('hs').value||6;
+  var imp=+document.getElementById('imp').value/100||0;
+  var gan=+document.getElementById('gan').value/100||0;
+  _mon=document.getElementById('mon').value;
+  if(!gf){alert('Ingresá tus gastos mensuales');return}
+  var hsTot=dias*hs; _hs=hsTot;
+  var base=gf/(1-imp);
+  var tmin=base/hsTot;
+  var tsug=tmin*(1+gan);
+  _cf=tmin;
+  document.getElementById('r-min').textContent=fmt(tmin);
+  document.getElementById('r-sug').textContent=fmt(tsug);
+  document.getElementById('r-hs').textContent=hsTot+' hs';
+  document.getElementById('r-bruto').textContent=fmt(base);
+  document.getElementById('ins').innerHTML='Con <b>'+hsTot+' horas facturables</b> al mes, necesitás cobrar al menos <b>'+fmt(tmin)+'/hora</b> para cubrir todos tus costos (incluyendo impuestos). Si cobrás <b>'+fmt(tsug)+'/hora</b> generás un '+Math.round(gan*100)+'% de ganancia sobre tus costos.';
+  document.getElementById('res').className='results card show';
+  simTarifa();
+}
+function simTarifa(){
+  var t=+document.getElementById('sim').value;
+  if(!t||!_cf||!_hs)return;
+  var ganMes=(t-_cf)*_hs;
+  var ok=t>=_cf;
+  document.getElementById('sim-out').innerHTML='<b style="color:'+(ok?'#16A34A':'#DC2626')+'">'+(ok?'Ganás ':'Perdés ')+fmt(Math.abs(ganMes))+'/mes</b>'+(ok?' ('+((t/_cf-1)*100).toFixed(0)+'% sobre el mínimo)':' — estás cobrando por debajo de tu costo real.');
+}
+</script>
+
+</div>
+</body>
+</html>

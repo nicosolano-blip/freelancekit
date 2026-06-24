@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Simulador de Deuda y Tarjeta de Crédito — FreelanceKit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;color:#0F172A;background:#F8FAFC;min-height:100vh}
+a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid #E2E8F0;padding:0 20px}
+.nav-in{max-width:860px;margin:0 auto;display:flex;align-items:center;height:54px;gap:16px}
+.back{font-size:.85rem;font-weight:600;color:#059669}
+.logo{font-size:1.1rem;font-weight:900;color:#1B3A6B}
+.logo b{color:#059669}
+.free-tag{margin-left:auto;background:#DCFCE7;color:#16A34A;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:100px}
+.page{max-width:860px;margin:0 auto;padding:32px 20px 60px}
+.header{margin-bottom:28px}
+.cat-badge{display:inline-block;background:#ECFDF5;color:#059669;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:12px}
+.header h1{font-size:1.6rem;font-weight:900;margin-bottom:8px}
+.header p{font-size:.95rem;color:#475569}
+.card{background:#fff;border-radius:12px;border:1.5px solid #E2E8F0;padding:28px;margin-bottom:20px}
+.card h2{font-size:1rem;font-weight:700;margin-bottom:20px;color:#065F46}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}}
+.field label{display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:5px}
+.field input,.field select{width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.9rem;color:#0F172A;outline:none;font-family:Arial,sans-serif}
+.field input:focus,.field select:focus{border-color:#059669}
+.field .hint{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.btn{background:#059669;color:#fff;border:none;padding:13px 28px;border-radius:9px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px}
+.btn:hover{background:#065F46}
+.results{display:none}
+.results.show{display:block}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:16px}
+.res-box{background:#F1F5F9;border-radius:10px;padding:18px 14px;text-align:center}
+.res-box.hi{background:#ECFDF5;border:2px solid #059669}
+.res-box.green{background:#F0FDF4;border:2px solid #16A34A}
+.res-box.red{background:#FEF2F2;border:2px solid #DC2626}
+.res-box.orange{background:#FFF7ED;border:2px solid #EA580C}
+.res-box.blue{background:#EFF6FF;border:2px solid #2563EB}
+.rl{font-size:.72rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.rv{font-size:1.4rem;font-weight:900;color:#0F172A;line-height:1}
+.rs{font-size:.72rem;color:#94A3B8;margin-top:4px}
+.sep{border:none;border-top:1px solid #E2E8F0;margin:20px 0}
+.insight{background:#ECFDF5;border-left:4px solid #059669;border-radius:0 8px 8px 0;padding:14px 16px;font-size:.875rem;color:#475569;margin-top:16px}
+.insight b{color:#0F172A}
+.bar-wrap{background:#F1F5F9;border-radius:100px;height:14px;overflow:hidden;margin:4px 0}
+.bar-fill{height:100%;border-radius:100px}
+</style>
+</head>
+<body>
+<nav><div class="nav-in">
+  <a href="index.html" class="back">← Volver</a>
+  <div class="logo">Freelance<b>Kit</b></div>
+  
+</div></nav>
+<div class="page">
+  <div class="header">
+    <div class="cat-badge">💰 Finanzas Personales</div>
+    <h1>💳 Simulador de Deuda y Tarjeta de Crédito</h1>
+    <p>¿Cuánto tiempo tardás en pagar una deuda pagando el mínimo? Compará estrategias y calculá el costo real.</p>
+  </div>
+  
+<div class="card">
+  <h2>⚙️ Tu deuda</h2>
+  <div class="grid2">
+    <div class="field"><label>Saldo de la deuda ($)</label>
+      <input type="number" id="saldo" placeholder="Ej: 200000" min="0" oninput="calcDeuda()"></div>
+    <div class="field"><label>Tasa de interés mensual (%)</label>
+      <input type="number" id="tasa" placeholder="Ej: 6.5" min="0" step="0.1" oninput="calcDeuda()">
+      <span class="hint">Tarjeta de crédito LATAM: 5-12%/mes</span></div>
+    <div class="field"><label>Pago mínimo mensual ($)</label>
+      <input type="number" id="pago-min" placeholder="Ej: 8000" min="0" oninput="calcDeuda()"></div>
+    <div class="field"><label>Pago extra que podés hacer ($)</label>
+      <input type="number" id="pago-extra" placeholder="Ej: 20000" min="0" value="0" oninput="calcDeuda()"></div>
+    <div class="field"><label>Moneda</label>
+      <select id="mon" onchange="calcDeuda()"><option>ARS</option><option>USD</option><option>MXN</option></select></div>
+  </div>
+</div>
+<div class="results card" id="res2">
+  <h2>📊 El costo real de tu deuda</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+    <div style="background:#FEF2F2;border:2px solid #DC2626;border-radius:10px;padding:18px 14px;text-align:center">
+      <div class="rl" style="color:#DC2626">Pagando solo el mínimo</div>
+      <div class="rv" id="r-min-tiempo" style="font-size:1.2rem;margin:8px 0">—</div>
+      <div class="rs">para terminar de pagar</div>
+      <div style="font-weight:900;color:#DC2626;font-size:1rem;margin-top:8px" id="r-min-total">—</div>
+      <div class="rs">total pagado (intereses incluidos)</div>
+    </div>
+    <div style="background:#F0FDF4;border:2px solid #16A34A;border-radius:10px;padding:18px 14px;text-align:center">
+      <div class="rl" style="color:#16A34A">Pagando mínimo + extra</div>
+      <div class="rv" id="r-extra-tiempo" style="font-size:1.2rem;margin:8px 0">—</div>
+      <div class="rs">para terminar de pagar</div>
+      <div style="font-weight:900;color:#16A34A;font-size:1rem;margin-top:8px" id="r-extra-total">—</div>
+      <div class="rs">total pagado (intereses incluidos)</div>
+    </div>
+  </div>
+  <div class="res-grid">
+    <div class="res-box hi"><div class="rl">Ahorrás en intereses</div><div class="rv" id="r-ahorro-int">—</div></div>
+    <div class="res-box green"><div class="rl">Meses menos de deuda</div><div class="rv" id="r-meses-menos">—</div></div>
+  </div>
+  <hr class="sep">
+  <div id="tabla-deuda-wrap" style="overflow-x:auto;margin-bottom:14px">
+    <div style="font-size:.8rem;font-weight:700;color:#475569;margin-bottom:8px">PRIMEROS 6 MESES DE AMORTIZACIÓN</div>
+    <table id="tabla-deuda" style="width:100%;border-collapse:collapse;font-size:.82rem"></table>
+  </div>
+  <div class="insight" id="ins2"></div>
+</div>
+<script>
+function fmt(n){var m=document.getElementById('mon').value;return m+' '+Math.round(n).toLocaleString('es-AR')}
+function simDeuda(saldo,tasa,pago){
+  var s=saldo,t=tasa/100,meses=0,totalPagado=0;
+  while(s>0&&meses<600){
+    var int=s*t; s=s+int-pago;
+    totalPagado+=pago; meses++;
+    if(s<0){totalPagado+=s;s=0;}
+  }
+  return{meses:meses,total:totalPagado};
+}
+function calcDeuda(){
+  var saldo=+document.getElementById('saldo').value||0;
+  var tasa=+document.getElementById('tasa').value||0;
+  var pmin=+document.getElementById('pago-min').value||0;
+  var pextra=+document.getElementById('pago-extra').value||0;
+  if(!saldo||!tasa||!pmin)return;
+  if(pmin<=saldo*tasa/100){document.getElementById('ins2').innerHTML='⚠️ El pago mínimo no cubre ni los intereses — la deuda crece indefinidamente.';document.getElementById('res2').className='results card show';return;}
+  var min=simDeuda(saldo,tasa,pmin);
+  var extra=simDeuda(saldo,tasa,pmin+pextra);
+  document.getElementById('r-min-tiempo').textContent=min.meses+' meses ('+(min.meses/12).toFixed(1)+' años)';
+  document.getElementById('r-min-total').textContent=fmt(min.total);
+  document.getElementById('r-extra-tiempo').textContent=extra.meses+' meses ('+(extra.meses/12).toFixed(1)+' años)';
+  document.getElementById('r-extra-total').textContent=fmt(extra.total);
+  document.getElementById('r-ahorro-int').textContent=fmt(min.total-extra.total);
+  document.getElementById('r-meses-menos').textContent=(min.meses-extra.meses)+' meses';
+  // Tabla 6 meses
+  var html='<thead><tr style="background:#F1F5F9"><th style="padding:6px 10px;text-align:left;font-weight:700;color:#475569">Mes</th><th style="padding:6px 10px;text-align:right;font-weight:700;color:#475569">Interés</th><th style="padding:6px 10px;text-align:right;font-weight:700;color:#475569">Amortización</th><th style="padding:6px 10px;text-align:right;font-weight:700;color:#475569">Saldo restante</th></tr></thead><tbody>';
+  var s=saldo,t=tasa/100,p=pmin+pextra;
+  for(var i=1;i<=6&&s>0;i++){
+    var int=s*t; var amort=Math.min(p-int,s); s=Math.max(s-amort,0);
+    html+='<tr style="border-bottom:1px solid #F1F5F9;background:'+(i%2?'#fff':'#FAFAFA')+'"><td style="padding:6px 10px">Mes '+i+'</td><td style="padding:6px 10px;text-align:right;color:#DC2626">'+fmt(int)+'</td><td style="padding:6px 10px;text-align:right;color:#16A34A">'+fmt(amort)+'</td><td style="padding:6px 10px;text-align:right;font-weight:600">'+fmt(s)+'</td></tr>';
+  }
+  document.getElementById('tabla-deuda').innerHTML=html+'</tbody>';
+  var intereses_min=min.total-saldo;
+  document.getElementById('ins2').innerHTML='Pagando solo <b>'+fmt(pmin)+'/mes</b>, terminás de pagar en <b>'+min.meses+' meses</b> y pagás <b>'+fmt(intereses_min)+' en intereses</b> — '+(intereses_min/saldo*100).toFixed(0)+'% más que el saldo original.'+(pextra>0?' Sumando <b>'+fmt(pextra)+' extra/mes</b>, terminás '+( min.meses-extra.meses)+' meses antes y ahorrás <b>'+fmt(min.total-extra.total)+' en intereses</b>.':'');
+  document.getElementById('res2').className='results card show';
+}
+</script>
+
+</div>
+</body>
+</html>

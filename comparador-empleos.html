@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Comparador de Ofertas de Trabajo — FreelanceKit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;color:#0F172A;background:#F8FAFC;min-height:100vh}
+a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid #E2E8F0;padding:0 20px}
+.nav-in{max-width:860px;margin:0 auto;display:flex;align-items:center;height:54px;gap:16px}
+.back{font-size:.85rem;font-weight:600}
+.logo{font-size:1.1rem;font-weight:900;color:#1B3A6B}
+.logo b{color:#2563EB}
+.free-tag{margin-left:auto;background:#DCFCE7;color:#16A34A;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:100px}
+.page{max-width:860px;margin:0 auto;padding:32px 20px 60px}
+.header{margin-bottom:28px}
+.cat-badge{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:12px}
+.header h1{font-size:1.6rem;font-weight:900;margin-bottom:8px}
+.header p{font-size:.95rem;color:#475569}
+.card{background:#fff;border-radius:12px;border:1.5px solid #E2E8F0;padding:28px;margin-bottom:20px}
+.card h2{font-size:1rem;font-weight:700;margin-bottom:20px;color:#1E3A5F}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}}
+.field label{display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:5px}
+.field input,.field select{width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.9rem;color:#0F172A;outline:none;font-family:Arial,sans-serif}
+.field .hint{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.btn{color:#fff;border:none;padding:13px 28px;border-radius:9px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px}
+.btn-sm{color:#fff;border:none;padding:9px 18px;border-radius:8px;font-size:.875rem;font-weight:700;cursor:pointer}
+.btn-outline{background:transparent;border:1.5px solid;padding:9px 18px;border-radius:8px;font-size:.875rem;font-weight:700;cursor:pointer}
+.results{display:none}
+.results.show{display:block}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:16px}
+.res-box{background:#F1F5F9;border-radius:10px;padding:18px 14px;text-align:center}
+.rl{font-size:.72rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.rv{font-size:1.4rem;font-weight:900;color:#0F172A;line-height:1}
+.rs{font-size:.72rem;color:#94A3B8;margin-top:4px}
+.sep{border:none;border-top:1px solid #E2E8F0;margin:20px 0}
+.insight{border-left:4px solid;border-radius:0 8px 8px 0;padding:14px 16px;font-size:.875rem;color:#475569;margin-top:16px}
+.insight b{color:#0F172A}
+
+.back{color:#1D4ED8}
+.logo b{color:#1D4ED8}
+.cat-badge{background:#EFF6FF;color:#1D4ED8}
+.field input:focus,.field select:focus{border-color:#1D4ED8}
+.btn{background:#1D4ED8}
+.res-box.hi{background:#EFF6FF;border:2px solid #1D4ED8}
+.res-box.green{background:#F0FDF4;border:2px solid #16A34A}
+.res-box.red{background:#FEF2F2;border:2px solid #DC2626}
+.res-box.orange{background:#FFF7ED;border:2px solid #EA580C}
+.res-box.blue{background:#EFF6FF;border:2px solid #2563EB}
+.insight{background:#EFF6FF;border-color:#1D4ED8}
+</style>
+</head>
+<body>
+<nav><div class="nav-in">
+  <a href="index.html" class="back">← Volver</a>
+  <div class="logo">Freelance<b>Kit</b></div>
+  
+</div></nav>
+<div class="page">
+  <div class="header">
+    <div class="cat-badge">💼 Recursos Humanos</div>
+    <h1>🔍 Comparador de Ofertas de Trabajo</h1>
+    <p>Compará dos empleos en términos reales: sueldo neto, beneficios, distancia, horas y costo de vida.</p>
+  </div>
+  
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+  <div class="card" style="border-color:#1D4ED8">
+    <h2 style="color:#1D4ED8">💼 Oferta A</h2>
+    <div class="field" style="margin-bottom:12px"><label>Empresa / nombre</label><input type="text" id="a-nombre" placeholder="Ej: Startup Tech" oninput="comparar()"></div>
+    <div class="field" style="margin-bottom:12px"><label>Sueldo bruto mensual ($)</label><input type="number" id="a-bruto" placeholder="Ej: 600000" oninput="comparar()"></div>
+    <div class="field" style="margin-bottom:12px"><label>Bono anual ($)</label><input type="number" id="a-bono" placeholder="Ej: 100000" value="0" oninput="comparar()"></div>
+    <div class="field" style="margin-bottom:12px"><label>Obra social / prepaga</label><select id="a-os" onchange="comparar()"><option value="0">No incluye</option><option value="1">Básica</option><option value="2">Premium</option></select></div>
+    <div class="field" style="margin-bottom:12px"><label>Tickets/beneficios mensuales ($)</label><input type="number" id="a-tickets" placeholder="Ej: 20000" value="0" oninput="comparar()"></div>
+    <div class="field" style="margin-bottom:12px"><label>Distancia al trabajo (km)</label><input type="number" id="a-km" placeholder="Ej: 15" value="0" oninput="comparar()"></div>
+    <div class="field" style="margin-bottom:12px"><label>Horas semanales</label><input type="number" id="a-hs" placeholder="Ej: 40" value="40" oninput="comparar()"></div>
+    <div class="field"><label>Modalidad</label><select id="a-mod" onchange="comparar()"><option value="0">100% presencial</option><option value="-0.05">Híbrido (3d presencial)</option><option value="-0.10">100% remoto</option></select></div>
+  </div>
+  <div class="card" style="border-color:#9333EA">
+    <h2 style="color:#9333EA">💼 Oferta B</h2>
+    <div class="field" style="margin-bottom:12px"><label>Empresa / nombre</label><input type="text" id="b-nombre" placeholder="Ej: Empresa Tradicional" oninput="comparar()"></div>
+    <div class="field" style="margin-bottom:12px"><label>Sueldo bruto mensual ($)</label><input type="number" id="b-bruto" placeholder="Ej: 700000" oninput="comparar()"></div>
+    <div class="field" style="margin-bottom:12px"><label>Bono anual ($)</label><input type="number" id="b-bono" placeholder="Ej: 0" value="0" oninput="comparar()"></div>
+    <div class="field" style="margin-bottom:12px"><label>Obra social / prepaga</label><select id="b-os" onchange="comparar()"><option value="0">No incluye</option><option value="1">Básica</option><option value="2">Premium</option></select></div>
+    <div class="field" style="margin-bottom:12px"><label>Tickets/beneficios mensuales ($)</label><input type="number" id="b-tickets" placeholder="Ej: 0" value="0" oninput="comparar()"></div>
+    <div class="field" style="margin-bottom:12px"><label>Distancia al trabajo (km)</label><input type="number" id="b-km" placeholder="Ej: 5" value="0" oninput="comparar()"></div>
+    <div class="field" style="margin-bottom:12px"><label>Horas semanales</label><input type="number" id="b-hs" placeholder="Ej: 45" value="45" oninput="comparar()"></div>
+    <div class="field"><label>Modalidad</label><select id="b-mod" onchange="comparar()"><option value="0">100% presencial</option><option value="-0.05">Híbrido (3d presencial)</option><option value="-0.10">100% remoto</option></select></div>
+  </div>
+</div>
+<div class="field" style="margin-bottom:16px"><label>Moneda</label>
+  <select id="mon" onchange="comparar()" style="max-width:200px;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.9rem;outline:none"><option>ARS</option><option>USD</option><option>MXN</option></select></div>
+<div class="results card" id="res4">
+  <h2>⚖️ Comparación real</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px">
+    <div class="res-box" id="box-a" style="padding:20px"><div class="rl" id="a-label">Oferta A</div><div class="rv" id="r-a-val" style="font-size:1.2rem">—</div><div class="rs">valor real mensual</div></div>
+    <div class="res-box" id="box-b" style="padding:20px"><div class="rl" id="b-label">Oferta B</div><div class="rv" id="r-b-val" style="font-size:1.2rem">—</div><div class="rs">valor real mensual</div></div>
+  </div>
+  <div id="ganadora" style="text-align:center;font-size:1.1rem;font-weight:900;padding:16px;border-radius:10px;margin-bottom:16px"></div>
+  <div id="desglose4" style="font-size:.875rem;color:#475569;line-height:2"></div>
+  <div class="insight" id="ins4"></div>
+</div>
+<script>
+function fmt(n){var m=document.getElementById('mon').value;return m+' '+Math.round(n).toLocaleString('es-AR')}
+function getVal(pfx){
+  var bruto=+document.getElementById(pfx+'-bruto').value||0;
+  if(!bruto)return null;
+  var bono=(+document.getElementById(pfx+'-bono').value||0)/12;
+  var os_v=+document.getElementById(pfx+'-os').value||0;
+  var os_val=os_v===2?15000:os_v===1?6000:0;
+  var tickets=+document.getElementById(pfx+'-tickets').value||0;
+  var km=+document.getElementById(pfx+'-km').value||0;
+  var hs=+document.getElementById(pfx+'-hs').value||40;
+  var mod=+document.getElementById(pfx+'-mod').value||0;
+  var neto=bruto*0.87; // aprox 13% deducciones empleado
+  var costo_km=km*2*22*50; // 22 días, ida y vuelta, $50/km aprox
+  var horas_extra=(hs-40)*4; // semanas al mes
+  var costo_horas_extra=horas_extra>0?horas_extra*(bruto/160)*0.5:0; // costo de tiempo
+  var valor_real=neto+bono+os_val+tickets-costo_km-costo_horas_extra;
+  valor_real=valor_real*(1+mod);
+  return{neto:neto,bono:bono,os_val:os_val,tickets:tickets,costo_km:costo_km,costo_horas:costo_horas_extra,valor_real:valor_real,hs:hs,km:km};
+}
+function comparar(){
+  var a=getVal('a'); var b=getVal('b');
+  if(!a||!b)return;
+  var aN=document.getElementById('a-nombre').value||'Oferta A';
+  var bN=document.getElementById('b-nombre').value||'Oferta B';
+  document.getElementById('a-label').textContent=aN;
+  document.getElementById('b-label').textContent=bN;
+  document.getElementById('r-a-val').textContent=fmt(a.valor_real);
+  document.getElementById('r-b-val').textContent=fmt(b.valor_real);
+  var diff=Math.abs(a.valor_real-b.valor_real);
+  var mejor=a.valor_real>=b.valor_real?aN:bN;
+  var pct=((Math.max(a.valor_real,b.valor_real)/Math.min(a.valor_real,b.valor_real)-1)*100).toFixed(1);
+  var g=document.getElementById('ganadora');
+  g.style.background=a.valor_real>=b.valor_real?'#EFF6FF':'#FAF5FF';
+  g.style.color=a.valor_real>=b.valor_real?'#1D4ED8':'#9333EA';
+  g.innerHTML='🏆 '+mejor+' vale '+pct+'% más en términos reales ('+fmt(diff)+'/mes de diferencia)';
+  document.getElementById('desglose4').innerHTML=
+    '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'+
+    '<div><b style="color:#1D4ED8">'+aN+'</b><br>Neto aprox: '+fmt(a.neto)+'<br>Bono mensualizado: +'+fmt(a.bono)+'<br>Prepaga/OS: +'+fmt(a.os_val)+'<br>Tickets: +'+fmt(a.tickets)+'<br>Costo traslado: −'+fmt(a.costo_km)+'<br>Costo horas extra: −'+fmt(a.costo_horas)+'</div>'+
+    '<div><b style="color:#9333EA">'+bN+'</b><br>Neto aprox: '+fmt(b.neto)+'<br>Bono mensualizado: +'+fmt(b.bono)+'<br>Prepaga/OS: +'+fmt(b.os_val)+'<br>Tickets: +'+fmt(b.tickets)+'<br>Costo traslado: −'+fmt(b.costo_km)+'<br>Costo horas extra: −'+fmt(b.costo_horas)+'</div>'+
+    '</div>';
+  document.getElementById('ins4').innerHTML='Esta comparación convierte todos los beneficios y costos a valor monetario mensual. El <b>traslado</b> se calcula a $50/km de combustible+desgaste. Las <b>horas extra</b> no remuneradas tienen un costo implícito en calidad de vida. El <b>trabajo remoto</b> suma valor por ahorro de tiempo y dinero.';
+  document.getElementById('res4').className='results card show';
+}
+</script>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calculadora de Aumento por Inflación — FreelanceKit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;color:#0F172A;background:#F8FAFC;min-height:100vh}
+a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid #E2E8F0;padding:0 20px}
+.nav-in{max-width:860px;margin:0 auto;display:flex;align-items:center;height:54px;gap:16px}
+.back{font-size:.85rem;color:#2563EB;font-weight:600}
+.back:hover{color:#1B3A6B}
+.logo{font-size:1.1rem;font-weight:900;color:#1B3A6B}
+.logo b{color:#2563EB}
+.free-tag{margin-left:auto;background:#DCFCE7;color:#16A34A;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:100px}
+.page{max-width:860px;margin:0 auto;padding:32px 20px 60px}
+.header{margin-bottom:28px}
+.cat-badge{display:inline-block;background:#EFF6FF;color:#2563EB;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:12px}
+.header h1{font-size:1.6rem;font-weight:900;margin-bottom:8px}
+.header p{font-size:.95rem;color:#475569}
+.card{background:#fff;border-radius:12px;border:1.5px solid #E2E8F0;padding:28px;margin-bottom:20px}
+.card h2{font-size:1rem;font-weight:700;margin-bottom:20px;color:#1B3A6B}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}}
+.field{margin-bottom:0}
+.field label{display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.9rem;color:#0F172A;outline:none;font-family:Arial,sans-serif}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#2563EB}
+.field .hint{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.btn{background:#2563EB;color:#fff;border:none;padding:13px 28px;border-radius:9px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px}
+.btn:hover{background:#1B3A6B}
+.btn-sm{background:#2563EB;color:#fff;border:none;padding:9px 18px;border-radius:8px;font-size:.875rem;font-weight:700;cursor:pointer}
+.btn-sm:hover{background:#1B3A6B}
+.btn-outline{background:transparent;color:#2563EB;border:1.5px solid #2563EB;padding:9px 18px;border-radius:8px;font-size:.875rem;font-weight:700;cursor:pointer}
+.btn-outline:hover{background:#2563EB;color:#fff}
+.results{display:none}
+.results.show{display:block}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:16px}
+.res-box{background:#F1F5F9;border-radius:10px;padding:18px 14px;text-align:center}
+.res-box.hi{background:#EFF6FF;border:2px solid #2563EB}
+.res-box.green{background:#F0FDF4;border:2px solid #16A34A}
+.res-box.orange{background:#FFF7ED;border:2px solid #EA580C}
+.res-box.red{background:#FEF2F2;border:2px solid #DC2626}
+.rl{font-size:.72rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.rv{font-size:1.5rem;font-weight:900;color:#0F172A;line-height:1}
+.rs{font-size:.72rem;color:#94A3B8;margin-top:4px}
+.insight{background:#F8FAFC;border-left:4px solid #2563EB;border-radius:0 8px 8px 0;padding:14px 16px;font-size:.875rem;color:#475569;margin-top:16px}
+.insight b{color:#0F172A}
+.sep{border:none;border-top:1px solid #E2E8F0;margin:20px 0}
+@media print{nav,#print-btn,.btn,.btn-sm,.btn-outline,.no-print{display:none!important}body{background:#fff}#print-area{box-shadow:none!important;border:none!important}}
+</style>
+</head>
+<body>
+<nav><div class="nav-in">
+  <a href="index.html" class="back">← Volver</a>
+  <div class="logo">Freelance<b>Kit</b></div>
+  
+</div></nav>
+<div class="page">
+  <div class="header">
+    <div class="cat-badge">💼 Freelancers y Autónomos</div>
+    <h1>🔄 Calculadora de Aumento por Inflación</h1>
+    <p>Calculá cuánto tenés que subir tu tarifa para mantener el mismo poder adquisitivo con la inflación.</p>
+  </div>
+  
+<div class="card">
+  <h2>⚙️ Tu tarifa y la inflación</h2>
+  <div class="grid2">
+    <div class="field"><label>Tu tarifa actual por hora ($)</label>
+      <input type="number" id="tarifaAct" placeholder="Ej: 2500" min="0" oninput="calcAum()"></div>
+    <div class="field"><label>Moneda</label>
+      <select id="monAum" onchange="calcAum()"><option>ARS</option><option>USD</option><option>MXN</option></select></div>
+    <div class="field"><label>Inflación acumulada a compensar (%)</label>
+      <input type="number" id="infPct" placeholder="Ej: 25" min="0" oninput="calcAum()">
+      <span class="hint">Podés poner la inflación del último mes, trimestre o año</span></div>
+    <div class="field"><label>Período que representa</label>
+      <select id="periodo" onchange="calcAum()">
+        <option value="mensual">Un mes</option>
+        <option value="trimestral">Un trimestre (3 meses)</option>
+        <option value="semestral">Un semestre (6 meses)</option>
+        <option value="anual">Un año</option>
+      </select></div>
+    <div class="field"><label>¿Querés añadir crecimiento real? (%)</label>
+      <input type="number" id="crec" placeholder="Ej: 10" min="0" value="0" oninput="calcAum()">
+      <span class="hint">Para subir por encima de la inflación (mejora real)</span></div>
+  </div>
+  <button class="btn" onclick="calcAum()">Calcular nuevo precio</button>
+</div>
+<div class="results card" id="res6">
+  <h2>📊 Tu nueva tarifa</h2>
+  <div class="res-grid">
+    <div class="res-box"><div class="rl">Tarifa actual</div><div class="rv" id="r-act">—</div></div>
+    <div class="res-box hi"><div class="rl">Nueva tarifa sugerida</div><div class="rv" id="r-nueva">—</div><div class="rs">Para mantener poder adquisitivo</div></div>
+    <div class="res-box green"><div class="rl">Diferencia por hora</div><div class="rv" id="r-diff">—</div></div>
+    <div class="res-box orange"><div class="rl">Aumento total (%)</div><div class="rv" id="r-pct">—</div></div>
+  </div>
+  <hr class="sep">
+  <div style="margin-bottom:8px;font-size:.8rem;font-weight:700;color:#475569">PROYECCIÓN DE AUMENTOS SUGERIDOS</div>
+  <div style="overflow-x:auto">
+  <table id="tabla-proj" style="width:100%;border-collapse:collapse;font-size:.85rem">
+    <thead><tr style="background:#F1F5F9">
+      <th style="padding:8px 12px;text-align:left;font-weight:700;color:#475569">Período</th>
+      <th style="padding:8px 12px;text-align:right;font-weight:700;color:#475569">Inflación est.</th>
+      <th style="padding:8px 12px;text-align:right;font-weight:700;color:#475569">Tarifa resultante</th>
+      <th style="padding:8px 12px;text-align:right;font-weight:700;color:#475569">Diferencia</th>
+    </tr></thead>
+    <tbody id="proj-body"></tbody>
+  </table>
+  </div>
+  <div class="insight" id="ins6"></div>
+</div>
+<script>
+function fmt(n){var m=document.getElementById('monAum').value;return m+' '+Math.round(n).toLocaleString('es-AR')}
+function calcAum(){
+  var ta=+document.getElementById('tarifaAct').value||0;
+  var inf=+document.getElementById('infPct').value||0;
+  var crec=+document.getElementById('crec').value||0;
+  var per=document.getElementById('periodo').value;
+  if(!ta||!inf){if(ta)document.getElementById('res6').className='results card show';return;}
+  var total=(1+inf/100)*(1+crec/100);
+  var nueva=ta*total;
+  var diff=nueva-ta;
+  var pct=(total-1)*100;
+  document.getElementById('r-act').textContent=fmt(ta);
+  document.getElementById('r-nueva').textContent=fmt(nueva);
+  document.getElementById('r-diff').textContent='+'+fmt(diff);
+  document.getElementById('r-pct').textContent='+'+pct.toFixed(1)+'%';
+  var labels={'mensual':['Mes 1','Mes 2','Mes 3','Mes 4','Mes 5','Mes 6'],'trimestral':['Trim. 1','Trim. 2','Trim. 3','Trim. 4'],'semestral':['Sem. 1','Sem. 2'],'anual':['Año 1','Año 2','Año 3']};
+  var lbs=labels[per];
+  var tbody=document.getElementById('proj-body');
+  tbody.innerHTML='';
+  var tarAct=ta;
+  lbs.forEach(function(lb,i){
+    var nt=tarAct*total;
+    var tr=document.createElement('tr');
+    tr.style.borderBottom='1px solid #F1F5F9';
+    tr.style.background=i%2===0?'#FAFAFA':'#fff';
+    tr.innerHTML='<td style="padding:8px 12px;font-weight:600">'+lb+'</td><td style="padding:8px 12px;text-align:right;color:#94A3B8">+'+pct.toFixed(1)+'%</td><td style="padding:8px 12px;text-align:right;font-weight:700;color:#2563EB">'+fmt(nt)+'</td><td style="padding:8px 12px;text-align:right;color:#16A34A">+'+fmt(nt-tarAct)+'</td>';
+    tbody.appendChild(tr);
+    tarAct=nt;
+  });
+  document.getElementById('ins6').innerHTML='Si no ajustás tu tarifa por inflación, en '+lbs.length+' períodos estarías cobrando el equivalente real de <b>'+fmt(ta*(Math.pow(1/(1+inf/100),lbs.length)))+'</b> de hoy. El ajuste no es un aumento — es mantener lo que ya ganabas.';
+  document.getElementById('res6').className='results card show';
+}
+</script>
+
+</div>
+</body>
+</html>

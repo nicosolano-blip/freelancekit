@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tracker de Horas y Facturación — FreelanceKit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;color:#0F172A;background:#F8FAFC;min-height:100vh}
+a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid #E2E8F0;padding:0 20px}
+.nav-in{max-width:860px;margin:0 auto;display:flex;align-items:center;height:54px;gap:16px}
+.back{font-size:.85rem;color:#2563EB;font-weight:600}
+.back:hover{color:#1B3A6B}
+.logo{font-size:1.1rem;font-weight:900;color:#1B3A6B}
+.logo b{color:#2563EB}
+.free-tag{margin-left:auto;background:#DCFCE7;color:#16A34A;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:100px}
+.page{max-width:860px;margin:0 auto;padding:32px 20px 60px}
+.header{margin-bottom:28px}
+.cat-badge{display:inline-block;background:#EFF6FF;color:#2563EB;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:12px}
+.header h1{font-size:1.6rem;font-weight:900;margin-bottom:8px}
+.header p{font-size:.95rem;color:#475569}
+.card{background:#fff;border-radius:12px;border:1.5px solid #E2E8F0;padding:28px;margin-bottom:20px}
+.card h2{font-size:1rem;font-weight:700;margin-bottom:20px;color:#1B3A6B}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}}
+.field{margin-bottom:0}
+.field label{display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.9rem;color:#0F172A;outline:none;font-family:Arial,sans-serif}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#2563EB}
+.field .hint{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.btn{background:#2563EB;color:#fff;border:none;padding:13px 28px;border-radius:9px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px}
+.btn:hover{background:#1B3A6B}
+.btn-sm{background:#2563EB;color:#fff;border:none;padding:9px 18px;border-radius:8px;font-size:.875rem;font-weight:700;cursor:pointer}
+.btn-sm:hover{background:#1B3A6B}
+.btn-outline{background:transparent;color:#2563EB;border:1.5px solid #2563EB;padding:9px 18px;border-radius:8px;font-size:.875rem;font-weight:700;cursor:pointer}
+.btn-outline:hover{background:#2563EB;color:#fff}
+.results{display:none}
+.results.show{display:block}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:16px}
+.res-box{background:#F1F5F9;border-radius:10px;padding:18px 14px;text-align:center}
+.res-box.hi{background:#EFF6FF;border:2px solid #2563EB}
+.res-box.green{background:#F0FDF4;border:2px solid #16A34A}
+.res-box.orange{background:#FFF7ED;border:2px solid #EA580C}
+.res-box.red{background:#FEF2F2;border:2px solid #DC2626}
+.rl{font-size:.72rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.rv{font-size:1.5rem;font-weight:900;color:#0F172A;line-height:1}
+.rs{font-size:.72rem;color:#94A3B8;margin-top:4px}
+.insight{background:#F8FAFC;border-left:4px solid #2563EB;border-radius:0 8px 8px 0;padding:14px 16px;font-size:.875rem;color:#475569;margin-top:16px}
+.insight b{color:#0F172A}
+.sep{border:none;border-top:1px solid #E2E8F0;margin:20px 0}
+@media print{nav,#print-btn,.btn,.btn-sm,.btn-outline,.no-print{display:none!important}body{background:#fff}#print-area{box-shadow:none!important;border:none!important}}
+</style>
+</head>
+<body>
+<nav><div class="nav-in">
+  <a href="index.html" class="back">← Volver</a>
+  <div class="logo">Freelance<b>Kit</b></div>
+  
+</div></nav>
+<div class="page">
+  <div class="header">
+    <div class="cat-badge">💼 Freelancers y Autónomos</div>
+    <h1>⏱️ Tracker de Horas y Facturación</h1>
+    <p>Registrá horas por proyecto, calculá cuánto facturar a cada cliente al final del mes.</p>
+  </div>
+  
+<div class="card">
+  <h2>➕ Agregar entrada</h2>
+  <div style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr auto;gap:8px;align-items:end">
+    <div class="field"><label>Descripción / tarea</label>
+      <input type="text" id="desc" placeholder="Ej: Diseño de landing page"></div>
+    <div class="field"><label>Cliente</label>
+      <input type="text" id="cliente" placeholder="Ej: Cliente A"></div>
+    <div class="field"><label>Horas</label>
+      <input type="number" id="horas" placeholder="Ej: 2.5" min="0.25" step="0.25"></div>
+    <div class="field"><label>Tarifa/hora ($)</label>
+      <input type="number" id="tarifa" placeholder="Ej: 1500" min="0"></div>
+    <button class="btn-sm" onclick="addEntry()" style="margin-bottom:0;height:42px">+ Agregar</button>
+  </div>
+  <div style="display:flex;gap:10px;margin-top:12px;flex-wrap:wrap">
+    <div class="field" style="flex:1;min-width:120px;margin:0"><label>Moneda</label>
+      <select id="monTrk" onchange="render()"><option>ARS</option><option>USD</option><option>MXN</option></select></div>
+    <div class="field" style="flex:2;min-width:160px;margin:0"><label>Mes de trabajo</label>
+      <input type="text" id="mes" placeholder="Ej: Junio 2026" value="Junio 2026"></div>
+  </div>
+</div>
+<div class="card" id="entries-card" style="display:none">
+  <h2>📋 Registro de horas</h2>
+  <div style="overflow-x:auto">
+  <table style="width:100%;border-collapse:collapse;font-size:.875rem" id="entries-table">
+    <thead><tr style="background:#F1F5F9">
+      <th style="padding:9px 12px;text-align:left;font-weight:700;color:#475569">Descripción</th>
+      <th style="padding:9px 12px;text-align:left;font-weight:700;color:#475569">Cliente</th>
+      <th style="padding:9px 12px;text-align:right;font-weight:700;color:#475569">Horas</th>
+      <th style="padding:9px 12px;text-align:right;font-weight:700;color:#475569">Tarifa</th>
+      <th style="padding:9px 12px;text-align:right;font-weight:700;color:#475569">Subtotal</th>
+      <th style="padding:9px 12px;text-align:center;font-weight:700;color:#475569"></th>
+    </tr></thead>
+    <tbody id="entries-body"></tbody>
+  </table>
+  </div>
+</div>
+<div class="card" id="resumen-card" style="display:none">
+  <h2>📊 Resumen para facturación</h2>
+  <div class="res-grid">
+    <div class="res-box hi"><div class="rl">Total horas</div><div class="rv" id="r-tot-hs">—</div></div>
+    <div class="res-box green"><div class="rl">Total a facturar</div><div class="rv" id="r-tot-$">—</div></div>
+  </div>
+  <div id="por-cliente" style="margin-top:16px"></div>
+</div>
+<script>
+var entries=[];
+var idCounter=0;
+function fmt(n){var m=document.getElementById('monTrk').value;return m+' '+Math.round(n).toLocaleString('es-AR')}
+function addEntry(){
+  var desc=document.getElementById('desc').value.trim();
+  var cli=document.getElementById('cliente').value.trim()||'Sin cliente';
+  var hs=+document.getElementById('horas').value;
+  var tar=+document.getElementById('tarifa').value;
+  if(!desc||!hs||!tar){alert('Completá descripción, horas y tarifa');return}
+  entries.push({id:idCounter++,desc:desc,cliente:cli,horas:hs,tarifa:tar});
+  document.getElementById('desc').value='';
+  document.getElementById('horas').value='';
+  render();
+}
+function removeEntry(id){entries=entries.filter(function(e){return e.id!==id});render();}
+function render(){
+  if(entries.length===0){document.getElementById('entries-card').style.display='none';document.getElementById('resumen-card').style.display='none';return;}
+  document.getElementById('entries-card').style.display='block';
+  document.getElementById('resumen-card').style.display='block';
+  var tbody=document.getElementById('entries-body');
+  tbody.innerHTML='';
+  var totHs=0,totAmt=0;
+  var porCli={};
+  entries.forEach(function(e,i){
+    var sub=e.horas*e.tarifa; totHs+=e.horas; totAmt+=sub;
+    if(!porCli[e.cliente])porCli[e.cliente]={hs:0,amt:0};
+    porCli[e.cliente].hs+=e.horas; porCli[e.cliente].amt+=sub;
+    var tr=document.createElement('tr');
+    tr.style.borderBottom='1px solid #F1F5F9';
+    tr.style.background=i%2===0?'#FAFAFA':'#fff';
+    tr.innerHTML='<td style="padding:9px 12px">'+e.desc+'</td><td style="padding:9px 12px;color:#2563EB;font-weight:600">'+e.cliente+'</td><td style="padding:9px 12px;text-align:right">'+e.horas+' hs</td><td style="padding:9px 12px;text-align:right">'+fmt(e.tarifa)+'</td><td style="padding:9px 12px;text-align:right;font-weight:700">'+fmt(sub)+'</td><td style="padding:9px 12px;text-align:center"><button onclick="removeEntry('+e.id+')" style="background:#FEF2F2;border:1px solid #FECACA;border-radius:6px;padding:4px 8px;cursor:pointer;font-size:.75rem;color:#DC2626">✕</button></td>';
+    tbody.appendChild(tr);
+  });
+  document.getElementById('r-tot-hs').textContent=totHs+' hs';
+  document.getElementById('r-tot-$').textContent=fmt(totAmt);
+  var pc=document.getElementById('por-cliente');
+  var html='<div style="font-size:.8rem;font-weight:700;color:#475569;margin-bottom:10px">DESGLOSE POR CLIENTE</div>';
+  Object.keys(porCli).forEach(function(cli){
+    var d=porCli[cli];
+    html+='<div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-radius:8px;background:#F8FAFC;border:1.5px solid #E2E8F0;margin-bottom:8px"><div><span style="font-weight:700;color:#0F172A">'+cli+'</span><span style="font-size:.8rem;color:#94A3B8;margin-left:8px">'+d.hs+' horas</span></div><div style="font-weight:900;color:#2563EB;font-size:1.1rem">'+fmt(d.amt)+'</div></div>';
+  });
+  pc.innerHTML=html;
+}
+</script>
+
+</div>
+</body>
+</html>

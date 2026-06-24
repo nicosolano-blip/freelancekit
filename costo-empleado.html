@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calculadora de Costo Real de Empleado — FreelanceKit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;color:#0F172A;background:#F8FAFC;min-height:100vh}
+a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid #E2E8F0;padding:0 20px}
+.nav-in{max-width:860px;margin:0 auto;display:flex;align-items:center;height:54px;gap:16px}
+.back{font-size:.85rem;font-weight:600}
+.logo{font-size:1.1rem;font-weight:900;color:#1B3A6B}
+.logo b{color:#2563EB}
+.free-tag{margin-left:auto;background:#DCFCE7;color:#16A34A;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:100px}
+.page{max-width:860px;margin:0 auto;padding:32px 20px 60px}
+.header{margin-bottom:28px}
+.cat-badge{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:12px}
+.header h1{font-size:1.6rem;font-weight:900;margin-bottom:8px}
+.header p{font-size:.95rem;color:#475569}
+.card{background:#fff;border-radius:12px;border:1.5px solid #E2E8F0;padding:28px;margin-bottom:20px}
+.card h2{font-size:1rem;font-weight:700;margin-bottom:20px;color:#1E3A5F}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}}
+.field label{display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:5px}
+.field input,.field select{width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.9rem;color:#0F172A;outline:none;font-family:Arial,sans-serif}
+.field .hint{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.btn{color:#fff;border:none;padding:13px 28px;border-radius:9px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px}
+.btn-sm{color:#fff;border:none;padding:9px 18px;border-radius:8px;font-size:.875rem;font-weight:700;cursor:pointer}
+.btn-outline{background:transparent;border:1.5px solid;padding:9px 18px;border-radius:8px;font-size:.875rem;font-weight:700;cursor:pointer}
+.results{display:none}
+.results.show{display:block}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:16px}
+.res-box{background:#F1F5F9;border-radius:10px;padding:18px 14px;text-align:center}
+.rl{font-size:.72rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.rv{font-size:1.4rem;font-weight:900;color:#0F172A;line-height:1}
+.rs{font-size:.72rem;color:#94A3B8;margin-top:4px}
+.sep{border:none;border-top:1px solid #E2E8F0;margin:20px 0}
+.insight{border-left:4px solid;border-radius:0 8px 8px 0;padding:14px 16px;font-size:.875rem;color:#475569;margin-top:16px}
+.insight b{color:#0F172A}
+
+.back{color:#1D4ED8}
+.logo b{color:#1D4ED8}
+.cat-badge{background:#EFF6FF;color:#1D4ED8}
+.field input:focus,.field select:focus{border-color:#1D4ED8}
+.btn{background:#1D4ED8}
+.res-box.hi{background:#EFF6FF;border:2px solid #1D4ED8}
+.res-box.green{background:#F0FDF4;border:2px solid #16A34A}
+.res-box.red{background:#FEF2F2;border:2px solid #DC2626}
+.res-box.orange{background:#FFF7ED;border:2px solid #EA580C}
+.res-box.blue{background:#EFF6FF;border:2px solid #2563EB}
+.insight{background:#EFF6FF;border-color:#1D4ED8}
+</style>
+</head>
+<body>
+<nav><div class="nav-in">
+  <a href="index.html" class="back">← Volver</a>
+  <div class="logo">Freelance<b>Kit</b></div>
+  <span class="free-tag">✓ GRATIS</span>
+</div></nav>
+<div class="page">
+  <div class="header">
+    <div class="cat-badge">💼 Recursos Humanos</div>
+    <h1>👷 Calculadora de Costo Real de Empleado</h1>
+    <p>¿Cuánto te cuesta realmente un empleado? Calculá salario bruto + cargas sociales + obra social + ART + vacaciones.</p>
+  </div>
+  
+<div class="card">
+  <h2>⚙️ Datos del empleo</h2>
+  <div class="grid2">
+    <div class="field"><label>Salario bruto mensual ($)</label>
+      <input type="number" id="bruto" placeholder="Ej: 500000" min="0" oninput="calcCosto()"></div>
+    <div class="field"><label>País / régimen</label>
+      <select id="pais" onchange="setPais()">
+        <option value="AR">Argentina</option>
+        <option value="MX">México</option>
+        <option value="CO">Colombia</option>
+        <option value="CL">Chile</option>
+        <option value="UY">Uruguay</option>
+      </select></div>
+    <div class="field"><label>Categoría laboral</label>
+      <select id="cat_lab" onchange="calcCosto()">
+        <option value="1.0">Empleado de comercio / servicios</option>
+        <option value="1.05">Construcción / oficios</option>
+        <option value="1.08">Gastronómico / hotelería</option>
+        <option value="0.98">Administración / oficina</option>
+      </select></div>
+    <div class="field"><label>Antigüedad (años)</label>
+      <input type="number" id="antig" placeholder="Ej: 2" min="0" value="1" oninput="calcCosto()"></div>
+    <div class="field"><label>Moneda</label>
+      <select id="mon" onchange="calcCosto()"><option>ARS</option><option>USD</option><option>MXN</option><option>COP</option></select></div>
+  </div>
+</div>
+<div class="results card" id="res">
+  <h2>📊 Costo real mensual y anual</h2>
+  <div class="res-grid">
+    <div class="res-box"><div class="rl">Salario bruto</div><div class="rv" id="r-bruto">—</div></div>
+    <div class="res-box orange"><div class="rl">Cargas sociales</div><div class="rv" id="r-cargas">—</div><div class="rs" id="r-cargas-pct">—</div></div>
+    <div class="res-box hi"><div class="rl">Costo mensual total</div><div class="rv" id="r-mes">—</div><div class="rs">Lo que sale del bolsillo</div></div>
+    <div class="res-box red"><div class="rl">Costo anual total</div><div class="rv" id="r-anual">—</div><div class="rs">Con aguinaldo y vacaciones</div></div>
+  </div>
+  <hr class="sep">
+  <div id="desglose" style="font-size:.875rem;color:#475569;line-height:2.2;margin-bottom:14px"></div>
+  <div class="insight" id="ins"></div>
+</div>
+<script>
+var regimenes={
+  AR:{jubilacion:0.17,obra_social:0.06,art:0.015,fondo_desempleo:0.015,label:'Argentina'},
+  MX:{jubilacion:0.068,obra_social:0.105,art:0.01,fondo_desempleo:0.02,label:'México'},
+  CO:{jubilacion:0.12,obra_social:0.085,art:0.022,fondo_desempleo:0.04,label:'Colombia'},
+  CL:{jubilacion:0.0,obra_social:0.0,art:0.0093,fondo_desempleo:0.024,label:'Chile (AFP por empleado)'},
+  UY:{jubilacion:0.075,obra_social:0.05,art:0.005,fondo_desempleo:0.005,label:'Uruguay'}
+};
+function setPais(){
+  var p=document.getElementById('pais').value;
+  var r=regimenes[p];
+  calcCosto();
+}
+function fmt(n){var m=document.getElementById('mon').value;return m+' '+Math.round(n).toLocaleString('es-AR')}
+function calcCosto(){
+  var bruto=+document.getElementById('bruto').value||0;
+  if(!bruto)return;
+  var pais=document.getElementById('pais').value;
+  var r=regimenes[pais];
+  var cat=+document.getElementById('cat_lab').value||1;
+  var bruto_adj=bruto*cat;
+  var jub=bruto_adj*r.jubilacion;
+  var os=bruto_adj*r.obra_social;
+  var art=bruto_adj*r.art;
+  var fd=bruto_adj*r.fondo_desempleo;
+  var cargas=jub+os+art+fd;
+  var mes=bruto_adj+cargas;
+  // Anual: 13 sueldos (aguinaldo) + proporcional vacaciones (~8.3%)
+  var anual=mes*13+bruto_adj*0.083;
+  var cargas_pct=((cargas/bruto_adj)*100).toFixed(1);
+  document.getElementById('r-bruto').textContent=fmt(bruto_adj);
+  document.getElementById('r-cargas').textContent=fmt(cargas);
+  document.getElementById('r-cargas-pct').textContent=cargas_pct+'% del bruto';
+  document.getElementById('r-mes').textContent=fmt(mes);
+  document.getElementById('r-anual').textContent=fmt(anual);
+  document.getElementById('desglose').innerHTML=
+    '📌 Jubilación / pensión patronal: <b>'+fmt(jub)+'</b> ('+( r.jubilacion*100).toFixed(1)+'%)<br>'+
+    '📌 Obra social / salud: <b>'+fmt(os)+'</b> ('+( r.obra_social*100).toFixed(1)+'%)<br>'+
+    '📌 ART / seguro de trabajo: <b>'+fmt(art)+'</b> ('+( r.art*100).toFixed(1)+'%)<br>'+
+    '📌 Fondo desempleo / FONACOT: <b>'+fmt(fd)+'</b> ('+( r.fondo_desempleo*100).toFixed(1)+'%)<br>'+
+    '📌 Aguinaldo (SAC): <b>'+fmt(bruto_adj/12)+'</b>/mes equivalente<br>'+
+    '📌 Vacaciones (proporcional): <b>'+fmt(bruto_adj*0.083/12)+'</b>/mes equivalente';
+  document.getElementById('ins').innerHTML='El costo <b>real</b> de este empleado es <b>'+fmt(mes)+'/mes</b> y <b>'+fmt(anual)+'/año</b>. Las cargas sociales representan el <b>'+cargas_pct+'%</b> adicional sobre el salario bruto. Mucha gente calcula solo el neto que paga — el costo real puede ser hasta un 40-50% más.';
+  document.getElementById('res').className='results card show';
+}
+</script>
+
+</div>
+</body>
+</html>

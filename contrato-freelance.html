@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Generador de Contrato Freelance — FreelanceKit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;color:#0F172A;background:#F8FAFC;min-height:100vh}
+a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid #E2E8F0;padding:0 20px}
+.nav-in{max-width:860px;margin:0 auto;display:flex;align-items:center;height:54px;gap:16px}
+.back{font-size:.85rem;color:#2563EB;font-weight:600}
+.back:hover{color:#1B3A6B}
+.logo{font-size:1.1rem;font-weight:900;color:#1B3A6B}
+.logo b{color:#2563EB}
+.free-tag{margin-left:auto;background:#DCFCE7;color:#16A34A;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:100px}
+.page{max-width:860px;margin:0 auto;padding:32px 20px 60px}
+.header{margin-bottom:28px}
+.cat-badge{display:inline-block;background:#EFF6FF;color:#2563EB;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:12px}
+.header h1{font-size:1.6rem;font-weight:900;margin-bottom:8px}
+.header p{font-size:.95rem;color:#475569}
+.card{background:#fff;border-radius:12px;border:1.5px solid #E2E8F0;padding:28px;margin-bottom:20px}
+.card h2{font-size:1rem;font-weight:700;margin-bottom:20px;color:#1B3A6B}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}}
+.field{margin-bottom:0}
+.field label{display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:5px}
+.field input,.field select,.field textarea{width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.9rem;color:#0F172A;outline:none;font-family:Arial,sans-serif}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:#2563EB}
+.field .hint{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.btn{background:#2563EB;color:#fff;border:none;padding:13px 28px;border-radius:9px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px}
+.btn:hover{background:#1B3A6B}
+.btn-sm{background:#2563EB;color:#fff;border:none;padding:9px 18px;border-radius:8px;font-size:.875rem;font-weight:700;cursor:pointer}
+.btn-sm:hover{background:#1B3A6B}
+.btn-outline{background:transparent;color:#2563EB;border:1.5px solid #2563EB;padding:9px 18px;border-radius:8px;font-size:.875rem;font-weight:700;cursor:pointer}
+.btn-outline:hover{background:#2563EB;color:#fff}
+.results{display:none}
+.results.show{display:block}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:16px}
+.res-box{background:#F1F5F9;border-radius:10px;padding:18px 14px;text-align:center}
+.res-box.hi{background:#EFF6FF;border:2px solid #2563EB}
+.res-box.green{background:#F0FDF4;border:2px solid #16A34A}
+.res-box.orange{background:#FFF7ED;border:2px solid #EA580C}
+.res-box.red{background:#FEF2F2;border:2px solid #DC2626}
+.rl{font-size:.72rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.rv{font-size:1.5rem;font-weight:900;color:#0F172A;line-height:1}
+.rs{font-size:.72rem;color:#94A3B8;margin-top:4px}
+.insight{background:#F8FAFC;border-left:4px solid #2563EB;border-radius:0 8px 8px 0;padding:14px 16px;font-size:.875rem;color:#475569;margin-top:16px}
+.insight b{color:#0F172A}
+.sep{border:none;border-top:1px solid #E2E8F0;margin:20px 0}
+@media print{nav,#print-btn,.btn,.btn-sm,.btn-outline,.no-print{display:none!important}body{background:#fff}#print-area{box-shadow:none!important;border:none!important}}
+</style>
+</head>
+<body>
+<nav><div class="nav-in">
+  <a href="index.html" class="back">← Volver</a>
+  <div class="logo">Freelance<b>Kit</b></div>
+  
+</div></nav>
+<div class="page">
+  <div class="header">
+    <div class="cat-badge">💼 Freelancers y Autónomos</div>
+    <h1>📝 Generador de Contrato Freelance</h1>
+    <p>Completá los datos y genera un contrato de servicios profesional en español, listo para imprimir o firmar.</p>
+  </div>
+  
+<div class="card no-print">
+  <h2>👤 Las partes del contrato</h2>
+  <div class="grid2">
+    <div class="field"><label>Tu nombre completo (Prestador)</label><input type="text" id="prestador" placeholder="Ej: Juan García"></div>
+    <div class="field"><label>Tu DNI / CUIT / RFC</label><input type="text" id="prestDni" placeholder="Ej: 12.345.678"></div>
+    <div class="field"><label>Nombre del cliente (Comitente)</label><input type="text" id="comitente" placeholder="Ej: Empresa ABC S.R.L."></div>
+    <div class="field"><label>DNI / CUIT / RFC del cliente</label><input type="text" id="comDni" placeholder="Ej: 30-12345678-9"></div>
+    <div class="field"><label>País / Jurisdicción</label>
+      <select id="pais"><option>Argentina</option><option>México</option><option>Colombia</option><option>Chile</option><option>Uruguay</option><option>Perú</option></select></div>
+    <div class="field"><label>Ciudad</label><input type="text" id="ciudad" placeholder="Ej: Buenos Aires"></div>
+  </div>
+</div>
+<div class="card no-print">
+  <h2>📋 Servicio y condiciones</h2>
+  <div class="grid2">
+    <div class="field"><label>Descripción del servicio</label>
+      <textarea id="servicio" rows="3" placeholder="Ej: Diseño y desarrollo de sitio web corporativo de 5 páginas con panel de administración."></textarea></div>
+    <div class="field"><label>Entregables específicos</label>
+      <textarea id="entregables" rows="3" placeholder="Ej: Archivos fuente en Figma, código fuente en GitHub, manual de uso."></textarea></div>
+    <div class="field"><label>Monto total ($)</label><input type="number" id="monto" placeholder="Ej: 500000" min="0"></div>
+    <div class="field"><label>Moneda</label>
+      <select id="monCon"><option>ARS</option><option>USD</option><option>MXN</option></select></div>
+    <div class="field"><label>Adelanto (% al firmar)</label><input type="number" id="adelantoCon" placeholder="50" min="0" max="100" value="50"></div>
+    <div class="field"><label>Plazo de entrega</label><input type="text" id="plazoCon" placeholder="Ej: 30 días hábiles desde el adelanto"></div>
+    <div class="field"><label>Revisiones incluidas</label><input type="text" id="revisiones" placeholder="Ej: Hasta 3 rondas de revisión"></div>
+    <div class="field"><label>Condición de pago final</label><input type="text" id="condPago" placeholder="Ej: Saldo contra entrega del trabajo final"></div>
+  </div>
+</div>
+<div style="display:flex;gap:10px;margin-bottom:20px" class="no-print">
+  <button class="btn" style="width:auto;flex:1" onclick="genContrato()">📄 Generar contrato</button>
+  <button class="btn-sm" id="print-btn" onclick="window.print()" style="flex:1;padding:13px">🖨 Guardar PDF</button>
+</div>
+<div id="contrato-area" style="display:none;background:#fff;border-radius:12px;border:1.5px solid #E2E8F0;padding:40px;font-size:.9rem;line-height:1.9;color:#0F172A">
+</div>
+<script>
+function genContrato(){
+  var pre=document.getElementById('prestador').value||'[PRESTADOR]';
+  var preDni=document.getElementById('prestDni').value||'[DNI/CUIT]';
+  var com=document.getElementById('comitente').value||'[CLIENTE]';
+  var comDni=document.getElementById('comDni').value||'[DNI/CUIT]';
+  var pais=document.getElementById('pais').value;
+  var ciudad=document.getElementById('ciudad').value||pais;
+  var serv=document.getElementById('servicio').value||'[descripción del servicio]';
+  var entre=document.getElementById('entregables').value||'A definir por las partes';
+  var monto=+document.getElementById('monto').value||0;
+  var mon=document.getElementById('monCon').value;
+  var adPct=+document.getElementById('adelantoCon').value||50;
+  var plazo=document.getElementById('plazoCon').value||'A convenir';
+  var rev=document.getElementById('revisiones').value||'A convenir';
+  var condPago=document.getElementById('condPago').value||'Saldo contra entrega';
+  var adAmt=monto*adPct/100;
+  var resto=monto-adAmt;
+  var fecha=new Date().toLocaleDateString('es-AR',{day:'numeric',month:'long',year:'numeric'});
+  var fmt=function(n){return mon+' '+Math.round(n).toLocaleString('es-AR')};
+  var html='<div style="text-align:center;margin-bottom:32px;border-bottom:3px solid #1B3A6B;padding-bottom:20px"><div style="font-size:1.2rem;font-weight:900;color:#1B3A6B;letter-spacing:.05em">CONTRATO DE PRESTACIÓN DE SERVICIOS</div><div style="color:#475569;font-size:.85rem;margin-top:4px">'+ciudad+', '+fecha+'</div></div>';
+  html+='<p style="margin-bottom:16px">En la ciudad de <b>'+ciudad+'</b>, a <b>'+fecha+'</b>, se celebra el presente Contrato de Prestación de Servicios entre:</p>';
+  html+='<div style="background:#F8FAFC;border-radius:8px;padding:16px;margin-bottom:16px"><b>PRESTADOR:</b> '+pre+', DNI/CUIT: '+preDni+' (en adelante, "el Prestador").</div>';
+  html+='<div style="background:#F8FAFC;border-radius:8px;padding:16px;margin-bottom:24px"><b>COMITENTE:</b> '+com+', DNI/CUIT: '+comDni+' (en adelante, "el Comitente").</div>';
+  html+='<div style="font-weight:700;color:#1B3A6B;margin-bottom:8px">CLÁUSULA PRIMERA — OBJETO DEL CONTRATO</div>';
+  html+='<p style="margin-bottom:16px">El Prestador se compromete a realizar el siguiente servicio: <b>'+serv+'</b>.<br><br>Entregables específicos: '+entre+'.</p>';
+  html+='<div style="font-weight:700;color:#1B3A6B;margin-bottom:8px">CLÁUSULA SEGUNDA — HONORARIOS Y FORMA DE PAGO</div>';
+  html+='<p style="margin-bottom:16px">El monto total acordado es de <b>'+fmt(monto)+'</b>, pagadero de la siguiente manera:<br>• Adelanto del '+adPct+'% al momento de la firma del presente contrato: <b>'+fmt(adAmt)+'</b>.<br>• Saldo del '+(100-adPct)+'%: <b>'+fmt(resto)+'</b> — '+condPago+'.</p>';
+  html+='<div style="font-weight:700;color:#1B3A6B;margin-bottom:8px">CLÁUSULA TERCERA — PLAZO Y ENTREGA</div>';
+  html+='<p style="margin-bottom:16px">El plazo de entrega es de <b>'+plazo+'</b>, contados a partir de la recepción del adelanto establecido en la Cláusula Segunda. El plazo podrá extenderse en caso de demoras atribuibles al Comitente en la entrega de materiales o aprobaciones necesarias. Se incluyen '+rev+'.</p>';
+  html+='<div style="font-weight:700;color:#1B3A6B;margin-bottom:8px">CLÁUSULA CUARTA — PROPIEDAD INTELECTUAL</div>';
+  html+='<p style="margin-bottom:16px">Una vez abonado el total del servicio, los derechos de uso y explotación de los entregables serán transferidos al Comitente. Hasta tanto no se acredite el pago total, el Prestador conserva todos los derechos sobre el trabajo realizado.</p>';
+  html+='<div style="font-weight:700;color:#1B3A6B;margin-bottom:8px">CLÁUSULA QUINTA — CONFIDENCIALIDAD</div>';
+  html+='<p style="margin-bottom:16px">Ambas partes se comprometen a mantener estricta confidencialidad sobre la información intercambiada en el marco de este contrato, durante su vigencia y por un período de 2 (dos) años posteriores a su finalización.</p>';
+  html+='<div style="font-weight:700;color:#1B3A6B;margin-bottom:8px">CLÁUSULA SEXTA — RESCISIÓN</div>';
+  html+='<p style="margin-bottom:16px">Cualquiera de las partes podrá rescindir el presente contrato con un preaviso de 7 (siete) días hábiles. En caso de rescisión por parte del Comitente, el adelanto abonado no será reembolsable. El Prestador deberá entregar los avances realizados hasta la fecha de rescisión.</p>';
+  html+='<div style="font-weight:700;color:#1B3A6B;margin-bottom:8px">CLÁUSULA SÉPTIMA — JURISDICCIÓN</div>';
+  html+='<p style="margin-bottom:24px">Para cualquier controversia derivada del presente contrato, las partes se someten a la jurisdicción de los tribunales ordinarios de <b>'+pais+'</b>, renunciando a cualquier otro fuero que pudiera corresponderles.</p>';
+  html+='<div style="display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:48px">';
+  html+='<div style="border-top:2px solid #0F172A;padding-top:10px;text-align:center"><div style="font-weight:700">'+pre+'</div><div style="font-size:.8rem;color:#94A3B8">Prestador — DNI/CUIT: '+preDni+'</div></div>';
+  html+='<div style="border-top:2px solid #0F172A;padding-top:10px;text-align:center"><div style="font-weight:700">'+com+'</div><div style="font-size:.8rem;color:#94A3B8">Comitente — DNI/CUIT: '+comDni+'</div></div>';
+  html+='</div>';
+  document.getElementById('contrato-area').innerHTML=html;
+  document.getElementById('contrato-area').style.display='block';
+}
+</script>
+
+</div>
+</body>
+</html>

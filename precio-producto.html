@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calculadora de Precio de Producto Físico — FreelanceKit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;color:#0F172A;background:#F8FAFC;min-height:100vh}
+a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid #E2E8F0;padding:0 20px;position:sticky;top:0;z-index:99}
+.nav-in{max-width:860px;margin:0 auto;display:flex;align-items:center;height:54px;gap:16px}
+.back{font-size:.85rem;color:#2563EB;font-weight:600;display:flex;align-items:center;gap:5px}
+.back:hover{color:#1B3A6B}
+.logo{font-size:1.1rem;font-weight:900;color:#1B3A6B}
+.logo b{color:#2563EB}
+.page{max-width:860px;margin:0 auto;padding:32px 20px 60px}
+.header{margin-bottom:28px}
+.cat-badge{display:inline-block;background:#EFF6FF;color:#2563EB;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:12px}
+.header h1{font-size:1.6rem;font-weight:900;margin-bottom:8px}
+.header p{font-size:.95rem;color:#475569}
+.card{background:#fff;border-radius:12px;border:1.5px solid #E2E8F0;padding:28px;margin-bottom:20px}
+.card h2{font-size:1rem;font-weight:700;margin-bottom:20px;color:#1B3A6B;display:flex;align-items:center;gap:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}}
+.field label{display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:5px}
+.field input,.field select{width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.95rem;color:#0F172A;outline:none;font-family:Arial,sans-serif}
+.field input:focus,.field select:focus{border-color:#2563EB}
+.field .hint{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.btn{background:#2563EB;color:#fff;border:none;padding:13px 28px;border-radius:9px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px}
+.btn:hover{background:#1B3A6B}
+.results{display:none}
+.results.show{display:block}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:20px}
+.res-box{background:#F1F5F9;border-radius:10px;padding:18px 16px;text-align:center}
+.res-box.highlight{background:#EFF6FF;border:2px solid #2563EB}
+.res-box.green{background:#F0FDF4;border:2px solid #16A34A}
+.res-box.red{background:#FEF2F2;border:2px solid #DC2626}
+.res-box.orange{background:#FFF7ED;border:2px solid #EA580C}
+.res-label{font-size:.75rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.res-val{font-size:1.6rem;font-weight:900;color:#0F172A;line-height:1}
+.res-sub{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.insight{background:#F8FAFC;border-left:4px solid #2563EB;border-radius:0 8px 8px 0;padding:14px 16px;font-size:.875rem;color:#475569;margin-top:16px}
+.insight b{color:#0F172A}
+.sep{border:none;border-top:1px solid #E2E8F0;margin:20px 0}
+</style>
+</head>
+<body>
+<nav><div class="nav-in">
+  <a href="index.html" class="back">← Volver</a>
+  <div class="logo">Freelance<b>Kit</b></div>
+</div></nav>
+<div class="page">
+  <div class="header">
+    <div class="cat-badge">📦 Pequeños Negocios</div>
+    <h1>🏷️ Calculadora de Precio de Producto Físico</h1>
+    <p>Para artesanos, reposteros, talleres y fabricantes. Calculá el precio correcto sumando materiales, mano de obra y overhead.</p>
+  </div>
+  
+<div class="card">
+  <h2>⚙️ Costos del producto</h2>
+  <div class="grid2">
+    <div class="field"><label>Costo de materiales por unidad ($)</label>
+      <input type="number" id="mat" placeholder="Ej: 1500" min="0" oninput="calcPrecio()">
+      <span class="hint">Harina, tela, madera, ingredientes, etc.</span></div>
+    <div class="field"><label>Horas de trabajo por unidad</label>
+      <input type="number" id="horas" placeholder="Ej: 2" min="0" step="0.25" oninput="calcPrecio()"></div>
+    <div class="field"><label>Tu tarifa por hora ($)</label>
+      <input type="number" id="tarifa" placeholder="Ej: 800" min="0" oninput="calcPrecio()">
+      <span class="hint">Lo que vale tu tiempo</span></div>
+    <div class="field"><label>Overhead / gastos indirectos (%)</label>
+      <input type="number" id="overhead" placeholder="Ej: 20" min="0" max="100" value="20" oninput="calcPrecio()">
+      <span class="hint">Alquiler, servicios, herramientas, amortización</span></div>
+    <div class="field"><label>Ganancia deseada (%)</label>
+      <input type="number" id="gananciaP" placeholder="Ej: 35" min="0" max="200" value="35" oninput="calcPrecio()">
+      <span class="hint">El % que querés ganar sobre el costo total</span></div>
+    <div class="field"><label>Moneda</label>
+      <select id="monProd" onchange="calcPrecio()"><option>ARS</option><option>USD</option><option>MXN</option></select></div>
+  </div>
+</div>
+<div class="results card show" id="res7">
+  <h2>📊 Estructura de costos y precio sugerido</h2>
+  <div class="res-grid">
+    <div class="res-box"><div class="res-label">Costo materiales</div><div class="res-val" id="r-mat">—</div></div>
+    <div class="res-box"><div class="res-label">Mano de obra</div><div class="res-val" id="r-mdo">—</div></div>
+    <div class="res-box orange"><div class="res-label">Costo total</div><div class="res-val" id="r-ct">—</div></div>
+    <div class="res-box green"><div class="res-label">Precio mínimo</div><div class="res-val" id="r-pmin">—</div><div class="res-sub">Sin ganancia</div></div>
+    <div class="res-box highlight"><div class="res-label">Precio sugerido</div><div class="res-val" id="r-psug">—</div><div class="res-sub">Con tu ganancia deseada</div></div>
+    <div class="res-box green"><div class="res-label">Ganancia por unidad</div><div class="res-val" id="r-gprod">—</div></div>
+  </div>
+  <hr class="sep">
+  <div style="margin-bottom:12px">
+    <div style="font-size:.8rem;font-weight:700;color:#475569;margin-bottom:8px">SIMULADOR RÁPIDO — ¿A cuánto lo estoy vendiendo?</div>
+    <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+      <div class="field" style="flex:1;min-width:160px;margin:0"><input type="number" id="precioActual" placeholder="Precio actual de venta" oninput="simPrecio()" style="padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;width:100%;font-size:.9rem;outline:none"></div>
+      <div id="sim-res" style="font-size:.9rem;color:#475569;flex:2"></div>
+    </div>
+  </div>
+  <div class="insight" id="insight7">Ingresá los costos para ver el precio sugerido.</div>
+</div>
+<script>
+function fmtP(n){var m=document.getElementById('monProd').value;return m+' '+Math.round(n).toLocaleString('es-AR')}
+function calcPrecio(){
+  var mat=+document.getElementById('mat').value||0;
+  var h=+document.getElementById('horas').value||0;
+  var tar=+document.getElementById('tarifa').value||0;
+  var oh=+document.getElementById('overhead').value/100||0;
+  var gp=+document.getElementById('gananciaP').value/100||0;
+  var mdo=h*tar;
+  var costoBase=mat+mdo;
+  var costoTotal=costoBase*(1+oh);
+  var pmin=costoTotal;
+  var psug=costoTotal*(1+gp);
+  var ganUnit=psug-costoTotal;
+  document.getElementById('r-mat').textContent=fmtP(mat);
+  document.getElementById('r-mdo').textContent=fmtP(mdo);
+  document.getElementById('r-ct').textContent=fmtP(costoTotal);
+  document.getElementById('r-pmin').textContent=fmtP(pmin);
+  document.getElementById('r-psug').textContent=fmtP(psug);
+  document.getElementById('r-gprod').textContent=fmtP(ganUnit);
+  if(psug>0){
+    var pct=(mat/costoTotal*100).toFixed(0);
+    document.getElementById('insight7').innerHTML='Los materiales representan el <b>'+pct+'%</b> del costo total. '+(pct>60?'⚠️ Alta dependencia de insumos — cualquier aumento de precios impacta mucho tu margen.':'✅ Buena distribución de costos.');
+  }
+  simPrecio();
+}
+function simPrecio(){
+  var pa=+document.getElementById('precioActual').value;
+  if(!pa){document.getElementById('sim-res').textContent='';return}
+  var ct=+document.getElementById('r-ct').textContent.replace(/[^0-9]/g,'')||0;
+  var psug=+document.getElementById('r-psug').textContent.replace(/[^0-9]/g,'')||0;
+  if(!ct){document.getElementById('sim-res').textContent='Completá los costos primero';return}
+  var ganActual=pa-ct;
+  var margActual=(ganActual/pa*100);
+  var color=ganActual<0?'#DC2626':pa<psug?'#EA580C':'#16A34A';
+  document.getElementById('sim-res').innerHTML='<span style="color:'+color+';font-weight:700">'+(ganActual>=0?'Ganás':'Perdés')+' $'+Math.abs(Math.round(ganActual)).toLocaleString('es-AR')+' ('+margActual.toFixed(1)+'%) por unidad.</span>'+(pa<psug?' Estás por debajo del precio sugerido.':' ✅ Precio adecuado.');
+}
+calcPrecio();
+</script>
+
+</div>
+</body>
+</html>

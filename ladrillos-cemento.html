@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calculadora de Ladrillos, Cemento y Arena — FreelanceKit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;color:#0F172A;background:#F8FAFC;min-height:100vh}
+a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid #E2E8F0;padding:0 20px}
+.nav-in{max-width:860px;margin:0 auto;display:flex;align-items:center;height:54px;gap:16px}
+.back{font-size:.85rem;color:#D97706;font-weight:600}
+.back:hover{color:#92400E}
+.logo{font-size:1.1rem;font-weight:900;color:#1B3A6B}
+.logo b{color:#D97706}
+.free-tag{margin-left:auto;background:#DCFCE7;color:#16A34A;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:100px}
+.page{max-width:860px;margin:0 auto;padding:32px 20px 60px}
+.header{margin-bottom:28px}
+.cat-badge{display:inline-block;background:#FFFBEB;color:#D97706;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:12px}
+.header h1{font-size:1.6rem;font-weight:900;margin-bottom:8px}
+.header p{font-size:.95rem;color:#475569}
+.card{background:#fff;border-radius:12px;border:1.5px solid #E2E8F0;padding:28px;margin-bottom:20px}
+.card h2{font-size:1rem;font-weight:700;margin-bottom:20px;color:#92400E}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}}
+.field label{display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:5px}
+.field input,.field select{width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.9rem;color:#0F172A;outline:none;font-family:Arial,sans-serif}
+.field input:focus,.field select:focus{border-color:#D97706}
+.field .hint{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.btn{background:#D97706;color:#fff;border:none;padding:13px 28px;border-radius:9px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px}
+.btn:hover{background:#92400E}
+.btn-sm{background:#D97706;color:#fff;border:none;padding:9px 18px;border-radius:8px;font-size:.875rem;font-weight:700;cursor:pointer}
+.btn-sm:hover{background:#92400E}
+.btn-outline{background:transparent;color:#D97706;border:1.5px solid #D97706;padding:9px 18px;border-radius:8px;font-size:.875rem;font-weight:700;cursor:pointer}
+.btn-outline:hover{background:#D97706;color:#fff}
+.results{display:none}
+.results.show{display:block}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:16px}
+.res-box{background:#F1F5F9;border-radius:10px;padding:18px 14px;text-align:center}
+.res-box.hi{background:#FFFBEB;border:2px solid #D97706}
+.res-box.green{background:#F0FDF4;border:2px solid #16A34A}
+.res-box.orange{background:#FFF7ED;border:2px solid #EA580C}
+.res-box.red{background:#FEF2F2;border:2px solid #DC2626}
+.res-box.blue{background:#EFF6FF;border:2px solid #2563EB}
+.rl{font-size:.72rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.rv{font-size:1.5rem;font-weight:900;color:#0F172A;line-height:1}
+.rs{font-size:.72rem;color:#94A3B8;margin-top:4px}
+.insight{background:#FFFBEB;border-left:4px solid #D97706;border-radius:0 8px 8px 0;padding:14px 16px;font-size:.875rem;color:#475569;margin-top:16px}
+.insight b{color:#0F172A}
+.sep{border:none;border-top:1px solid #E2E8F0;margin:20px 0}
+@media print{nav,#print-btn,.btn,.btn-sm,.btn-outline,.no-print{display:none!important}body{background:#fff}}
+</style>
+</head>
+<body>
+<nav><div class="nav-in">
+  <a href="index.html" class="back">← Volver</a>
+  <div class="logo">Freelance<b>Kit</b></div>
+  <span class="free-tag">✓ GRATIS</span>
+</div></nav>
+<div class="page">
+  <div class="header">
+    <div class="cat-badge">🏗️ Construcción y Oficios</div>
+    <h1>🧱 Calculadora de Ladrillos, Cemento y Arena</h1>
+    <p>Calculá exactamente cuántos ladrillos, bolsas de cemento y arena necesitás por metro cuadrado de pared.</p>
+  </div>
+  
+<div class="card">
+  <h2>⚙️ Medidas de la pared</h2>
+  <div class="grid2">
+    <div class="field"><label>Largo de la pared (m)</label>
+      <input type="number" id="largo" placeholder="Ej: 5" min="0.1" step="0.1" oninput="calcLadrillos()"></div>
+    <div class="field"><label>Alto de la pared (m)</label>
+      <input type="number" id="alto" placeholder="Ej: 2.5" min="0.1" step="0.1" oninput="calcLadrillos()">
+      <span class="hint">Altura del piso al techo</span></div>
+    <div class="field"><label>Tipo de ladrillo</label>
+      <select id="tipo" onchange="calcLadrillos()">
+        <option value="comun">Ladrillo común (25×12×6 cm)</option>
+        <option value="hueco6">Ladrillo hueco 6 huecos (25×19×12 cm)</option>
+        <option value="hueco8">Ladrillo hueco 8 huecos (25×19×18 cm)</option>
+        <option value="ceramico">Cerámico portante (33×16×11 cm)</option>
+      </select></div>
+    <div class="field"><label>Espesor de la pared</label>
+      <select id="espesor" onchange="calcLadrillos()">
+        <option value="0.5">Pared simple (1/2 ladrillo)</option>
+        <option value="1">Pared doble (1 ladrillo)</option>
+      </select></div>
+    <div class="field"><label>Vanos (puertas/ventanas) — m²</label>
+      <input type="number" id="vanos" placeholder="Ej: 2.5" min="0" value="0" step="0.1" oninput="calcLadrillos()">
+      <span class="hint">Restá el m² de aberturas</span></div>
+    <div class="field"><label>Desperdicio adicional (%)</label>
+      <input type="number" id="desp" placeholder="10" min="0" max="30" value="10" oninput="calcLadrillos()"></div>
+  </div>
+</div>
+<div class="results card" id="res">
+  <h2>📦 Materiales necesarios</h2>
+  <div class="res-grid">
+    <div class="res-box hi"><div class="rl">Ladrillos</div><div class="rv" id="r-lad">—</div><div class="rs" id="r-lad-s">—</div></div>
+    <div class="res-box green"><div class="rl">Cemento</div><div class="rv" id="r-cem">—</div><div class="rs">Bolsas de 50 kg</div></div>
+    <div class="res-box orange"><div class="rl">Arena</div><div class="rv" id="r-arena">—</div><div class="rs">m³</div></div>
+    <div class="res-box blue"><div class="rl">Superficie neta</div><div class="rv" id="r-m2">—</div><div class="rs">m² a construir</div></div>
+  </div>
+  <hr class="sep">
+  <div style="margin-bottom:14px">
+    <div style="font-size:.8rem;font-weight:700;color:#475569;margin-bottom:10px">DESGLOSE DE MEZCLA (proporción 1:3)</div>
+    <div id="mezcla-detail" style="font-size:.875rem;color:#475569;line-height:2"></div>
+  </div>
+  <div class="insight" id="ins"></div>
+</div>
+<script>
+var ladData={
+  comun:{por_m2:65,larg:25,alto:6,esp:12},
+  hueco6:{por_m2:37,larg:25,alto:12,esp:19},
+  hueco8:{por_m2:25,larg:25,alto:18,esp:19},
+  ceramico:{por_m2:22,larg:33,alto:11,esp:16}
+};
+function calcLadrillos(){
+  var largo=+document.getElementById('largo').value||0;
+  var alto=+document.getElementById('alto').value||0;
+  var vanos=+document.getElementById('vanos').value||0;
+  var desp=+document.getElementById('desp').value||10;
+  var tipo=document.getElementById('tipo').value;
+  var esp=+document.getElementById('espesor').value||0.5;
+  if(!largo||!alto)return;
+  var m2_bruto=largo*alto;
+  var m2=Math.max(m2_bruto-vanos,0);
+  var lad_data=ladData[tipo];
+  var mult=(esp===1?2:1);
+  var lad_base=m2*lad_data.por_m2*mult;
+  var lad_total=Math.ceil(lad_base*(1+desp/100));
+  // Mortero: proporción 1 cemento : 3 arena
+  // ~0.03 m³ de mortero por m² de pared simple
+  var mortero_m3=m2*0.03*mult;
+  var cem_m3=mortero_m3/4;
+  var arena_m3=mortero_m3*3/4;
+  var bolsas=Math.ceil(cem_m3/0.033); // 1 bolsa 50kg = 0.033 m³
+  document.getElementById('r-lad').textContent=lad_total.toLocaleString('es-AR');
+  document.getElementById('r-lad-s').textContent='Incluye '+desp+'% desperdicio';
+  document.getElementById('r-cem').textContent=bolsas;
+  document.getElementById('r-arena').textContent=arena_m3.toFixed(2)+' m³';
+  document.getElementById('r-m2').textContent=m2.toFixed(2)+' m²';
+  document.getElementById('mezcla-detail').innerHTML=
+    'Mortero total: <b>'+mortero_m3.toFixed(3)+' m³</b><br>'+
+    'Cemento: <b>'+bolsas+' bolsas de 50 kg</b> ('+cem_m3.toFixed(3)+' m³)<br>'+
+    'Arena fina: <b>'+arena_m3.toFixed(2)+' m³</b> (~'+(arena_m3*1600).toFixed(0)+' kg)';
+  document.getElementById('ins').innerHTML=
+    'Para <b>'+m2.toFixed(1)+' m²</b> de pared con <b>'+document.getElementById('tipo').options[document.getElementById('tipo').selectedIndex].text.split(' (')[0]+'</b> necesitás <b>'+lad_total.toLocaleString()+' ladrillos</b>, <b>'+bolsas+' bolsas de cemento</b> y <b>'+arena_m3.toFixed(2)+' m³ de arena</b>. Siempre pedí un <b>'+desp+'% extra</b> por roturas y recortes — es más barato comprar de una que hacer un viaje extra.';
+  document.getElementById('res').className='results card show';
+}
+</script>
+
+</div>
+</body>
+</html>

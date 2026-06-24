@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Calculadora de IMC y Peso Ideal — FreelanceKit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;color:#0F172A;background:#F8FAFC;min-height:100vh}
+a{text-decoration:none;color:inherit}
+nav{background:#fff;border-bottom:1px solid #E2E8F0;padding:0 20px}
+.nav-in{max-width:860px;margin:0 auto;display:flex;align-items:center;height:54px;gap:16px}
+.back{font-size:.85rem;color:#2563EB;font-weight:600}
+.back:hover{color:#1B3A6B}
+.logo{font-size:1.1rem;font-weight:900;color:#1B3A6B}
+.logo b{color:#2563EB}
+.free-tag{margin-left:auto;background:#DCFCE7;color:#16A34A;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:100px}
+.page{max-width:860px;margin:0 auto;padding:32px 20px 60px}
+.header{margin-bottom:28px}
+.cat-badge{display:inline-block;background:#FDF2F8;color:#9333EA;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:4px 12px;border-radius:100px;margin-bottom:12px}
+.header h1{font-size:1.6rem;font-weight:900;margin-bottom:8px}
+.header p{font-size:.95rem;color:#475569}
+.card{background:#fff;border-radius:12px;border:1.5px solid #E2E8F0;padding:28px;margin-bottom:20px}
+.card h2{font-size:1rem;font-weight:700;margin-bottom:20px;color:#1B3A6B}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:600px){.grid2,.grid3{grid-template-columns:1fr}}
+.field label{display:block;font-size:.8rem;font-weight:700;color:#475569;margin-bottom:5px}
+.field input,.field select{width:100%;padding:10px 12px;border:1.5px solid #E2E8F0;border-radius:8px;font-size:.9rem;color:#0F172A;outline:none;font-family:Arial,sans-serif}
+.field input:focus,.field select:focus{border-color:#9333EA}
+.field .hint{font-size:.75rem;color:#94A3B8;margin-top:4px}
+.btn{background:#9333EA;color:#fff;border:none;padding:13px 28px;border-radius:9px;font-size:1rem;font-weight:700;cursor:pointer;width:100%;margin-top:8px}
+.btn:hover{background:#7E22CE}
+.results{display:none}
+.results.show{display:block}
+.res-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;margin-bottom:16px}
+.res-box{background:#F1F5F9;border-radius:10px;padding:18px 14px;text-align:center}
+.res-box.hi{background:#FAF5FF;border:2px solid #9333EA}
+.res-box.green{background:#F0FDF4;border:2px solid #16A34A}
+.res-box.orange{background:#FFF7ED;border:2px solid #EA580C}
+.res-box.red{background:#FEF2F2;border:2px solid #DC2626}
+.res-box.blue{background:#EFF6FF;border:2px solid #2563EB}
+.rl{font-size:.72rem;font-weight:700;color:#475569;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.rv{font-size:1.5rem;font-weight:900;color:#0F172A;line-height:1}
+.rs{font-size:.72rem;color:#94A3B8;margin-top:4px}
+.insight{background:#FAF5FF;border-left:4px solid #9333EA;border-radius:0 8px 8px 0;padding:14px 16px;font-size:.875rem;color:#475569;margin-top:16px}
+.insight b{color:#0F172A}
+.sep{border:none;border-top:1px solid #E2E8F0;margin:20px 0}
+.bar-wrap{background:#F1F5F9;border-radius:100px;height:18px;overflow:hidden;margin:6px 0}
+.bar-fill{height:100%;border-radius:100px;transition:width .4s}
+</style>
+</head>
+<body>
+<nav><div class="nav-in">
+  <a href="index.html" class="back">← Volver</a>
+  <div class="logo">Freelance<b>Kit</b></div>
+  <span class="free-tag">✓ GRATIS</span>
+</div></nav>
+<div class="page">
+  <div class="header">
+    <div class="cat-badge">💚 Salud y Bienestar</div>
+    <h1>⚖️ Calculadora de IMC y Peso Ideal</h1>
+    <p>Calculá tu Índice de Masa Corporal, tu rango de peso saludable y cuánto te falta o sobra.</p>
+  </div>
+  
+<div class="card">
+  <h2>⚙️ Tus datos</h2>
+  <div class="grid2">
+    <div class="field"><label>Peso actual (kg)</label>
+      <input type="number" id="peso" placeholder="Ej: 75" min="30" max="300" oninput="calcIMC()"></div>
+    <div class="field"><label>Altura (cm)</label>
+      <input type="number" id="altura" placeholder="Ej: 170" min="100" max="250" oninput="calcIMC()"></div>
+    <div class="field"><label>Edad</label>
+      <input type="number" id="edad" placeholder="Ej: 30" min="15" max="100" oninput="calcIMC()"></div>
+    <div class="field"><label>Sexo</label>
+      <select id="sexo" onchange="calcIMC()">
+        <option value="m">Masculino</option>
+        <option value="f">Femenino</option>
+      </select></div>
+  </div>
+</div>
+<div class="results card" id="res1">
+  <h2>📊 Tu resultado</h2>
+  <div class="res-grid">
+    <div class="res-box hi"><div class="rl">Tu IMC</div><div class="rv" id="r-imc">—</div><div class="rs" id="r-cat">—</div></div>
+    <div class="res-box green"><div class="rl">Rango saludable</div><div class="rv" id="r-rango">—</div><div class="rs">Para tu altura</div></div>
+    <div class="res-box blue"><div class="rl">Peso ideal central</div><div class="rv" id="r-ideal">—</div><div class="rs">Punto medio del rango</div></div>
+    <div class="res-box" id="r-diff-box"><div class="rl">Diferencia</div><div class="rv" id="r-diff">—</div><div class="rs" id="r-diff-s">—</div></div>
+  </div>
+  <div style="margin:16px 0 8px">
+    <div style="display:flex;justify-content:space-between;font-size:.75rem;color:#94A3B8;margin-bottom:4px">
+      <span>Bajo peso</span><span>Normal</span><span>Sobrepeso</span><span>Obesidad</span>
+    </div>
+    <div style="position:relative;background:linear-gradient(to right,#93C5FD 0%,#86EFAC 22%,#FDE68A 55%,#FCA5A5 100%);border-radius:100px;height:14px">
+      <div id="imc-marker" style="position:absolute;top:-4px;width:22px;height:22px;background:#0F172A;border-radius:50%;border:3px solid #fff;box-shadow:0 2px 6px rgba(0,0,0,.3);transform:translateX(-50%);transition:left .4s"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:.72rem;color:#94A3B8;margin-top:3px">
+      <span>16</span><span>18.5</span><span>25</span><span>30</span><span>40</span>
+    </div>
+  </div>
+  <div class="insight" id="ins1"></div>
+</div>
+<script>
+var cats=[
+  {max:18.5,label:'Bajo peso',color:'#3B82F6',cls:'blue'},
+  {max:25,label:'Peso normal',color:'#16A34A',cls:'green'},
+  {max:30,label:'Sobrepeso',color:'#EA580C',cls:'orange'},
+  {max:40,label:'Obesidad',color:'#DC2626',cls:'red'},
+  {max:99,label:'Obesidad severa',color:'#991B1B',cls:'red'}
+];
+function calcIMC(){
+  var p=+document.getElementById('peso').value;
+  var h=+document.getElementById('altura').value/100;
+  var edad=+document.getElementById('edad').value;
+  var sexo=document.getElementById('sexo').value;
+  if(!p||!h||h<1)return;
+  var imc=p/(h*h);
+  var cat=cats.find(function(c){return imc<c.max})||cats[cats.length-1];
+  var hcm=h*100;
+  var pmin=18.5*h*h; var pmax=24.9*h*h; var pideal=(pmin+pmax)/2;
+  var diff=p-pideal;
+  document.getElementById('r-imc').textContent=imc.toFixed(1);
+  document.getElementById('r-cat').textContent=cat.label;
+  document.getElementById('r-rango').textContent=pmin.toFixed(1)+' – '+pmax.toFixed(1)+' kg';
+  document.getElementById('r-ideal').textContent=pideal.toFixed(1)+' kg';
+  var dbox=document.getElementById('r-diff-box');
+  dbox.className='res-box '+(Math.abs(diff)<2?'green':diff>0?'orange':'blue');
+  document.getElementById('r-diff').textContent=(diff>0?'+':'')+diff.toFixed(1)+' kg';
+  document.getElementById('r-diff-s').textContent=diff>2?'Por encima del ideal':diff<-2?'Por debajo del ideal':'En tu peso ideal';
+  var pos=Math.min(Math.max((imc-16)/(40-16)*100,2),98);
+  document.getElementById('imc-marker').style.left=pos+'%';
+  var ins='Tu IMC de <b>'+imc.toFixed(1)+'</b> te ubica en la categoría <b>'+cat.label+'</b>. ';
+  if(diff>2)ins+='Para alcanzar tu peso ideal necesitás bajar <b>'+diff.toFixed(1)+' kg</b>.';
+  else if(diff<-2)ins+='Para alcanzar tu peso ideal necesitás subir <b>'+Math.abs(diff).toFixed(1)+' kg</b>.';
+  else ins+='¡Estás dentro de tu rango de peso saludable!';
+  ins+=' <b>Nota:</b> el IMC es una referencia general. Consultá siempre con un profesional de salud para una evaluación personalizada.';
+  document.getElementById('ins1').innerHTML=ins;
+  document.getElementById('res1').className='results card show';
+}
+</script>
+
+</div>
+</body>
+</html>
